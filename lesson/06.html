@@ -1,0 +1,1082 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>جلسه ۰۶: اتصال PHP به دیتابیس با MySQLi</title>
+
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        background-color: #0d0d0d;
+        color: #e5e5e5;
+        line-height: 1.8;
+        padding: 40px 20px;
+      }
+
+      .container {
+        max-width: 950px;
+        margin: 0 auto;
+      }
+
+      .back-link {
+        color: #ff3333;
+        text-decoration: none;
+        font-size: 0.9rem;
+        display: inline-block;
+        margin-bottom: 25px;
+        font-weight: bold;
+      }
+
+      .back-link:hover {
+        text-decoration: underline;
+      }
+
+      h1 {
+        color: #ffffff;
+        font-size: 2.2rem;
+        margin-bottom: 10px;
+        border-bottom: 2px solid #ff3333;
+        padding-bottom: 15px;
+        font-weight: 800;
+      }
+
+      h2 {
+        color: #ff3333;
+        font-size: 1.5rem;
+        margin-top: 40px;
+        margin-bottom: 15px;
+        border-bottom: 1px dashed #2a1212;
+        padding-bottom: 5px;
+      }
+
+      h3 {
+        color: #ffffff;
+        font-size: 1.2rem;
+        margin-top: 25px;
+        margin-bottom: 10px;
+      }
+
+      h4 {
+        color: #ff8888;
+        font-size: 1.05rem;
+        margin-top: 20px;
+        margin-bottom: 8px;
+      }
+
+      .section-block {
+        background-color: #161111;
+        border: 1px solid #2a1212;
+        padding: 30px;
+        border-radius: 6px;
+        margin-bottom: 30px;
+      }
+
+      p {
+        margin-bottom: 15px;
+        color: #b3b3b3;
+        text-align: justify;
+      }
+
+      ul,
+      ol {
+        margin-right: 25px;
+        margin-bottom: 20px;
+      }
+
+      li {
+        margin-bottom: 10px;
+        color: #cccccc;
+      }
+
+      code {
+        background-color: #241414;
+        color: #ff5252;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-family: "Courier New", Courier, monospace;
+        font-size: 0.95rem;
+        border: 1px solid #421818;
+      }
+
+      pre {
+        background-color: #1a1212;
+        border: 1px solid #2a1212;
+        padding: 18px;
+        border-radius: 6px;
+        overflow-x: auto;
+        margin: 20px 0;
+        direction: ltr;
+        text-align: left;
+      }
+
+      pre code {
+        color: #f8f8f2;
+        background: none;
+        padding: 0;
+        border: none;
+        font-size: 0.9rem;
+        line-height: 1.7;
+        font-family: "Consolas", monospace;
+        white-space: pre;
+      }
+
+      .teacher-speech {
+        background-color: #241414;
+        border-right: 4px solid #ff3333;
+        padding: 18px;
+        border-radius: 0 6px 6px 0;
+        margin: 20px 0;
+        color: #ffbaba;
+      }
+
+      .teacher-speech strong {
+        color: #ffffff;
+        display: block;
+        margin-bottom: 8px;
+        font-size: 1.05rem;
+      }
+
+      .challenge-box {
+        background-color: #2a1010;
+        border-right: 4px solid #ff1111;
+        padding: 18px;
+        border-radius: 0 6px 6px 0;
+        margin: 20px 0;
+        color: #ffcccc;
+      }
+
+      .info-box {
+        background-color: #1a1a2e;
+        border-right: 4px solid #4a9eff;
+        padding: 18px;
+        border-radius: 0 6px 6px 0;
+        margin: 20px 0;
+        color: #aaccff;
+      }
+
+      .info-box strong {
+        color: #ffffff;
+        display: block;
+        margin-bottom: 8px;
+        font-size: 1.05rem;
+      }
+
+      .data-table {
+        width: 100%;
+        border-collapse: collapse;
+        color: #e5e5e5;
+        background-color: #0d0d0d;
+        border: 1px solid #2a1212;
+        margin: 15px 0;
+        direction: ltr;
+      }
+
+      .data-table th {
+        background-color: #2a1212;
+        padding: 10px;
+        border: 1px solid #3a1a1a;
+        text-align: center;
+      }
+
+      .data-table td {
+        padding: 10px;
+        border: 1px solid #3a1a1a;
+        text-align: center;
+      }
+
+      .attack-demo {
+        background-color: #1a0d0d;
+        border: 2px solid #ff4444;
+        padding: 20px;
+        border-radius: 6px;
+        margin: 15px 0;
+      }
+
+      .attack-demo .danger {
+        color: #ff4444;
+        font-weight: bold;
+      }
+
+      .attack-demo .safe {
+        color: #66ff66;
+        font-weight: bold;
+      }
+
+      .mysqli-compare {
+        background-color: #0d0d0d;
+        border: 1px solid #2a1212;
+        padding: 20px;
+        border-radius: 6px;
+        margin: 15px 0;
+      }
+
+      .mysqli-compare .method {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+      }
+
+      .mysqli-compare .method .procedural {
+        flex: 1;
+        min-width: 200px;
+        background-color: #161111;
+        padding: 15px;
+        border-radius: 4px;
+        border-left: 3px solid #ff3333;
+      }
+
+      .mysqli-compare .method .oop {
+        flex: 1;
+        min-width: 200px;
+        background-color: #161111;
+        padding: 15px;
+        border-radius: 4px;
+        border-left: 3px solid #4a9eff;
+      }
+
+      .mysqli-compare .method h4 {
+        margin-top: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <a href="../syllabus.html" class="back-link"
+        >← بازگشت به جدول اصلی سرفصل‌ها</a
+      >
+
+      <h1>جلسه ۰۶: اتصال PHP به دیتابیس با MySQLi</h1>
+      <p style="color: #ff3333; font-weight: bold; font-size: 1.1rem">
+        مدت زمان تدریس: ۱۲۰ دقیقه | هدف: اتصال به دیتابیس با MySQLi، استفاده از
+        Prepared Statements و جلوگیری از SQL Injection
+      </p>
+
+      <div class="section-block">
+        <h2>بخش اول: زمان‌بندی جلسه (۱۲۰ دقیقه)</h2>
+        <p>
+          این جلسه، پلی است بین دنیای PHP و دنیای دیتابیس. دانشجویان یاد
+          می‌گیرند که چگونه به‌صورت امن و حرفه‌ای به دیتابیس متصل شوند.
+          <strong>امنیت</strong> مهم‌ترین موضوع این جلسه است.
+        </p>
+        <ol>
+          <li>
+            <strong>معرفی MySQLi و دو روش اتصال (۲۰ دقیقه):</strong> MySQLi
+            چیست؟ تفاوت روش رویه‌ای و شیءگرا، مزایا و معایب.
+          </li>
+          <li>
+            <strong>ایجاد اتصال با روش رویه‌ای و شیءگرا (۳۰ دقیقه):</strong>
+            نحوه اتصال، مدیریت خطاها، انتخاب دیتابیس، تنظیم charset.
+          </li>
+          <li>
+            <strong>Prepared Statements با MySQLi (۳۰ دقیقه):</strong> مفهوم،
+            نحوه استفاده، مزایا در مقابل کوئری‌های مستقیم.
+          </li>
+          <li>
+            <strong>تمرین عملی: ذخیره فرم در دیتابیس (۴۰ دقیقه):</strong> اتصال
+            به دیتابیس و ذخیره پیام‌های Guestbook با MySQLi.
+          </li>
+        </ol>
+
+        <div class="info-box">
+          <strong>📌 نکته مهم برای مدرس:</strong>
+          <ul>
+            <li>
+              این جلسه یکی از مهم‌ترین جلسات دوره از نظر
+              <strong>امنیت</strong> است.
+            </li>
+            <li>
+              حتماً مفهوم <strong>SQL Injection</strong> را با مثال عملی نشان
+              دهید.
+            </li>
+            <li>
+              تأکید کنید که <strong>همیشه</strong> از Prepared Statements
+              استفاده کنند.
+            </li>
+            <li>
+              هر دو روش <strong>رویه‌ای (Procedural)</strong> و
+              <strong>شیءگرا (Object-Oriented)</strong> را آموزش دهید.
+            </li>
+            <li>
+              تفاوت <code>mysqli_query()</code> و
+              <code>mysqli_prepare()</code> را توضیح دهید.
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="section-block">
+        <h2>بخش دوم: معرفی MySQLi (۲۰ دقیقه)</h2>
+
+        <div class="teacher-speech">
+          <strong>🗣 کلمه به کلمه چه بگویید:</strong>
+          «تا الان با phpMyAdmin کار کردیم و کوئری‌های SQL را دستی اجرا کردیم.
+          اما در یک وب‌سایت واقعی، کاربران نمی‌توانند مستقیم به phpMyAdmin
+          بروند! باید از طریق کد PHP به دیتابیس متصل شویم و کوئری‌ها را اجرا
+          کنیم. PHP دو روش اصلی برای اتصال به دیتابیس MySQL دارد: ۱.
+          <strong>MySQLi</strong> (MySQL Improved - مخصوص MySQL) ۲.
+          <strong>PDO</strong> (PHP Data Objects - عمومی) ما در این جلسه از
+          <strong>MySQLi</strong> استفاده می‌کنیم چون: - مخصوص MySQL است و
+          بهینه‌تر کار می‌کند. - هم به‌صورت رویه‌ای و هم شیءگرا قابل استفاده
+          است. - از Prepared Statements پشتیبانی کامل می‌کند. - در اکثر هاست‌ها
+          به‌صورت پیش‌فرض فعال است. MySQLi دو روش دارد: -
+          <strong>رویه‌ای (Procedural):</strong> با توابع مثل
+          <code>mysqli_connect()</code> -
+          <strong>شیءگرا (Object-Oriented):</strong> با کلاس
+          <code>mysqli</code>»
+        </div>
+
+        <h3>۱. MySQLi چیست؟</h3>
+        <ul>
+          <li>
+            <strong>MySQLi</strong> مخفف <strong>MySQL Improved</strong> است.
+          </li>
+          <li>نسخه بهبودیافته و مدرن‌تر از پسوند قدیمی MySQL است.</li>
+          <li>از <strong>Prepared Statements</strong> پشتیبانی کامل می‌کند.</li>
+          <li>هم به‌صورت رویه‌ای و هم شیءگرا قابل استفاده است.</li>
+          <li>
+            برای پروژه‌هایی که فقط از MySQL استفاده می‌کنند، انتخاب مناسبی است.
+          </li>
+        </ul>
+
+        <h3>۲. مقایسه دو روش MySQLi:</h3>
+        <div class="mysqli-compare">
+          <div class="method">
+            <div class="procedural">
+              <h4 style="color: #ff3333">📌 روش رویه‌ای (Procedural)</h4>
+              <ul style="margin-right: 15px">
+                <li>استفاده از توابع مثل <code>mysqli_connect()</code></li>
+                <li>نیاز به پاس دادن <code>$connection</code> به هر تابع</li>
+                <li>ساده‌تر برای مبتدیان</li>
+                <li>مثال: <code>mysqli_query($conn, $sql)</code></li>
+              </ul>
+            </div>
+            <div class="oop">
+              <h4 style="color: #4a9eff">📌 روش شیءگرا (Object-Oriented)</h4>
+              <ul style="margin-right: 15px">
+                <li>استفاده از کلاس <code>mysqli</code></li>
+                <li>کد تمیزتر و سازماندهی‌شده‌تر</li>
+                <li>مناسب برای پروژه‌های بزرگ</li>
+                <li>مثال: <code>$conn->query($sql)</code></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-box">
+          <strong>📌 توصیه:</strong>
+          در این جلسه، هر دو روش را یاد می‌گیریم اما تأکید اصلی روی روش
+          <strong>شیءگرا</strong> است چون با مفاهیم OOP که در جلسه ۱۰ یاد
+          می‌گیرید، هماهنگ‌تر است.
+        </div>
+
+        <h3>۳. نمایش SQL Injection (حمله تزریق SQL):</h3>
+        <div class="attack-demo">
+          <p><span class="danger">🚨 حمله SQL Injection چیست؟</span></p>
+          <p>
+            وقتی ورودی کاربر مستقیماً در کوئری SQL قرار می‌گیرد، هکر می‌تواند با
+            وارد کردن کد SQL مخرب، به دیتابیس نفوذ کند.
+          </p>
+
+          <p><strong>مثال خطرناک:</strong></p>
+          <pre
+            style="background-color: #1a0d0d; border-color: #ff4444"
+          ><code><span class="sql-comment">// کد PHP خطرناک</span>
+$username = $_POST['username'];  <span class="sql-comment">// کاربر می‌نویسد: ' OR '1'='1</span>
+$query = "SELECT * FROM users WHERE username = '$username'";
+
+<span class="sql-comment">// کوئری نهایی:</span>
+SELECT * FROM users WHERE username = '' OR '1'='1'
+<span class="sql-comment">// این کوئری تمام کاربران را برمی‌گرداند!</span></code></pre>
+
+          <p>
+            <span class="safe">✅ راه حل: استفاده از Prepared Statements</span>
+          </p>
+          <p>
+            با Prepared Statements، داده و کوئری از هم جدا می‌شوند و ورودی کاربر
+            به‌عنوان داده تفسیر می‌شود، نه کد SQL.
+          </p>
+        </div>
+      </div>
+
+      <div class="section-block">
+        <h2>بخش سوم: ایجاد اتصال با MySQLi (۳۰ دقیقه)</h2>
+
+        <div class="teacher-speech">
+          <strong>🗣 کلمه به کلمه چه بگویید:</strong>
+          «برای اتصال به دیتابیس با MySQLi، به اطلاعات زیر نیاز داریم: -
+          <strong>Host</strong>: آدرس سرور (معمولاً localhost) -
+          <strong>Username</strong>: نام کاربری (در XAMPP: root) -
+          <strong>Password</strong>: رمز عبور (در XAMPP: خالی) -
+          <strong>Database name</strong>: نام دیتابیس اتصال به دیتابیس ممکن است
+          با خطا مواجه شود. برای مدیریت خطاها، از <strong>شرط‌ها</strong> و
+          <strong>try/catch</strong> استفاده می‌کنیم. دو روش برای اتصال داریم:
+          <strong>رویه‌ای</strong> و <strong>شیءگرا</strong>.»
+        </div>
+
+        <h3>۱. روش رویه‌ای (Procedural):</h3>
+        <pre><code>&lt;?php
+<span class="sql-comment">// ===== اتصال به دیتابیس با روش رویه‌ای =====</span>
+$host = 'localhost';
+$username = 'root';
+$password = '';
+$dbname = 'guestbook_db';
+
+<span class="sql-comment">// ایجاد اتصال</span>
+$conn = mysqli_connect($host, $username, $password, $dbname);
+
+<span class="sql-comment">// بررسی اتصال</span>
+if (!$conn) {
+    die("❌ خطا در اتصال: " . mysqli_connect_error());
+}
+
+<span class="sql-comment">// تنظیم charset برای پشتیبانی از فارسی</span>
+mysqli_set_charset($conn, "utf8mb4");
+
+echo "✅ اتصال با موفقیت برقرار شد.";
+
+<span class="sql-comment">// بستن اتصال</span>
+mysqli_close($conn);
+?&gt;</code></pre>
+
+        <h3>۲. روش شیءگرا (Object-Oriented):</h3>
+        <pre><code>&lt;?php
+<span class="sql-comment">// ===== اتصال به دیتابیس با روش شیءگرا =====</span>
+$host = 'localhost';
+$username = 'root';
+$password = '';
+$dbname = 'guestbook_db';
+
+<span class="sql-comment">// ایجاد اتصال</span>
+$conn = new mysqli($host, $username, $password, $dbname);
+
+<span class="sql-comment">// بررسی اتصال</span>
+if ($conn->connect_error) {
+    die("❌ خطا در اتصال: " . $conn->connect_error);
+}
+
+<span class="sql-comment">// تنظیم charset برای پشتیبانی از فارسی</span>
+$conn->set_charset("utf8mb4");
+
+echo "✅ اتصال با موفقیت برقرار شد.";
+
+<span class="sql-comment">// بستن اتصال</span>
+$conn->close();
+?&gt;</code></pre>
+
+        <h3>۳. ایجاد فایل جداگانه برای اتصال (config/db.php):</h3>
+        <pre><code>&lt;?php
+<span class="sql-comment">// ===== فایل: config/db.php =====</span>
+
+<span class="sql-comment">// تنظیمات دیتابیس</span>
+define('DB_HOST', 'localhost');
+define('DB_NAME', 'guestbook_db');
+define('DB_USER', 'root');
+define('DB_PASS', '');
+define('DB_CHARSET', 'utf8mb4');
+
+<span class="sql-comment">/**
+ * دریافت اتصال MySQLi (روش شیءگرا)
+ * @return mysqli
+ */</span>
+function getDBConnection() {
+    $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+
+    <span class="sql-comment">// بررسی اتصال</span>
+    if ($conn->connect_error) {
+        error_log("Database Connection Error: " . $conn->connect_error);
+        die("خطا در اتصال به دیتابیس. لطفاً با پشتیبانی تماس بگیرید.");
+    }
+
+    <span class="sql-comment">// تنظیم charset</span>
+    $conn->set_charset(DB_CHARSET);
+
+    return $conn;
+}
+
+<span class="sql-comment">/**
+ * پاک‌سازی ورودی برای نمایش امن
+ * @param string $value
+ * @return string
+ */</span>
+function sanitize($value) {
+    return htmlspecialchars(trim($value), ENT_QUOTES, 'UTF-8');
+}
+
+<span class="sql-comment">/**
+ * بستن اتصال دیتابیس
+ * @param mysqli $conn
+ */</span>
+function closeDBConnection($conn) {
+    if ($conn) {
+        $conn->close();
+    }
+}
+?&gt;</code></pre>
+
+        <div class="info-box">
+          <strong>📌 نکات مهم در MySQLi:</strong>
+          <ul>
+            <li>
+              <code>mysqli_connect_error()</code> و
+              <code>$conn->connect_error</code> برای نمایش خطای اتصال.
+            </li>
+            <li>
+              <code>mysqli_set_charset()</code> و
+              <code>$conn->set_charset()</code> برای تنظیم charset.
+            </li>
+            <li>
+              <code>mysqli_close()</code> و <code>$conn->close()</code> برای
+              بستن اتصال.
+            </li>
+            <li>
+              همیشه بعد از اتمام کار، اتصال را ببندید (مخصوصاً در پروژه‌های
+              بزرگ).
+            </li>
+          </ul>
+        </div>
+
+        <h3>۴. خطاهای رایج و عیب‌یابی:</h3>
+        <div style="overflow-x: auto; margin: 15px 0; direction: ltr">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>خطا</th>
+                <th>دلیل</th>
+                <th>راه حل</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>Access denied for user</code></td>
+                <td>نام کاربری یا رمز عبور اشتباه است</td>
+                <td>نام کاربری و رمز را بررسی کنید</td>
+              </tr>
+              <tr>
+                <td><code>Unknown database</code></td>
+                <td>دیتابیس وجود ندارد</td>
+                <td>دیتابیس را در phpMyAdmin بسازید</td>
+              </tr>
+              <tr>
+                <td><code>Can't connect to MySQL server</code></td>
+                <td>MySQL اجرا نمی‌شود</td>
+                <td>XAMPP را باز کنید و MySQL را Start کنید</td>
+              </tr>
+              <tr>
+                <td>
+                  <code>Call to undefined function mysqli_connect()</code>
+                </td>
+                <td>پسوند mysqli نصب نیست</td>
+                <td>در php.ini، extension=mysqli را فعال کنید</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="section-block">
+        <h2>بخش چهارم: Prepared Statements با MySQLi (۳۰ دقیقه)</h2>
+
+        <div class="teacher-speech">
+          <strong>🗣 کلمه به کلمه چه بگویید:</strong>
+          «<strong>Prepared Statements</strong> یکی از مهم‌ترین ویژگی‌های MySQLi
+          است. با این روش، کوئری و داده‌ها از هم جدا می‌شوند. فرآیند کار به این
+          صورت است: ۱. کوئری را با <strong>placeholder</strong> (جای‌گذاری با
+          علامت ?) آماده می‌کنیم. ۲. داده‌ها را با <code>bind_param()</code> به
+          کوئری متصل می‌کنیم. ۳. کوئری را با <code>execute()</code> اجرا
+          می‌کنیم. مزایا: - <strong>امنیت</strong> بالا (جلوگیری از SQL
+          Injection) - <strong>سرعت</strong> بیشتر (کوئری یک بار کامپایل می‌شود)
+          - <strong>خوانایی</strong> بهتر کد»
+        </div>
+
+        <h3>۱. ساختار Prepared Statements:</h3>
+        <pre><code>&lt;?php
+<span class="sql-comment">// ===== دریافت اتصال =====</span>
+$conn = getDBConnection();
+
+<span class="sql-comment">// ===== ۱. آماده‌سازی کوئری =====</span>
+$stmt = $conn->prepare("INSERT INTO users (username, email, password) VALUES (?, ?, ?)");
+
+<span class="sql-comment">// ===== ۲. اتصال داده‌ها به placeholderها =====</span>
+<span class="sql-comment">// s = string, i = integer, d = double, b = blob</span>
+$stmt->bind_param("sss", $username, $email, $password);
+
+<span class="sql-comment">// ===== ۳. تنظیم مقادیر =====</span>
+$username = "ali_dev";
+$email = "ali@site.com";
+$password = "123456";
+
+<span class="sql-comment">// ===== ۴. اجرا =====</span>
+if ($stmt->execute()) {
+    echo "✅ کاربر با موفقیت ثبت شد.";
+} else {
+    echo "❌ خطا: " . $stmt->error;
+}
+
+<span class="sql-comment">// ===== ۵. بستن statement =====</span>
+$stmt->close();
+$conn->close();
+?&gt;</code></pre>
+
+        <h3>۲. انواع داده‌ها در bind_param:</h3>
+        <div style="overflow-x: auto; margin: 15px 0; direction: ltr">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>نوع داده</th>
+                <th>نویسه</th>
+                <th>توضیح</th>
+                <th>مثال</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>رشته</td>
+                <td><code>s</code></td>
+                <td>String</td>
+                <td><code>'ali'</code></td>
+              </tr>
+              <tr>
+                <td>عدد صحیح</td>
+                <td><code>i</code></td>
+                <td>Integer</td>
+                <td><code>25</code></td>
+              </tr>
+              <tr>
+                <td>عدد اعشاری</td>
+                <td><code>d</code></td>
+                <td>Double</td>
+                <td><code>19.99</code></td>
+              </tr>
+              <tr>
+                <td>داده باینری</td>
+                <td><code>b</code></td>
+                <td>Blob</td>
+                <td>تصاویر، فایل‌ها</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>۳. مثال‌های کامل با MySQLi:</h3>
+        <pre><code>&lt;?php
+require_once 'config/db.php';
+$conn = getDBConnection();
+
+<span class="sql-comment">// ===== SELECT با شرط =====</span>
+$stmt = $conn->prepare("SELECT * FROM users WHERE email = ? AND is_active = ?");
+$stmt->bind_param("si", $email, $active);
+$email = "ali@site.com";
+$active = 1;
+$stmt->execute();
+$result = $stmt->get_result();
+$user = $result->fetch_assoc();
+
+<span class="sql-comment">// ===== SELECT با چندین رکورد =====</span>
+$stmt = $conn->prepare("SELECT * FROM users WHERE age > ? ORDER BY age DESC");
+$stmt->bind_param("i", $min_age);
+$min_age = 20;
+$stmt->execute();
+$result = $stmt->get_result();
+$users = $result->fetch_all(MYSQLI_ASSOC);
+
+<span class="sql-comment">// ===== INSERT =====</span>
+$stmt = $conn->prepare("INSERT INTO messages (user_id, title, message) VALUES (?, ?, ?)");
+$stmt->bind_param("iss", $user_id, $title, $message);
+$user_id = 1;
+$title = "عنوان پیام";
+$message = "متن پیام";
+$stmt->execute();
+$last_id = $stmt->insert_id;
+
+<span class="sql-comment">// ===== UPDATE =====</span>
+$stmt = $conn->prepare("UPDATE messages SET is_approved = ? WHERE id = ?");
+$stmt->bind_param("ii", $approved, $id);
+$approved = 1;
+$id = 5;
+$stmt->execute();
+$affected_rows = $stmt->affected_rows;
+
+<span class="sql-comment">// ===== DELETE =====</span>
+$stmt = $conn->prepare("DELETE FROM messages WHERE id = ? AND user_id = ?");
+$stmt->bind_param("ii", $id, $user_id);
+$id = 10;
+$user_id = 1;
+$stmt->execute();
+
+<span class="sql-comment">// ===== پیمایش با fetch =====</span>
+$stmt = $conn->prepare("SELECT * FROM messages WHERE user_id = ?");
+$stmt->bind_param("i", $user_id);
+$user_id = 1;
+$stmt->execute();
+$result = $stmt->get_result();
+
+while ($row = $result->fetch_assoc()) {
+    echo $row['title'] . " - " . $row['message'] . "&lt;br&gt;";
+}
+
+<span class="sql-comment">// ===== دریافت به‌صورت OBJECT =====</span>
+$stmt = $conn->prepare("SELECT * FROM users LIMIT ?");
+$stmt->bind_param("i", $limit);
+$limit = 5;
+$stmt->execute();
+$result = $stmt->get_result();
+
+while ($user = $result->fetch_object()) {
+    echo $user->username . " - " . $user->email . "&lt;br&gt;";
+}
+
+<span class="sql-comment">// ===== بستن اتصال =====</span>
+$stmt->close();
+$conn->close();
+?&gt;</code></pre>
+
+        <div class="info-box">
+          <strong>📌 نکات مهم در MySQLi Prepared Statements:</strong>
+          <ul>
+            <li>
+              <code>bind_param()</code> برای اتصال داده‌ها به placeholderها
+              استفاده می‌شود.
+            </li>
+            <li>
+              نوع داده‌ها را با حروف <code>s</code>، <code>i</code>،
+              <code>d</code>، <code>b</code> مشخص کنید.
+            </li>
+            <li>
+              <code>get_result()</code> برای دریافت نتیجه از
+              <code>SELECT</code> استفاده می‌شود.
+            </li>
+            <li>
+              <code>fetch_assoc()</code> → آرایه انجمنی،
+              <code>fetch_object()</code> → شیء.
+            </li>
+            <li><code>insert_id</code> → شناسه آخرین رکورد درج شده.</li>
+            <li>
+              <code>affected_rows</code> → تعداد رکوردهای تحت تأثیر قرار گرفته.
+            </li>
+            <li><code>num_rows</code> → تعداد رکوردهای برگشتی از SELECT.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="section-block">
+        <h2>بخش پنجم: تمرین عملی – ذخیره فرم در دیتابیس (۴۰ دقیقه)</h2>
+
+        <div class="teacher-speech">
+          <strong>🗣 مأموریت کلاسی:</strong>
+          «حالا همه چیز را کنار هم می‌گذاریم. یک سیستم کامل برای ذخیره پیام‌های
+          Guestbook با MySQLi می‌سازیم. ساختار پروژه: -
+          <code>config/db.php</code> → اتصال به دیتابیس -
+          <code>index.php</code> → فرم عمومی برای ثبت پیام -
+          <code>save_message.php</code> → ذخیره پیام در دیتابیس ویژگی‌های
+          امنیتی: - استفاده از Prepared Statements - اعتبارسنجی ورودی‌ها -
+          پاک‌سازی خروجی با htmlspecialchars - مدیریت خطاها»
+        </div>
+
+        <h3>۱. فایل config/db.php (اتصال به دیتابیس):</h3>
+        <pre><code>&lt;?php
+<span class="sql-comment">// ===== فایل: config/db.php =====</span>
+
+<span class="sql-comment">// تنظیمات دیتابیس</span>
+define('DB_HOST', 'localhost');
+define('DB_NAME', 'guestbook_db');
+define('DB_USER', 'root');
+define('DB_PASS', '');
+define('DB_CHARSET', 'utf8mb4');
+
+<span class="sql-comment">/**
+ * دریافت اتصال MySQLi (روش شیءگرا)
+ * @return mysqli
+ */</span>
+function getDBConnection() {
+    $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+
+    <span class="sql-comment">// بررسی اتصال</span>
+    if ($conn->connect_error) {
+        error_log("Database Connection Error: " . $conn->connect_error);
+        die("خطا در اتصال به دیتابیس. لطفاً با پشتیبانی تماس بگیرید.");
+    }
+
+    <span class="sql-comment">// تنظیم charset</span>
+    $conn->set_charset(DB_CHARSET);
+
+    return $conn;
+}
+
+<span class="sql-comment">/**
+ * پاک‌سازی ورودی برای نمایش امن
+ * @param string $value
+ * @return string
+ */</span>
+function sanitize($value) {
+    return htmlspecialchars(trim($value), ENT_QUOTES, 'UTF-8');
+}
+
+<span class="sql-comment">/**
+ * بستن اتصال دیتابیس
+ * @param mysqli $conn
+ */</span>
+function closeDBConnection($conn) {
+    if ($conn) {
+        $conn->close();
+    }
+}
+?&gt;</code></pre>
+
+        <h3>۲. فایل index.php (فرم عمومی):</h3>
+        <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="fa" dir="rtl"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;دفترچه یادداشت دیجیتال - Guestbook&lt;/title&gt;
+    &lt;style&gt;
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Tahoma', sans-serif; }
+        body { background-color: #0d0d0d; color: #e5e5e5; min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 40px 20px; }
+        .container { max-width: 600px; width: 100%; }
+        .form-card { background-color: #161111; border: 1px solid #2a1212; border-radius: 10px; padding: 35px; }
+        .form-card h1 { color: #ffffff; font-size: 1.8rem; text-align: center; margin-bottom: 5px; }
+        .form-card .subtitle { text-align: center; color: #888; font-size: 0.9rem; margin-bottom: 25px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; color: #ff8888; font-weight: bold; font-size: 0.9rem; margin-bottom: 5px; }
+        .form-group label .required { color: #ff3333; }
+        .form-group input, .form-group textarea { width: 100%; padding: 10px 12px; background-color: #0d0d0d; border: 1px solid #2a1212; color: #e5e5e5; border-radius: 4px; font-size: 1rem; transition: border-color 0.3s ease; }
+        .form-group input:focus, .form-group textarea:focus { border-color: #ff3333; outline: none; }
+        .form-group textarea { min-height: 120px; resize: vertical; }
+        .form-group .hint { color: #666; font-size: 0.8rem; margin-top: 3px; }
+        .btn-submit { width: 100%; padding: 12px; background-color: #ff3333; color: #ffffff; border: none; border-radius: 4px; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: background-color 0.3s ease; }
+        .btn-submit:hover { background-color: #cc0000; }
+        .error-message { color: #ff4444; font-size: 0.85rem; margin-top: 5px; }
+        .success-message { color: #66ff66; font-size: 0.85rem; margin-top: 5px; }
+        @media (max-width: 480px) { .form-card { padding: 20px; } .form-card h1 { font-size: 1.4rem; } }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;div class="container"&gt;
+    &lt;div class="form-card"&gt;
+        &lt;h1&gt;📝 ثبت پیام جدید&lt;/h1&gt;
+        &lt;p class="subtitle"&gt;نظر، پیشنهاد یا انتقاد خود را با ما به اشتراک بگذارید&lt;/p&gt;
+
+        &lt;?php
+            <span class="sql-comment">// نمایش پیام موفقیت یا خطا</span>
+            if (isset($_GET['status'])) {
+                if ($_GET['status'] == 'success') {
+                    echo '&lt;div class="success-message" style="text-align:center;padding:15px;background-color:#0d1a0d;border:1px solid #2a4a2a;border-radius:4px;margin-bottom:20px;"&gt;
+                        ✅ پیام شما با موفقیت ثبت شد. سپاسگزاریم!
+                    &lt;/div&gt;';
+                } elseif ($_GET['status'] == 'error') {
+                    echo '&lt;div class="error-message" style="text-align:center;padding:15px;background-color:#1a0d0d;border:1px solid #4a2a2a;border-radius:4px;margin-bottom:20px;"&gt;
+                        ❌ خطا در ثبت پیام. لطفاً دوباره تلاش کنید.
+                    &lt;/div&gt;';
+                }
+            }
+        ?&gt;
+
+        &lt;form action="save_message.php" method="POST"&gt;
+
+            &lt;div class="form-group"&gt;
+                &lt;label&gt;نام شما &lt;span class="required"&gt;*&lt;/span&gt;&lt;/label&gt;
+                &lt;input type="text" name="username" placeholder="نام خود را وارد کنید" required minlength="2" maxlength="50"&gt;
+            &lt;/div&gt;
+
+            &lt;div class="form-group"&gt;
+                &lt;label&gt;پیام شما &lt;span class="required"&gt;*&lt;/span&gt;&lt;/label&gt;
+                &lt;textarea name="message" placeholder="متن پیام خود را بنویسید..." required minlength="5"&gt;&lt;/textarea&gt;
+                &lt;div class="hint"&gt;حداقل ۵ کاراکتر&lt;/div&gt;
+            &lt;/div&gt;
+
+            &lt;button type="submit" class="btn-submit"&gt;ارسال پیام&lt;/button&gt;
+
+        &lt;/form&gt;
+
+        &lt;p style="text-align:center;color:#666;font-size:0.8rem;margin-top:15px;"&gt;
+            تمامی پیام‌ها پس از بررسی در وب‌سایت نمایش داده می‌شوند.
+        &lt;/p&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+        <h3>۳. فایل save_message.php (ذخیره در دیتابیس با MySQLi):</h3>
+        <pre><code>&lt;?php
+<span class="sql-comment">// ===== فایل: save_message.php =====</span>
+
+<span class="sql-comment">// شامل فایل اتصال به دیتابیس</span>
+require_once 'config/db.php';
+
+<span class="sql-comment">// بررسی اینکه فرم با POST ارسال شده است</span>
+if ($_SERVER["REQUEST_METHOD"] != "POST") {
+    header('Location: index.php');
+    exit;
+}
+
+<span class="sql-comment">// دریافت و پاک‌سازی داده‌ها</span>
+$username = isset($_POST['username']) ? trim($_POST['username']) : '';
+$message = isset($_POST['message']) ? trim($_POST['message']) : '';
+
+<span class="sql-comment">// ===== اعتبارسنجی =====</span>
+$errors = [];
+
+<span class="sql-comment">// بررسی نام کاربری</span>
+if (empty($username)) {
+    $errors[] = "نام کاربری الزامی است.";
+} elseif (strlen($username) < 2 || strlen($username) > 50) {
+    $errors[] = "نام کاربری باید بین ۲ تا ۵۰ کاراکتر باشد.";
+}
+
+<span class="sql-comment">// بررسی پیام</span>
+if (empty($message)) {
+    $errors[] = "متن پیام الزامی است.";
+} elseif (strlen($message) < 5) {
+    $errors[] = "متن پیام باید حداقل ۵ کاراکتر باشد.";
+}
+
+<span class="sql-comment">// اگر خطایی وجود داشت، به فرم برگرد</span>
+if (!empty($errors)) {
+    session_start();
+    $_SESSION['errors'] = $errors;
+    $_SESSION['old_data'] = [
+        'username' => $username,
+        'message' => $message
+    ];
+    header('Location: index.php');
+    exit;
+}
+
+<span class="sql-comment">// ===== ذخیره در دیتابیس با MySQLi و Prepared Statement =====</span>
+$conn = getDBConnection();
+
+<span class="sql-comment">// آماده‌سازی کوئری</span>
+$stmt = $conn->prepare("INSERT INTO messages (username, message, is_approved) VALUES (?, ?, 0)");
+
+<span class="sql-comment">// اتصال داده‌ها به placeholderها</span>
+$stmt->bind_param("ss", $username, $message);
+
+<span class="sql-comment">// اجرا</span>
+if ($stmt->execute()) {
+    $stmt->close();
+    $conn->close();
+    header('Location: index.php?status=success');
+    exit;
+} else {
+    <span class="sql-comment">// ثبت خطا در لاگ</span>
+    error_log("Error saving message: " . $stmt->error);
+    $stmt->close();
+    $conn->close();
+    header('Location: index.php?status=error');
+    exit;
+}
+?&gt;</code></pre>
+
+        <h3>۴. گام‌های اجرایی برای دانشجویان:</h3>
+        <ol>
+          <li>
+            پوشه پروژه را به نام <code>guestbook</code> در
+            <code>htdocs</code> بسازید.
+          </li>
+          <li>
+            پوشه <code>config</code> را بسازید و فایل <code>db.php</code> را در
+            آن قرار دهید.
+          </li>
+          <li>
+            فایل‌های <code>index.php</code> و <code>save_message.php</code> را
+            در ریشه پروژه بسازید.
+          </li>
+          <li>
+            دیتابیس <code>guestbook_db</code> و جدول <code>messages</code> را در
+            phpMyAdmin ایجاد کنید.
+          </li>
+          <li>
+            در مرورگر آدرس <code>http://localhost/guestbook/index.php</code> را
+            باز کنید.
+          </li>
+          <li>چند پیام تست ثبت کنید و نتیجه را بررسی کنید.</li>
+          <li>
+            در phpMyAdmin، جدول messages را بررسی کنید و ببینید داده‌ها ذخیره
+            شده‌اند.
+          </li>
+        </ol>
+
+        <div class="challenge-box">
+          <strong>🧪 چالش‌های اضافی برای دانشجویان قوی‌تر:</strong>
+          <h4>چالش ۱: اعتبارسنجی پیشرفته</h4>
+          <p>اعتبارسنجی زیر را اضافه کنید:</p>
+          <ul>
+            <li>
+              نام کاربری نباید شامل کاراکترهای خاص باشد (فقط حروف و اعداد).
+            </li>
+            <li>پیام نباید شامل لینک‌های مخرب باشد.</li>
+            <li>محدودیت تعداد پیام‌های هر کاربر در روز (مثلاً ۵ پیام).</li>
+          </ul>
+          <h4>چالش ۲: نمایش پیام‌ها در صفحه اصلی</h4>
+          <p>
+            در <code>index.php</code>، آخرین ۵ پیام تأیید شده را از دیتابیس
+            بخوانید و نمایش دهید.
+          </p>
+          <p>
+            راهنما: از
+            <code
+              >SELECT ... WHERE is_approved = 1 ORDER BY created_at DESC LIMIT
+              5</code
+            >
+          </p>
+          <h4>چالش ۳: تابع ذخیره‌سازی</h4>
+          <p>
+            یک تابع به نام <code>saveMessage($username, $message)</code> در
+            <code>db.php</code> بسازید و از آن در
+            <code>save_message.php</code> استفاده کنید.
+          </p>
+          <h4>چالش ۴: جلوگیری از ارسال مجدد فرم</h4>
+          <p>
+            بعد از ارسال موفق، کاربر را با
+            <code>header('Location: ...')</code> هدایت کنید تا با رفرش صفحه، فرم
+            دوباره ارسال نشود.
+          </p>
+        </div>
+
+        <div class="info-box">
+          <strong>📌 خروجی نهایی قابل قبول:</strong>
+          <ul>
+            <li>پروژه در پوشه <code>guestbook</code> با ساختار مشخص.</li>
+            <li>
+              فایل <code>db.php</code> با اتصال MySQLi و تابع
+              <code>sanitize()</code>.
+            </li>
+            <li>فرم <code>index.php</code> با اعتبارسنجی سمت کلاینت.</li>
+            <li>
+              ذخیره داده‌ها با Prepared Statements در
+              <code>save_message.php</code>.
+            </li>
+            <li>مدیریت خطاها با شرط‌ها و لاگ‌گیری.</li>
+            <li>
+              پس از ذخیره، کاربر به صفحه اصلی با پیام موفقیت هدایت می‌شود.
+            </li>
+            <li>داده‌ها در دیتابیس به‌درستی ذخیره می‌شوند.</li>
+          </ul>
+        </div>
+
+        <div class="teacher-speech" style="border-right-color: #4a9eff">
+          <strong>🗣 جمع‌بندی جلسه:</strong>
+          «امروز یکی از مهم‌ترین جلسات دوره را پشت سر گذاشتیم. یاد گرفتیم که
+          چطور به‌صورت <strong>امن</strong> به دیتابیس متصل شویم و با
+          <strong>Prepared Statements</strong> از حملات SQL Injection جلوگیری
+          کنیم. این مهارت، پایه و اساس تمام پروژه‌های دیتابیس‌محور شما خواهد
+          بود. از این به بعد، هر کوئری که می‌نویسید، باید با Prepared Statements
+          باشد. در جلسه بعد، یاد می‌گیریم که چطور داده‌ها را از دیتابیس بخوانیم
+          و نمایش دهیم و همچنین عملیات حذف را پیاده‌سازی کنیم. تکلیف: چالش نمایش
+          پیام‌ها در صفحه اصلی را پیاده‌سازی کنید. همچنین یک کاربر جدید در جدول
+          users بسازید و با MySQLi یک پیام برای آن ثبت کنید.»
+        </div>
+      </div>
+    </div>
+    <!-- END container -->
+  </body>
+</html>

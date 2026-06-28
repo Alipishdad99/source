@@ -1,0 +1,1153 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>دوره جامع آموزش برنامه‌نویسی وب با PHP و MySQL</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        background-color: #0d0d0d;
+        color: #e5e5e5;
+        line-height: 1.8;
+        padding: 40px 20px;
+      }
+
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+      }
+
+      header {
+        border-bottom: 1px solid #2a1212;
+        padding-bottom: 30px;
+        margin-bottom: 40px;
+      }
+
+      h1 {
+        color: #ffffff;
+        font-size: 2.2rem;
+        margin-bottom: 15px;
+        font-weight: 800;
+      }
+
+      .meta-info {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+        font-size: 0.95rem;
+        color: #b3b3b3;
+      }
+
+      .meta-item {
+        background-color: #161111;
+        padding: 6px 16px;
+        border-radius: 4px;
+        border: 1px solid #2a1212;
+      }
+
+      .meta-item strong {
+        color: #ff3333;
+      }
+
+      .session-card {
+        background-color: #161111;
+        border: 1px solid #2a1212;
+        border-radius: 6px;
+        padding: 25px;
+        margin-bottom: 25px;
+        transition: all 0.3s ease;
+      }
+
+      .session-card:hover {
+        border-color: #ff3333;
+        box-shadow: 0 0 10px rgba(255, 51, 51, 0.1);
+      }
+
+      .session-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #2a1212;
+        padding-bottom: 12px;
+        margin-bottom: 15px;
+      }
+
+      .session-title {
+        font-size: 1.3rem;
+        color: #ffffff;
+        font-weight: 700;
+      }
+
+      .btn-lesson {
+        background-color: #ff3333;
+        color: #ffffff;
+        font-weight: bold;
+        padding: 6px 14px;
+        border-radius: 4px;
+        font-size: 0.85rem;
+        text-decoration: none;
+        transition: background-color 0.2s ease;
+      }
+
+      .btn-lesson:hover {
+        background-color: #cc0000;
+      }
+
+      .topic-title {
+        color: #8c8c8c;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 10px;
+      }
+
+      .content-list {
+        list-style-type: none;
+        margin-bottom: 20px;
+      }
+
+      .content-list li {
+        position: relative;
+        padding-right: 20px;
+        margin-bottom: 8px;
+        color: #cccccc;
+      }
+
+      .content-list li::before {
+        content: "•";
+        position: absolute;
+        right: 0;
+        color: #ff3333;
+        font-weight: bold;
+      }
+
+      .practice-box {
+        background-color: #1f1414;
+        border-right: 4px solid #ff3333;
+        padding: 15px;
+        border-radius: 0 4px 4px 0;
+      }
+
+      .practice-box h4 {
+        color: #ff3333;
+        margin-bottom: 8px;
+        font-size: 1rem;
+      }
+
+      .final-project {
+        background-color: #161111;
+        border: 1px dashed #ff3333;
+        border-radius: 6px;
+        padding: 30px;
+        margin-top: 50px;
+      }
+
+      .final-project h3 {
+        color: #ff3333;
+        margin-bottom: 15px;
+        font-size: 1.5rem;
+      }
+
+      .output-targets {
+        margin-top: 20px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+
+      @media (max-width: 768px) {
+        .output-targets {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .target-card {
+        background-color: #0d0d0d;
+        padding: 15px;
+        border: 1px solid #2a1212;
+        border-radius: 4px;
+      }
+
+      .target-card h5 {
+        color: #ffffff;
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>سند جامع آموزش برنامه‌نویسی وب با PHP و MySQL</h1>
+        <p style="color: #b3b3b3; margin-bottom: 20px">
+          هدف: تربیت توسعه‌دهنده وب مقدماتی (بک‌اند) با توانایی درک کامل منطق
+          برنامه‌نویسی، طراحی پایگاه داده رابطه‌ای و برقراری ارتباط امن جهت
+          اجرای عملیات CRUD ساده.
+        </p>
+        <div class="meta-info">
+          <div class="meta-item">
+            تعداد جلسات: <strong>۱۰ جلسه ۲ ساعته</strong>
+          </div>
+          <div class="meta-item">
+            مجموع زمان: <strong>۲۰ ساعت آموزش و تمرین عملی</strong>
+          </div>
+          <div class="meta-item">
+            پیش‌نیاز: <strong>بدون پیش‌نیاز</strong> (آموزش فرانت‌اند در حد
+            لزوم)
+          </div>
+        </div>
+      </header>
+
+      <!-- ===== جلسه ۱ ===== -->
+      <div class="session-card">
+        <div class="session-header">
+          <div class="session-title">۰۱. ورود به دنیای وب و فرانت‌اند پایه</div>
+          <a href="lesson/01.html" class="btn-lesson">ورود به جلسه ۰۱ ←</a>
+        </div>
+        <div class="topic-title">محتوای کلاس</div>
+        <ul class="content-list">
+          <li>تشریح نحوه کارکرد وب و پروتکل HTTP (درخواست و پاسخ)</li>
+          <li>آشنایی با تگ‌های اصلی و ساختاری HTML</li>
+          <li>ساختار فرم‌ها و ورودی‌ها (Inputs) برای دریافت داده از کاربر</li>
+          <li>استایل‌دهی بسیار ساده و شکیل به فرم با استفاده از دستورات CSS</li>
+        </ul>
+        <div class="practice-box">
+          <h4>تمرین عملی جلسه:</h4>
+          <p>
+            طراحی یک فرم تماس یا ثبت‌نام ساده و شکیل با HTML/CSS جهت آماده‌سازی
+            برای ارسال داده در جلسات آینده.
+          </p>
+        </div>
+      </div>
+
+      <!-- ===== جلسه ۲ ===== -->
+      <div class="session-card">
+        <div class="session-header">
+          <div class="session-title">۰۲. شروع کار با PHP و منطق شرط‌ها</div>
+          <a href="lesson/02.html" class="btn-lesson">ورود به جلسه ۰۲ ←</a>
+        </div>
+        <div class="topic-title">محتوای کلاس</div>
+        <ul class="content-list">
+          <li>نصب، پیکربندی و راه‌اندازی محیط توسعه محلی XAMPP</li>
+          <li>اصول نگارش (Syntax) کدهای PHP و تگ‌های باز و بسته</li>
+          <li>تعریف متغیرها، انواع داده‌ها (Data Types) و عملگرها</li>
+          <li>
+            استفاده از دستورات شرطی کنترل جریان برنامه‌نویسی (if, else, elseif)
+          </li>
+        </ul>
+        <div class="practice-box">
+          <h4>تمرین عملی جلسه:</h4>
+          <p>
+            پیاده‌سازی یک سیستم ارزیابی نمرات یا تعیین سطح دسترسی ساده بر اساس
+            متغیرهای تعریف شده در کد.
+          </p>
+        </div>
+      </div>
+
+      <!-- ===== جلسه ۳ ===== -->
+      <div class="session-card">
+        <div class="session-header">
+          <div class="session-title">۰۳. حلقه‌ها و ساختار آرایه‌ها</div>
+          <a href="lesson/03.html" class="btn-lesson">ورود به جلسه ۰۳ ←</a>
+        </div>
+        <div class="topic-title">محتوای کلاس</div>
+        <ul class="content-list">
+          <li>
+            مفهوم آرایه‌های عددی (Indexed) و آرایه‌های انجمنی (Associative
+            Arrays)
+          </li>
+          <li>نحوه ذخیره‌سازی داده‌های ساختاریافته در دیتای موقت</li>
+          <li>
+            کار با حلقه‌های تکرار for و به‌ویژه foreach برای پیمایش سریع
+            آرایه‌ها
+          </li>
+          <li>
+            ادغام کدهای آرایه با کدهای HTML برای نمایش ساختاریافته اطلاعات
+          </li>
+        </ul>
+        <div class="practice-box">
+          <h4>تمرین عملی جلسه:</h4>
+          <p>
+            طراحی یک منوی داینامیک یا نمایش لیست ساده محصولات با چرخیدن روی یک
+            آرایه چندبعدی.
+          </p>
+        </div>
+      </div>
+
+      <!-- ===== جلسه ۴ ===== -->
+      <div class="session-card">
+        <div class="session-header">
+          <div class="session-title">۰۴. توابع و مدیریت ورودی‌های فرم</div>
+          <a href="lesson/04.html" class="btn-lesson">ورود به جلسه ۰۴ ←</a>
+        </div>
+        <div class="topic-title">محتوای کلاس</div>
+        <ul class="content-list">
+          <li>نحوه تعریف، ساختار آرگومان‌ها و فراخوانی توابع اختصاصی</li>
+          <li>کار با متغیرهای سوپر گلوبال $_GET و $_POST جهت دریافت اطلاعات</li>
+          <li>اعتبارسنجی اولیه (Validation) فرم‌ها برای امنیت داده ورودی</li>
+          <li>
+            بررسی پر بودن فیلدها و صحت فرمت ایمیل به همراه نمایش پیام‌های خطای
+            داینامیک
+          </li>
+        </ul>
+        <div class="practice-box">
+          <h4>تمرین عملی جلسه:</h4>
+          <p>
+            دریافت اطلاعات فرم جلسه اول، بررسی صحت مقادیر فیلدها و نمایش پیام
+            خطای مناسب یا پیام موفقیت در صفحه.
+          </p>
+        </div>
+      </div>
+
+      <!-- ===== جلسه ۵ ===== -->
+      <div class="session-card">
+        <div class="session-header">
+          <div class="session-title">۰۵. طراحی پایگاه داده (MySQL)</div>
+          <a href="lesson/05.html" class="btn-lesson">ورود به جلسه ۰۵ ←</a>
+        </div>
+        <div class="topic-title">محتوای کلاس</div>
+        <ul class="content-list">
+          <li>
+            تشریح مفاهیم پایگاه داده رابطه‌ای (RDBMS) و تفاوت آن با حافظه موقت
+          </li>
+          <li>آشنایی جامع با محیط مدیریت phpMyAdmin</li>
+          <li>ساخت دیتابیس، ساخت جدول و درک مفهوم کلید اصلی (Primary Key)</li>
+          <li>
+            نوشتن دستورات پایه‌ای SQL شامل دستورات کاربردی SELECT و INSERT
+          </li>
+        </ul>
+        <div class="practice-box">
+          <h4>تمرین عملی جلسه:</h4>
+          <p>
+            طراحی جدول کاربران یا یادداشت‌ها در دیتابیس و ذخیره چند نمونه داده
+            به صورت دستی با کوئری‌های SQL.
+          </p>
+        </div>
+      </div>
+
+      <!-- ===== جلسه ۶ - اصلاح شده به MySQLi ===== -->
+      <div class="session-card">
+        <div class="session-header">
+          <div class="session-title">
+            ۰۶. اتصال امن PHP به دیتابیس با MySQLi
+          </div>
+          <a href="lesson/06.html" class="btn-lesson">ورود به جلسه ۰۶ ←</a>
+        </div>
+        <div class="topic-title">محتوای کلاس</div>
+        <ul class="content-list">
+          <li>معرفی رابط اتصال MySQLi و مزایای امنیتی آن (رویه‌ای و شیءگرا)</li>
+          <li>نحوه اتصال امن به پایگاه داده و مدیریت خطاها</li>
+          <li>
+            استفاده از Prepared Statements با bind_param برای آماده‌سازی امن
+            کوئری‌ها
+          </li>
+          <li>
+            جلوگیری کامل از حملات خطرناک تزریق کد پایگاه داده (SQL Injection)
+          </li>
+        </ul>
+        <div class="practice-box">
+          <h4>تمرین عملی جلسه:</h4>
+          <p>
+            نوشتن فایل ماژولار اتصال به دیتابیس و ذخیره اطلاعات فرم تماس کاربران
+            در جدول پایگاه داده با متد MySQLi و Prepared Statements.
+          </p>
+        </div>
+      </div>
+
+      <!-- ===== جلسه ۷ ===== -->
+      <div class="session-card">
+        <div class="session-header">
+          <div class="session-title">
+            ۰۷. پیاده‌سازی عملیات خواندن و حذف (Read & Delete)
+          </div>
+          <a href="lesson/07.html" class="btn-lesson">ورود به جلسه ۰۷ ←</a>
+        </div>
+        <div class="topic-title">محتوای کلاس</div>
+        <ul class="content-list">
+          <li>
+            نوشتن کوئری‌های داینامیک برای خواندن (SELECT) اطلاعات از دیتابیس
+          </li>
+          <li>
+            نمایش لیست کامل داده‌های ذخیره شده در دیتابیس در قالب یک صفحه وب
+            تعاملی
+          </li>
+          <li>
+            کار با Query String در URL جهت انتقال پارامترها و شناسه ردیف‌ها
+          </li>
+          <li>اجرای دستور شرطی حذف برای حذف یک ردیف خاص با کلیک کاربر</li>
+        </ul>
+        <div class="practice-box">
+          <h4>تمرین عملی جلسه:</h4>
+          <p>
+            ساخت صفحه‌ای برای نمایش پیام‌های دریافتی از دیتابیس به همراه دکمه
+            حذف (Delete) در مقابل هر پیام.
+          </p>
+        </div>
+      </div>
+
+      <!-- ===== جلسه ۸ ===== -->
+      <div class="session-card">
+        <div class="session-header">
+          <div class="session-title">
+            ۰۸. پیاده‌سازی عملیات ایجاد و ویرایش (Create & Update)
+          </div>
+          <a href="lesson/08.html" class="btn-lesson">ورود به جلسه ۰۸ ←</a>
+        </div>
+        <div class="topic-title">محتوای کلاس</div>
+        <ul class="content-list">
+          <li>
+            فرموله کردن و پیاده‌سازی عملیات درج اطلاعات جدید از طریق فرم وب
+          </li>
+          <li>نحوه خواندن اطلاعات یک ردیف خاص جهت قرار دادن در فرم ویرایش</li>
+          <li>
+            نوشتن کوئری UPDATE پایگاه داده برای اعمال تغییرات بر روی داده‌های
+            قبلی
+          </li>
+          <li>
+            انتقال امن و خودکار کاربر بین صفحات با استفاده از هدرهای HTTP (دستور
+            header)
+          </li>
+        </ul>
+        <div class="practice-box">
+          <h4>تمرین عملی جلسه:</h4>
+          <p>
+            ساخت فرم افزودن پیام جدید و فرم ویرایش پیام‌های ثبت شده قبلی در
+            پایگاه داده.
+          </p>
+        </div>
+      </div>
+
+      <!-- ===== جلسه ۹ ===== -->
+      <div class="session-card">
+        <div class="session-header">
+          <div class="session-title">۰۹. نشست‌ها (Sessions) و امنیت ورود</div>
+          <a href="lesson/09.html" class="btn-lesson">ورود به جلسه ۰۹ ←</a>
+        </div>
+        <div class="topic-title">محتوای کلاس</div>
+        <ul class="content-list">
+          <li>مدیریت نشست‌ها و کار با متغیر سوپرگلوبال $_SESSION در PHP</li>
+          <li>درک مکانیزم ثبت و تفاوت کوکی‌ها (Cookies) با نشست‌های سرور</li>
+          <li>ساخت بخش لاگین و خروج (Login/Logout) ساده برای سیستم</li>
+          <li>
+            محافظت از صفحات شخصی و جلوگیری از دسترسی کاربران احرازهویت نشده
+          </li>
+        </ul>
+        <div class="practice-box">
+          <h4>تمرین عملی جلسه:</h4>
+          <p>
+            ایجاد یک پنل کاربری بسیار ساده که فقط کاربران وارد شده (Logged-in)
+            اجازه مشاهده و حذف پیام‌ها را داشته باشند.
+          </p>
+        </div>
+      </div>
+
+      <!-- ===== جلسه ۱۰ ===== -->
+      <div class="session-card">
+        <div class="session-header">
+          <div class="session-title">۱۰. مفاهیم پایه شیءگرایی و جمع‌بندی</div>
+          <a href="lesson/10.html" class="btn-lesson">ورود به جلسه ۱۰ ←</a>
+        </div>
+        <div class="topic-title">محتوای کلاس</div>
+        <ul class="content-list">
+          <li>
+            مفهوم برنامه‌نویسی شیءگرایی (OOP) چیست؟ تعریف دقیق کلاس (Class) و
+            شیء (Object)
+          </li>
+          <li>معرفی ویژگی‌ها (Properties) و متدها (Methods) در بدنه کلاس</li>
+          <li>جمع‌بندی کل دوره و یکپارچه‌سازی مفاهیم یادگرفته شده</li>
+          <li>
+            اشاره‌ای کوتاه به معماری مدرن MVC و نقشه راه آینده برای فریم‌ورک
+            لاراول (Laravel)
+          </li>
+        </ul>
+        <div class="practice-box">
+          <h4>تمرین عملی جلسه:</h4>
+          <p>
+            بازنویسی بخش اتصال به دیتابیس پروژه در قالب یک کلاس منظم و ارائه
+            راهنمایی برای شروع یادگیری لاراول.
+          </p>
+        </div>
+      </div>
+
+      <!-- ===== پروژه پایانی ===== -->
+      <div class="final-project">
+        <h3>📘 پروژه پایانی دوره: سیستم دفترچه یادداشت دیجیتال (Guestbook)</h3>
+
+        <p style="color: #b3b3b3; margin-bottom: 20px">
+          این پروژه، پیاده‌سازی عملی تمام مفاهیم آموزش داده شده در طول ۱۰ جلسه
+          است. با اجرای این پروژه، شما تمام مهارت‌های زیر را به‌کار می‌گیرید:
+        </p>
+
+        <!-- ===== مهارت‌های کاربردی ===== -->
+        <div
+          style="
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 25px;
+            direction: ltr;
+          "
+        >
+          <span
+            style="
+              background-color: #1f1414;
+              color: #ff8888;
+              padding: 4px 14px;
+              border-radius: 20px;
+              border: 1px solid #2a1212;
+              font-size: 0.85rem;
+            "
+            >HTML/CSS</span
+          >
+          <span
+            style="
+              background-color: #1f1414;
+              color: #88ff88;
+              padding: 4px 14px;
+              border-radius: 20px;
+              border: 1px solid #2a1212;
+              font-size: 0.85rem;
+            "
+            >PHP</span
+          >
+          <span
+            style="
+              background-color: #1f1414;
+              color: #88aaff;
+              padding: 4px 14px;
+              border-radius: 20px;
+              border: 1px solid #2a1212;
+              font-size: 0.85rem;
+            "
+            >MySQL</span
+          >
+          <span
+            style="
+              background-color: #1f1414;
+              color: #ffaa00;
+              padding: 4px 14px;
+              border-radius: 20px;
+              border: 1px solid #2a1212;
+              font-size: 0.85rem;
+            "
+            >MySQLi</span
+          >
+          <span
+            style="
+              background-color: #1f1414;
+              color: #ff66ff;
+              padding: 4px 14px;
+              border-radius: 20px;
+              border: 1px solid #2a1212;
+              font-size: 0.85rem;
+            "
+            >Session</span
+          >
+          <span
+            style="
+              background-color: #1f1414;
+              color: #66ffff;
+              padding: 4px 14px;
+              border-radius: 20px;
+              border: 1px solid #2a1212;
+              font-size: 0.85rem;
+            "
+            >CRUD</span
+          >
+        </div>
+
+        <!-- ===== توضیح مختصر ===== -->
+        <div
+          style="
+            background-color: #0d0d0d;
+            padding: 18px;
+            border-radius: 6px;
+            border-right: 4px solid #ff3333;
+            margin-bottom: 25px;
+          "
+        >
+          <p style="color: #e5e5e5; margin-bottom: 5px; font-size: 1.05rem">
+            📌 <strong>ایده پروژه:</strong> یک دفترچه یادداشت دیجیتال که
+            بازدیدکنندگان بتوانند پیام خود را ثبت کنند و مدیر سایت پس از ورود به
+            پنل، پیام‌ها را مدیریت کند.
+          </p>
+        </div>
+
+        <!-- ===== دو بخش اصلی پروژه ===== -->
+        <div class="output-targets">
+          <!-- ===== بخش ۱: عمومی ===== -->
+          <div class="target-card" style="border-color: #4a9eff">
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                margin-bottom: 12px;
+              "
+            >
+              <span style="font-size: 1.8rem">🌐</span>
+              <h5 style="color: #4a9eff; margin: 0; font-size: 1.1rem">
+                بخش عمومی (بازدیدکنندگان)
+              </h5>
+            </div>
+            <ul
+              style="
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                font-size: 0.95rem;
+                color: #b3b3b3;
+              "
+            >
+              <li style="padding: 4px 0; border-bottom: 1px solid #1a1a1a">
+                ✅ <strong style="color: #e5e5e5">فرم ثبت پیام</strong> — شامل
+                نام کاربری و متن پیام
+              </li>
+              <li style="padding: 4px 0; border-bottom: 1px solid #1a1a1a">
+                ✅ <strong style="color: #e5e5e5">بدون نیاز به لاگین</strong> —
+                همه می‌توانند پیام ثبت کنند
+              </li>
+              <li style="padding: 4px 0; border-bottom: 1px solid #1a1a1a">
+                ✅ <strong style="color: #e5e5e5">ذخیره در دیتابیس</strong> —
+                پیام‌ها با وضعیت "در انتظار تأیید" ذخیره می‌شوند
+              </li>
+              <li style="padding: 4px 0">
+                ✅ <strong style="color: #e5e5e5">پیام موفقیت</strong> — بعد از
+                ثبت، پیام "با موفقیت ثبت شد" نمایش داده می‌شود
+              </li>
+            </ul>
+            <div
+              style="
+                margin-top: 12px;
+                background-color: #0d0d0d;
+                padding: 8px 12px;
+                border-radius: 4px;
+                font-size: 0.85rem;
+                color: #888;
+              "
+            >
+              📄 فایل‌ها: <code style="color: #ff5252">index.php</code> —
+              <code style="color: #ff5252">save_message.php</code>
+            </div>
+          </div>
+
+          <!-- ===== بخش ۲: مدیریت ===== -->
+          <div class="target-card" style="border-color: #ff3333">
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                margin-bottom: 12px;
+              "
+            >
+              <span style="font-size: 1.8rem">🔐</span>
+              <h5 style="color: #ff3333; margin: 0; font-size: 1.1rem">
+                بخش مدیریت (خصوصی)
+              </h5>
+            </div>
+            <ul
+              style="
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                font-size: 0.95rem;
+                color: #b3b3b3;
+              "
+            >
+              <li style="padding: 4px 0; border-bottom: 1px solid #1a1a1a">
+                🔑 <strong style="color: #e5e5e5">صفحه لاگین</strong> — ورود با
+                نام کاربری و رمز عبور
+              </li>
+              <li style="padding: 4px 0; border-bottom: 1px solid #1a1a1a">
+                👁️ <strong style="color: #e5e5e5">نمایش پیام‌ها</strong> — لیست
+                کامل با تاریخ و وضعیت تأیید
+              </li>
+              <li style="padding: 4px 0; border-bottom: 1px solid #1a1a1a">
+                🗑️ <strong style="color: #e5e5e5">حذف پیام</strong> — با یک کلیک
+                (همراه با تأیید امنیتی)
+              </li>
+              <li style="padding: 4px 0">
+                🚪 <strong style="color: #e5e5e5">خروج</strong> — پایان جلسه
+                مدیریت و بازگشت به صفحه لاگین
+              </li>
+            </ul>
+            <div
+              style="
+                margin-top: 12px;
+                background-color: #0d0d0d;
+                padding: 8px 12px;
+                border-radius: 4px;
+                font-size: 0.85rem;
+                color: #888;
+              "
+            >
+              📄 فایل‌ها: <code style="color: #ff5252">login.php</code> —
+              <code style="color: #ff5252">admin.php</code> —
+              <code style="color: #ff5252">delete.php</code>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== ساختار دیتابیس ===== -->
+        <div
+          style="
+            margin-top: 25px;
+            background-color: #0d0d0d;
+            padding: 20px;
+            border-radius: 6px;
+            border: 1px solid #2a1212;
+          "
+        >
+          <h4 style="color: #ffaa00; margin-bottom: 12px">🗄️ ساختار دیتابیس</h4>
+
+          <div
+            style="
+              display: grid;
+              grid-template-columns: 1fr 1fr;
+              gap: 20px;
+              direction: ltr;
+            "
+          >
+            <!-- جدول messages -->
+            <div
+              style="
+                background-color: #161111;
+                padding: 15px;
+                border-radius: 4px;
+                border: 1px solid #2a1212;
+              "
+            >
+              <div
+                style="
+                  color: #66ff66;
+                  font-weight: bold;
+                  margin-bottom: 8px;
+                  text-align: center;
+                "
+              >
+                📝 messages
+              </div>
+              <table
+                style="
+                  width: 100%;
+                  border-collapse: collapse;
+                  font-size: 0.8rem;
+                  color: #b3b3b3;
+                "
+              >
+                <tr style="border-bottom: 1px solid #2a1212">
+                  <td style="padding: 4px">
+                    <code style="color: #ff8888">id</code>
+                  </td>
+                  <td style="padding: 4px; color: #666">INT (PK)</td>
+                  <td style="padding: 4px; color: #666">شناسه</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #2a1212">
+                  <td style="padding: 4px">
+                    <code style="color: #ff8888">username</code>
+                  </td>
+                  <td style="padding: 4px; color: #666">VARCHAR(50)</td>
+                  <td style="padding: 4px; color: #666">نام کاربری</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #2a1212">
+                  <td style="padding: 4px">
+                    <code style="color: #ff8888">message</code>
+                  </td>
+                  <td style="padding: 4px; color: #666">TEXT</td>
+                  <td style="padding: 4px; color: #666">متن پیام</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #2a1212">
+                  <td style="padding: 4px">
+                    <code style="color: #ff8888">is_approved</code>
+                  </td>
+                  <td style="padding: 4px; color: #666">TINYINT(1)</td>
+                  <td style="padding: 4px; color: #666">تأیید (۰/۱)</td>
+                </tr>
+                <tr>
+                  <td style="padding: 4px">
+                    <code style="color: #ff8888">created_at</code>
+                  </td>
+                  <td style="padding: 4px; color: #666">TIMESTAMP</td>
+                  <td style="padding: 4px; color: #666">تاریخ ثبت</td>
+                </tr>
+              </table>
+            </div>
+
+            <!-- جدول users -->
+            <div
+              style="
+                background-color: #161111;
+                padding: 15px;
+                border-radius: 4px;
+                border: 1px solid #2a1212;
+              "
+            >
+              <div
+                style="
+                  color: #4a9eff;
+                  font-weight: bold;
+                  margin-bottom: 8px;
+                  text-align: center;
+                "
+              >
+                👤 users
+              </div>
+              <table
+                style="
+                  width: 100%;
+                  border-collapse: collapse;
+                  font-size: 0.8rem;
+                  color: #b3b3b3;
+                "
+              >
+                <tr style="border-bottom: 1px solid #2a1212">
+                  <td style="padding: 4px">
+                    <code style="color: #ff8888">id</code>
+                  </td>
+                  <td style="padding: 4px; color: #666">INT (PK)</td>
+                  <td style="padding: 4px; color: #666">شناسه</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #2a1212">
+                  <td style="padding: 4px">
+                    <code style="color: #ff8888">username</code>
+                  </td>
+                  <td style="padding: 4px; color: #666">VARCHAR(50)</td>
+                  <td style="padding: 4px; color: #666">نام کاربری</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #2a1212">
+                  <td style="padding: 4px">
+                    <code style="color: #ff8888">password</code>
+                  </td>
+                  <td style="padding: 4px; color: #666">VARCHAR(255)</td>
+                  <td style="padding: 4px; color: #666">رمز عبور</td>
+                </tr>
+                <tr>
+                  <td style="padding: 4px">
+                    <code style="color: #ff8888">is_active</code>
+                  </td>
+                  <td style="padding: 4px; color: #666">TINYINT(1)</td>
+                  <td style="padding: 4px; color: #666">فعال (۰/۱)</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+
+          <div
+            style="
+              margin-top: 12px;
+              background-color: #1a1a0d;
+              padding: 10px 15px;
+              border-radius: 4px;
+              border: 1px solid #4a3a2a;
+              font-size: 0.9rem;
+              color: #ffaa00;
+              direction: rtl;
+            "
+          >
+            ⚡ <strong>کاربر پیش‌فرض مدیر:</strong>
+            <code
+              style="
+                color: #ffffff;
+                background-color: #0d0d0d;
+                padding: 2px 10px;
+                border-radius: 3px;
+              "
+              >username: admin</code
+            >
+            <span style="color: #666; margin: 0 5px">|</span>
+            <code
+              style="
+                color: #ffffff;
+                background-color: #0d0d0d;
+                padding: 2px 10px;
+                border-radius: 3px;
+              "
+              >password: admin123</code
+            >
+          </div>
+        </div>
+
+        <!-- ===== ساختار فایل‌ها ===== -->
+        <div
+          style="
+            margin-top: 20px;
+            background-color: #0d0d0d;
+            padding: 20px;
+            border-radius: 6px;
+            border: 1px solid #2a1212;
+          "
+        >
+          <h4 style="color: #66ffff; margin-bottom: 12px">
+            📁 ساختار فایل‌های پروژه
+          </h4>
+
+          <div
+            style="
+              background-color: #161111;
+              padding: 15px;
+              border-radius: 4px;
+              font-family: &quot;Consolas&quot;, monospace;
+              font-size: 0.85rem;
+              color: #b3b3b3;
+              direction: ltr;
+              overflow-x: auto;
+            "
+          >
+            <div style="color: #ffaa00">guestbook/</div>
+            <div style="padding-right: 20px">
+              <div style="color: #ff8888">├── config/</div>
+              <div style="padding-right: 20px; color: #88ff88">
+                │ └── db.php
+              </div>
+              <div style="color: #ff8888">├── functions/</div>
+              <div style="padding-right: 20px; color: #88ff88">
+                │ └── session.php
+              </div>
+              <div style="color: #88ff88">├── index.php</div>
+              <div style="color: #88ff88">├── save_message.php</div>
+              <div style="color: #88ff88">├── login.php</div>
+              <div style="color: #88ff88">├── login_process.php</div>
+              <div style="color: #88ff88">├── logout.php</div>
+              <div style="color: #88ff88">├── admin.php</div>
+              <div style="color: #88ff88">└── delete.php</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== جریان کار ===== -->
+        <div
+          style="
+            margin-top: 20px;
+            background-color: #0d0d0d;
+            padding: 20px;
+            border-radius: 6px;
+            border: 1px solid #2a1212;
+          "
+        >
+          <h4 style="color: #66ff66; margin-bottom: 12px">
+            🔄 جریان کار پروژه
+          </h4>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px">
+            <!-- جریان کاربر -->
+            <div
+              style="
+                background-color: #161111;
+                padding: 15px;
+                border-radius: 4px;
+                border-right: 3px solid #4a9eff;
+              "
+            >
+              <div
+                style="color: #4a9eff; font-weight: bold; margin-bottom: 8px"
+              >
+                🌐 کاربر معمولی
+              </div>
+              <ol
+                style="
+                  margin: 0;
+                  padding-right: 20px;
+                  color: #b3b3b3;
+                  font-size: 0.9rem;
+                "
+              >
+                <li style="margin-bottom: 4px">
+                  وارد <code style="color: #ff5252">index.php</code> می‌شود
+                </li>
+                <li style="margin-bottom: 4px">
+                  فرم را پر می‌کند (نام + پیام)
+                </li>
+                <li style="margin-bottom: 4px">دکمه ارسال را می‌زند</li>
+                <li style="margin-bottom: 4px">
+                  داده به
+                  <code style="color: #ff5252">save_message.php</code> می‌رود
+                </li>
+                <li style="margin-bottom: 4px">پیام در دیتابیس ذخیره می‌شود</li>
+                <li>پیام موفقیت نمایش داده می‌شود ✅</li>
+              </ol>
+            </div>
+
+            <!-- جریان مدیر -->
+            <div
+              style="
+                background-color: #161111;
+                padding: 15px;
+                border-radius: 4px;
+                border-right: 3px solid #ff3333;
+              "
+            >
+              <div
+                style="color: #ff3333; font-weight: bold; margin-bottom: 8px"
+              >
+                🔐 مدیر سایت
+              </div>
+              <ol
+                style="
+                  margin: 0;
+                  padding-right: 20px;
+                  color: #b3b3b3;
+                  font-size: 0.9rem;
+                "
+              >
+                <li style="margin-bottom: 4px">
+                  وارد <code style="color: #ff5252">login.php</code> می‌شود
+                </li>
+                <li style="margin-bottom: 4px">
+                  نام کاربری و رمز را وارد می‌کند
+                </li>
+                <li style="margin-bottom: 4px">
+                  داده به
+                  <code style="color: #ff5252">login_process.php</code> می‌رود
+                </li>
+                <li style="margin-bottom: 4px">
+                  اطلاعات در دیتابیس بررسی می‌شود
+                </li>
+                <li style="margin-bottom: 4px">
+                  اگر درست بود → وارد
+                  <code style="color: #ff5252">admin.php</code> می‌شود
+                </li>
+                <li style="margin-bottom: 4px">لیست پیام‌ها را می‌بیند</li>
+                <li style="margin-bottom: 4px">
+                  روی حذف کلیک می‌کند → پیام حذف می‌شود
+                </li>
+                <li>روی خروج کلیک می‌کند → به لاگین برمی‌گردد</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== چک‌لیست نهایی ===== -->
+        <div
+          style="
+            margin-top: 20px;
+            background-color: #0d1a0d;
+            padding: 20px;
+            border-radius: 6px;
+            border: 1px solid #2a4a2a;
+          "
+        >
+          <h4 style="color: #66ff66; margin-bottom: 12px">
+            ✅ چک‌لیست تحویل پروژه
+          </h4>
+
+          <div
+            style="
+              display: grid;
+              grid-template-columns: 1fr 1fr;
+              gap: 10px;
+              font-size: 0.9rem;
+            "
+          >
+            <div
+              style="
+                background-color: #161111;
+                padding: 8px 12px;
+                border-radius: 4px;
+                color: #88ff88;
+              "
+            >
+              ✅ کاربر می‌تواند پیام ثبت کند
+            </div>
+            <div
+              style="
+                background-color: #161111;
+                padding: 8px 12px;
+                border-radius: 4px;
+                color: #88ff88;
+              "
+            >
+              ✅ پیام در دیتابیس ذخیره می‌شود
+            </div>
+            <div
+              style="
+                background-color: #161111;
+                padding: 8px 12px;
+                border-radius: 4px;
+                color: #88ff88;
+              "
+            >
+              ✅ مدیر می‌تواند لاگین کند
+            </div>
+            <div
+              style="
+                background-color: #161111;
+                padding: 8px 12px;
+                border-radius: 4px;
+                color: #88ff88;
+              "
+            >
+              ✅ مدیر می‌تواند پیام‌ها را ببیند
+            </div>
+            <div
+              style="
+                background-color: #161111;
+                padding: 8px 12px;
+                border-radius: 4px;
+                color: #88ff88;
+              "
+            >
+              ✅ مدیر می‌تواند پیام‌ها را حذف کند
+            </div>
+            <div
+              style="
+                background-color: #161111;
+                padding: 8px 12px;
+                border-radius: 4px;
+                color: #88ff88;
+              "
+            >
+              ✅ بدون لاگین به admin.php دسترسی ندارد
+            </div>
+            <div
+              style="
+                background-color: #161111;
+                padding: 8px 12px;
+                border-radius: 4px;
+                color: #88ff88;
+              "
+            >
+              ✅ دکمه خروج کار می‌کند
+            </div>
+            <div
+              style="
+                background-color: #161111;
+                padding: 8px 12px;
+                border-radius: 4px;
+                color: #88ff88;
+              "
+            >
+              ✅ کدها با MySQLi و Prepared Statements نوشته شده‌اند
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== پیام پایانی ===== -->
+        <div
+          style="
+            margin-top: 25px;
+            padding: 18px;
+            background-color: #1f1414;
+            border-radius: 6px;
+            border: 1px dashed #ff3333;
+            text-align: center;
+          "
+        >
+          <p style="color: #ff8888; font-size: 1.1rem; margin: 0">
+            🎯 <strong>هدف نهایی:</strong> پیاده‌سازی یک پروژه کامل از صفر تا صد
+            با تمام مفاهیم دوره
+          </p>
+          <p style="color: #666; font-size: 0.9rem; margin-top: 8px">
+            موفق باشید! 🚀
+          </p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

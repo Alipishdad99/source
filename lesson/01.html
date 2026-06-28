@@ -1,0 +1,491 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      جلسه ۰۱: معماری وب، ساختار فرم‌ها و پایه‌های فرانت‌اند برای بک‌اند
+    </title>
+    <style>
+      /* ===== RESET & BASE ===== */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        background-color: #0d0d0d;
+        color: #e5e5e5;
+        line-height: 1.8;
+        padding: 40px 20px;
+      }
+
+      .container {
+        max-width: 950px;
+        margin: 0 auto;
+      }
+
+      /* ===== LINKS ===== */
+      .back-link {
+        color: #ff3333;
+        text-decoration: none;
+        font-size: 0.9rem;
+        display: inline-block;
+        margin-bottom: 25px;
+        font-weight: bold;
+      }
+
+      .back-link:hover {
+        text-decoration: underline;
+      }
+
+      /* ===== HEADINGS ===== */
+      h1 {
+        color: #ffffff;
+        font-size: 2.2rem;
+        margin-bottom: 10px;
+        border-bottom: 2px solid #ff3333;
+        padding-bottom: 15px;
+        font-weight: 800;
+      }
+
+      h2 {
+        color: #ff3333;
+        font-size: 1.5rem;
+        margin-top: 40px;
+        margin-bottom: 15px;
+        border-bottom: 1px dashed #2a1212;
+        padding-bottom: 5px;
+      }
+
+      h3 {
+        color: #ffffff;
+        font-size: 1.2rem;
+        margin-top: 25px;
+        margin-bottom: 10px;
+      }
+
+      /* ===== SECTIONS ===== */
+      .section-block {
+        background-color: #161111;
+        border: 1px solid #2a1212;
+        padding: 30px;
+        border-radius: 6px;
+        margin-bottom: 30px;
+      }
+
+      /* ===== PARAGRAPHS & LISTS ===== */
+      p {
+        margin-bottom: 15px;
+        color: #b3b3b3;
+        text-align: justify;
+      }
+
+      ul,
+      ol {
+        margin-right: 25px;
+        margin-bottom: 20px;
+      }
+
+      li {
+        margin-bottom: 10px;
+        color: #cccccc;
+      }
+
+      /* ===== CODE ===== */
+      code {
+        background-color: #241414;
+        color: #ff5252;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-family: "Courier New", Courier, monospace;
+        font-size: 0.95rem;
+        border: 1px solid #421818;
+      }
+
+      pre {
+        background-color: #1a1212;
+        border: 1px solid #2a1212;
+        padding: 18px;
+        border-radius: 6px;
+        overflow-x: auto;
+        margin: 20px 0;
+        direction: ltr;
+        text-align: left;
+      }
+
+      pre code {
+        color: #f8f8f2;
+        background: none;
+        padding: 0;
+        border: none;
+        font-size: 0.9rem;
+        line-height: 1.6;
+        font-family: "Consolas", monospace;
+        white-space: pre;
+      }
+
+      /* ===== TEACHER SPEECH BOX ===== */
+      .teacher-speech {
+        background-color: #241414;
+        border-right: 4px solid #ff3333;
+        padding: 18px;
+        border-radius: 0 6px 6px 0;
+        margin: 20px 0;
+        color: #ffbaba;
+      }
+
+      .teacher-speech strong {
+        color: #ffffff;
+        display: block;
+        margin-bottom: 8px;
+        font-size: 1.05rem;
+      }
+
+      /* ===== CHALLENGE BOX ===== */
+      .challenge-box {
+        background-color: #2a1010;
+        border-right: 4px solid #ff1111;
+        padding: 18px;
+        border-radius: 0 6px 6px 0;
+        margin: 20px 0;
+        color: #ffcccc;
+      }
+
+      /* ===== BOARD MOCKUP ===== */
+      .board-mockup {
+        background-color: #1a0505;
+        border: 2px solid #4a1212;
+        padding: 20px;
+        border-radius: 6px;
+        font-family: "Courier New", monospace;
+        font-size: 0.85rem;
+        color: #ff8888;
+        white-space: pre-wrap;
+        direction: ltr;
+        overflow-x: auto;
+        margin: 20px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- ===== BACK LINK ===== -->
+      <a href="../syllabus.html" class="back-link"
+        >← بازگشت به جدول اصلی سرفصل‌ها</a
+      >
+
+      <!-- ===== HEADER ===== -->
+      <h1>
+        جلسه ۰۱: معماری وب، ساختار فرم‌ها و پایه‌های فرانت‌اند برای بک‌اند
+      </h1>
+      <p style="color: #ff3333; font-weight: bold; font-size: 1.1rem">
+        مدت زمان تدریس: ۱۲۰ دقیقه کات شده | تمرکز مطلق: فهم جریان داده، ساختار
+        معنایی عناصر فرم و صفت هویت‌ساز بک‌اند (name)
+      </p>
+
+      <!-- ===== SECTION 1: TIMING ===== -->
+      <div class="section-block">
+        <h2>بخش اول: زمان‌بندی و ساختار مهندسی شده جلسه (۱۲۰ دقیقه)</h2>
+        <p>
+          مدرس باید زمان را به شدت مدیریت کند تا کارگاه عملی فدای تئوری‌بافی
+          نشود. ساختار به شرح زیر است:
+        </p>
+        <ol>
+          <li>
+            <strong
+              >یخ‌شکنی، قوانین کلاس و سناریوی کلاینت-سرور (۳۰ دقیقه):</strong
+            >
+            تبیین قرارداد کلاس، تشریح معماری با متدولوژی رستوران و رسم مستند فنی
+            روی تخته.
+          </li>
+          <li>
+            <strong>کدنویسی زنده فرم ثبت‌نام (۴۵ دقیقه):</strong>
+            ایجاد فایل <code>register.html</code> با مشارکت دانشجویان و
+            کالبدشکافی تگ‌ها و صفات کلیدی.
+          </li>
+          <li>
+            <strong>تمرین کلاسی سناریومحور (۳۰ دقیقه):</strong>
+            رها کردن دانشجویان در چالش توسعه فرم و اضافه کردن فیلدهای پیشرفته
+            تحت نظارت مدرس.
+          </li>
+          <li>
+            <strong>جمع‌بندی و بررسی ارورها (۱۵ دقیقه):</strong>
+            شبیه‌سازی رفتارهای مخرب مرورگر و تحلیل خطاها.
+          </li>
+        </ol>
+      </div>
+
+      <!-- ===== SECTION 2: OPENING SCENARIO ===== -->
+      <div class="section-block">
+        <h2>بخش دوم: سناریوی گفتاری و شروع کلاس (۳۰ دقیقه)</h2>
+
+        <h3>۱. یخ‌شکنی و قانون اول برنامه‌نویسی</h3>
+        <div class="teacher-speech">
+          <strong>🗣 کلمه به کلمه چه بگویید:</strong>
+          «سلام به همگی. به دنیای برنامه‌نویسی بک‌اند خوش آمدید. قبل از اینکه
+          اولین خط کدمون رو بنویسیم، می‌خوام یک قرارداد با هم ببندیم: توی این
+          کلاس هیچ‌کس حق نداره کدی رو کپی کنه بدون اینکه بفهمه اون خط دقیقاً
+          داره چیکار می‌کنه. برنامه‌نویس خوب کسی نیست که کدهای زیادی حفظ باشه،
+          کسیه که می‌دونه چطور فکر کنه و چطور ارورها رو حل کنه. از همین امروز،
+          هر اروری که دیدید، به چشم یک فرصت برای یادگیری بهش نگاه کنید.»
+        </div>
+
+        <h3>۲. تفهیم معماری کلاینت-سرور با "سناریوی رستوران"</h3>
+        <div class="teacher-speech">
+          <strong>🗣 کلمه به کلمه چه بگویید:</strong>
+          «وقتی مرورگر گوشی‌تون رو باز می‌کنید و می‌نویسید google.com و دکمه
+          اینتر رو می‌زنید، دقیقاً چه اتفاقی میفته؟ بیایید وب رو مثل یک رستوران
+          بزرگ تصور کنیم: ۱.
+          <strong>مشتری (کلاینت یا همان مرورگر شما):</strong> شما روی صندلی
+          رستوران نشسته‌اید. ظاهر شیک رستوران، نورپردازی، چیدمان میزها و منویی
+          که دست شماست، همگی همان فرانت‌اند (HTML/CSS) هستند. شما منو را نگاه
+          می‌کنید و یک پیتزا سفارش می‌دهید. این عمل، فرستادن یک درخواست
+          (Request) است. ۲.
+          <strong>گارسون (پروتکل انتقال یا HTTP):</strong> گارسون سفارش شما را
+          یادداشت می‌کند و با خود به آشپزخانه می‌برد. او وظیفه جابه‌جایی پیام
+          بین شما و آشپزخانه را دارد. ۳.
+          <strong>سرآشپز در آشپزخانه (بک‌اند یا سرور PHP):</strong> اینجا
+          همان‌جایی است که مشتری حق ورود به آن را ندارد! کدهای بک‌اند اینجا اجرا
+          می‌شوند. سرآشپز سفارش را می‌گیرد و پردازش می‌کند. ۴.
+          <strong>یخچال مواد اولیه (پایگاه داده یا دیتابیس MySQL):</strong>
+          سرآشپز برای پختن پیتزا به مواد اولیه (پنیر، قارچ، خمیر) نیاز دارد. او
+          به سراغ یخچال می‌رود، مواد را برمی‌دارد (اجرای دستورات SQL)، غذا را
+          طبخ می‌کند و آن را درون یک ظرف می‌گذارد و به گارسون می‌دهد. گارسون ظرف
+          پیتزای آماده (کدهای تبدیل‌شده به HTML ساده) را روی میز شما می‌گذارد.
+          بچه‌ها! مرورگر شما (کروم، فایرفاکس) به هیچ وجه متوجه کدهای PHP
+          نمی‌شود. مرورگر فقط HTML و CSS را می‌فهمد. کار ما در بک‌اند این است که
+          در آشپزخانه پردازش‌ها را انجام دهیم، اطلاعات را از دیتابیس بگیریم و در
+          نهایت یک خروجی تمیز از جنس HTML تحویل گارسون (مرورگر) دهیم.»
+        </div>
+      </div>
+
+      <!-- ===== SECTION 3: LIVE CODING ===== -->
+      <div class="section-block">
+        <h2>بخش سوم: تدریس عملی و کدنویسی زنده (۴۵ دقیقه)</h2>
+
+        <div class="teacher-speech">
+          <strong>🗣 کلمه به کلمه چه بگویید:</strong>
+          «بسیار خب، حالا که منطق سیستم رو فهمیدیم، می‌خوایم اولین فرم ثبت‌نام
+          وب‌سایتمون رو بسازیم. تمام ارتباط ما به عنوان برنامه‌نویس بک‌اند با
+          کاربر، از طریق همین فرم‌هاست. کاربر اطلاعات رو وارد می‌کنه و ما باید
+          اون‌ها رو بگیریم. ادیتور (VS Code) رو باز کنید و فایلی به اسم
+          register.html بسازید.»
+        </div>
+
+        <h3>کدهای کامل فایل register.html (با اعمال استایل فرم قرمز):</h3>
+
+        <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="fa" dir="rtl"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;صفحه عضویت کاربر&lt;/title&gt;
+
+    &lt;style&gt;
+        /* ===== RESET & BASE ===== */
+        body {
+            font-family: 'Tahoma', sans-serif;
+            background-color: #0d0d0d;
+            color: #e5e5e5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* ===== FORM CARD ===== */
+        .form-card {
+            background: #161111;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(255, 51, 51, 0.1);
+            width: 320px;
+            border: 1px solid #2a1212;
+        }
+
+        .form-card h2 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 20px;
+            color: #ffffff;
+            text-align: center;
+        }
+
+        /* ===== INPUT GROUP ===== */
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 13px;
+            color: #ff3333;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            background-color: #0d0d0d;
+            border: 1px solid #2a1212;
+            color: #fff;
+            border-radius: 5px;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        .input-group input:focus {
+            border-color: #ff3333;
+        }
+
+        /* ===== SUBMIT BUTTON ===== */
+        .btn-submit {
+            width: 100%;
+            padding: 11px;
+            background-color: #ff3333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        .btn-submit:hover {
+            background-color: #cc0000;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+
+    &lt;div class="form-card"&gt;
+        &lt;h2&gt;عضویت سریع&lt;/h2&gt;
+
+        &lt;!-- ===== FORM ===== --&gt;
+        &lt;form action="process.php" method="POST"&gt;
+
+            &lt;div class="input-group"&gt;
+                &lt;label for="username"&gt;نام کاربری:&lt;/label&gt;
+                &lt;input type="text" id="username" name="username" required placeholder="مثال: ali_developer"&gt;
+            &lt;/div&gt;
+
+            &lt;div class="input-group"&gt;
+                &lt;label for="email"&gt;ایمیل:&lt;/label&gt;
+                &lt;input type="email" id="email" name="email" required placeholder="info@site.com"&gt;
+            &lt;/div&gt;
+
+            &lt;div class="input-group"&gt;
+                &lt;label for="password"&gt;رمز عبور:&lt;/label&gt;
+                &lt;input type="password" id="password" name="password" required&gt;
+            &lt;/div&gt;
+
+            &lt;button type="submit" class="btn-submit"&gt;ثبت اطلاعات کاربر&lt;/button&gt;
+
+        &lt;/form&gt;
+    &lt;/div&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+        <h3>تحلیل عمیق و سخت‌گیرانه صفات (این موارد را روی تخته بنویسید):</h3>
+
+        <ul>
+          <li>
+            <strong><code>action="process.php"</code>:</strong>
+            نقشه مقصد! این صفت به مرورگر می‌گوید پس از کلیک روی دکمه سابمیت،
+            اطلاعات را بسته‌بندی کرده و به کدام فایل روی سرور تحویل دهد. اگر
+            خالی باشد، داده‌ها به همین صفحه فعلی بازمی‌گردند و فرم مجدداً لود
+            می‌شود.
+          </li>
+
+          <li>
+            <strong><code>method="POST"</code>:</strong>
+            کانال انتقال امن.
+            <br />
+            • <code>GET</code>: اطلاعات فرم را به انتهای URL می‌چسباند (لو دادن
+            داده‌ها در نوار آدرس). دارای محدودیت حجم (حداکثر ۲۰۴۸ کاراکتر). برای
+            موتورهای جستجو و فیلتر محصولات خوب است اما برای لاگین و ثبت‌نام یک
+            فاجعه امنیتی است.
+            <br />
+            • <code>POST</code>: اطلاعات را در بدنه درخواست (HTTP Body) پنهان
+            می‌کند. بدون محدودیت حجم و کاملاً امن برای انتقال رمزهای عبور.
+          </li>
+
+          <li>
+            <strong><code>name="username"</code>:</strong>
+            هویت بک‌ایندی فیلد! شناسه <code>id</code> برای استایل‌دهی CSS و
+            کدهای جاوااسکریپت در فرانت‌اند است. موتور PHP فیلدها را فقط و فقط بر
+            اساس مقدار صفت <code>name</code> می‌شناسد. اگر این صفت را ننویسید،
+            در سمت سرور هیچ چیزی دریافت نخواهید کرد!
+          </li>
+        </ul>
+
+        <div class="challenge-box">
+          <strong>🚨 چالش مربیگری (زیر سؤال بردن درک دانشجویان):</strong>
+          همین‌جا متوقف شوید. کد یکی از دانشجویان را تغییر دهید؛ صفت
+          <code>name</code> را پاک کنید و به جایش یک <code>id</code> بگذارید.
+          بپرسید: «اگر الان کاربر دکمه ارسال رو بزنه، PHP چطور بفهمه این متن مال
+          فیلد نام کاربریه یا فیلد رمز عبور؟» بگذارید چند لحظه با این مجهول
+          دست‌وپنجه نرم کنند تا ارزش <code>name</code> را تا انتهای دوره فراموش
+          نکنند.
+        </div>
+      </div>
+
+      <!-- ===== SECTION 4: CLASSROOM CHALLENGE ===== -->
+      <div class="section-block">
+        <h2>
+          بخش چهارم: تمرین کلاسی سناریومحور و مکانیسم رفع اشکال (۴۰ دقیقه)
+        </h2>
+
+        <div class="teacher-speech">
+          <strong>🗣 مأموریت کلاسی:</strong>
+          «حالا نوبت شماست. همین فرم را روی سیستم خود پیاده کنید. سپس دو تغییر
+          زیر را در آن اعمال کنید که برای پروژه پایانی‌مون حیاتیه: ۱. یک فیلد
+          منوی کشویی (تگ <code>&lt;select&gt;</code>) برای انتخاب "نوع نقش
+          کاربر" (شامل گزینه‌های: کاربر عادی، نویسنده، مدیر) به فرم اضافه کنید.
+          ۲. یک فیلد چک‌باکس برای "قبول قوانین سایت" اضافه کنید که کاربر تا تیک
+          آن را نزند، فرم ارسال نشود.»
+        </div>
+
+        <h3>راهنمای رفتاری مدرس برای حل ارورها (بدون لو دادن پاسخ مستقیم):</h3>
+
+        <h3>
+          چالش ۱: دانشجو منوی کشویی ساخته اما نمی‌داند مقدار ارسالی چطور تعیین
+          می‌شود.
+        </h3>
+        <p>
+          <strong>برخورد مربی:</strong>
+          بالای سر او بروید و بپرسید: «تگ <code>select</code> صفت
+          <code>name</code> داره؟ تگ‌های <code>option</code> داخلیش چطور؟ صفت
+          <code>value</code> رو براشون گذاشتی؟ اگه نذاری، سرور از کجا بفهمه کدوم
+          گزینه انتخاب شده؟»
+        </p>
+
+        <h3>
+          چالش ۲: دانشجو کدهای CSS را نوشته اما ظاهر فرم هیچ تغییری نکرده است.
+        </h3>
+        <p>
+          <strong>برخورد مربی:</strong>
+          بپرسید: «تگ <code>&lt;style&gt;</code> رو دقیقاً کجا باز کردی؟ آیا
+          مطمئنی داخل محدوده <code>&lt;head&gt;</code> هست؟ غلط املایی در
+          سلکتورها داری؟ باز و بسته شدن تگ‌ها رو چک کن.» اجازه دهید خودش با
+          ابزار Inspect مرورگر خطا را کشف کند.
+        </p>
+
+        <div class="challenge-box">
+          <strong>🎯 خروجی نهایی قابل قبول:</strong>
+          در انتهای این جلسه، تمام دانشجویان باید پوشه‌ای به نام
+          <code>lesson</code> داشته باشند که فایل <code>01.html</code> (شامل فرم
+          کامل شده به همراه فیلدهای نقش کاربر و چک‌باکس قوانین) بدون خطای
+          سینتکسی در آن به درستی رندر شود. این فرم، سنگ بنای ورودی کل سیستم
+          Guestbook ما خواهد بود.
+        </div>
+      </div>
+    </div>
+    <!-- END container -->
+  </body>
+</html>

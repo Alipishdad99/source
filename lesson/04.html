@@ -1,0 +1,1353 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>جلسه ۰۴: توابع و مدیریت ورودی‌های فرم</title>
+
+    <style>
+      /* ===== RESET & BASE ===== */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        background-color: #0d0d0d;
+        color: #e5e5e5;
+        line-height: 1.8;
+        padding: 40px 20px;
+      }
+
+      .container {
+        max-width: 950px;
+        margin: 0 auto;
+      }
+
+      /* ===== LINKS ===== */
+      .back-link {
+        color: #ff3333;
+        text-decoration: none;
+        font-size: 0.9rem;
+        display: inline-block;
+        margin-bottom: 25px;
+        font-weight: bold;
+      }
+
+      .back-link:hover {
+        text-decoration: underline;
+      }
+
+      /* ===== HEADINGS ===== */
+      h1 {
+        color: #ffffff;
+        font-size: 2.2rem;
+        margin-bottom: 10px;
+        border-bottom: 2px solid #ff3333;
+        padding-bottom: 15px;
+        font-weight: 800;
+      }
+
+      h2 {
+        color: #ff3333;
+        font-size: 1.5rem;
+        margin-top: 40px;
+        margin-bottom: 15px;
+        border-bottom: 1px dashed #2a1212;
+        padding-bottom: 5px;
+      }
+
+      h3 {
+        color: #ffffff;
+        font-size: 1.2rem;
+        margin-top: 25px;
+        margin-bottom: 10px;
+      }
+
+      h4 {
+        color: #ff8888;
+        font-size: 1.05rem;
+        margin-top: 20px;
+        margin-bottom: 8px;
+      }
+
+      /* ===== SECTIONS ===== */
+      .section-block {
+        background-color: #161111;
+        border: 1px solid #2a1212;
+        padding: 30px;
+        border-radius: 6px;
+        margin-bottom: 30px;
+      }
+
+      /* ===== PARAGRAPHS & LISTS ===== */
+      p {
+        margin-bottom: 15px;
+        color: #b3b3b3;
+        text-align: justify;
+      }
+
+      ul,
+      ol {
+        margin-right: 25px;
+        margin-bottom: 20px;
+      }
+
+      li {
+        margin-bottom: 10px;
+        color: #cccccc;
+      }
+
+      /* ===== CODE ===== */
+      code {
+        background-color: #241414;
+        color: #ff5252;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-family: "Courier New", Courier, monospace;
+        font-size: 0.95rem;
+        border: 1px solid #421818;
+      }
+
+      pre {
+        background-color: #1a1212;
+        border: 1px solid #2a1212;
+        padding: 18px;
+        border-radius: 6px;
+        overflow-x: auto;
+        margin: 20px 0;
+        direction: ltr;
+        text-align: left;
+      }
+
+      pre code {
+        color: #f8f8f2;
+        background: none;
+        padding: 0;
+        border: none;
+        font-size: 0.9rem;
+        line-height: 1.7;
+        font-family: "Consolas", monospace;
+        white-space: pre;
+      }
+
+      /* ===== TEACHER SPEECH BOX ===== */
+      .teacher-speech {
+        background-color: #241414;
+        border-right: 4px solid #ff3333;
+        padding: 18px;
+        border-radius: 0 6px 6px 0;
+        margin: 20px 0;
+        color: #ffbaba;
+      }
+
+      .teacher-speech strong {
+        color: #ffffff;
+        display: block;
+        margin-bottom: 8px;
+        font-size: 1.05rem;
+      }
+
+      /* ===== CHALLENGE BOX ===== */
+      .challenge-box {
+        background-color: #2a1010;
+        border-right: 4px solid #ff1111;
+        padding: 18px;
+        border-radius: 0 6px 6px 0;
+        margin: 20px 0;
+        color: #ffcccc;
+      }
+
+      /* ===== INFO BOX ===== */
+      .info-box {
+        background-color: #1a1a2e;
+        border-right: 4px solid #4a9eff;
+        padding: 18px;
+        border-radius: 0 6px 6px 0;
+        margin: 20px 0;
+        color: #aaccff;
+      }
+
+      .info-box strong {
+        color: #ffffff;
+        display: block;
+        margin-bottom: 8px;
+        font-size: 1.05rem;
+      }
+
+      /* ===== SUCCESS BOX ===== */
+      .success-box {
+        background-color: #0d1a0d;
+        border-right: 4px solid #66ff66;
+        padding: 18px;
+        border-radius: 0 6px 6px 0;
+        margin: 20px 0;
+        color: #88ff88;
+      }
+
+      .success-box strong {
+        color: #ffffff;
+        display: block;
+        margin-bottom: 8px;
+        font-size: 1.05rem;
+      }
+
+      /* ===== ERROR BOX ===== */
+      .error-box {
+        background-color: #1a0d0d;
+        border-right: 4px solid #ff4444;
+        padding: 18px;
+        border-radius: 0 6px 6px 0;
+        margin: 20px 0;
+        color: #ff8888;
+      }
+
+      .error-box strong {
+        color: #ffffff;
+        display: block;
+        margin-bottom: 8px;
+        font-size: 1.05rem;
+      }
+
+      /* ===== TABLE STYLES ===== */
+      .data-table {
+        width: 100%;
+        border-collapse: collapse;
+        color: #e5e5e5;
+        background-color: #0d0d0d;
+        border: 1px solid #2a1212;
+        margin: 15px 0;
+        direction: ltr;
+      }
+
+      .data-table th {
+        background-color: #2a1212;
+        padding: 10px;
+        border: 1px solid #3a1a1a;
+        text-align: center;
+      }
+
+      .data-table td {
+        padding: 10px;
+        border: 1px solid #3a1a1a;
+        text-align: center;
+      }
+
+      /* ===== FUNCTION VISUAL ===== */
+      .function-visual {
+        background-color: #0d0d0d;
+        border: 1px solid #2a1212;
+        padding: 20px;
+        border-radius: 6px;
+        margin: 15px 0;
+        direction: ltr;
+        text-align: left;
+      }
+
+      .function-visual .flow {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        padding: 15px;
+      }
+
+      .function-visual .flow .box {
+        background-color: #161111;
+        border: 1px solid #2a1212;
+        padding: 10px 20px;
+        border-radius: 4px;
+        text-align: center;
+      }
+
+      .function-visual .flow .box.input {
+        border-color: #4a9eff;
+      }
+
+      .function-visual .flow .box.process {
+        border-color: #ff3333;
+        background-color: #1a0d0d;
+      }
+
+      .function-visual .flow .box.output {
+        border-color: #66ff66;
+      }
+
+      .function-visual .flow .arrow {
+        color: #666;
+        font-size: 1.5rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- ===== BACK LINK ===== -->
+      <a href="../syllabus.html" class="back-link"
+        >← بازگشت به جدول اصلی سرفصل‌ها</a
+      >
+
+      <!-- ===== HEADER ===== -->
+      <h1>جلسه ۰۴: توابع و مدیریت ورودی‌های فرم</h1>
+      <p style="color: #ff3333; font-weight: bold; font-size: 1.1rem">
+        مدت زمان تدریس: ۱۲۰ دقیقه | هدف: دریافت داده از فرم، اعتبارسنجی با توابع
+        و نمایش خطاهای داینامیک
+      </p>
+
+      <!-- ============================================================ -->
+      <!-- SECTION 1: TIMING -->
+      <!-- ============================================================ -->
+      <div class="section-block">
+        <h2>بخش اول: زمان‌بندی جلسه (۱۲۰ دقیقه)</h2>
+        <p>
+          این جلسه یکی از مهم‌ترین جلسات دوره است. دانشجویان یاد می‌گیرند چگونه
+          داده‌های کاربر را دریافت کنند، آن‌ها را اعتبارسنجی کنند و با استفاده
+          از توابع، کدهای خود را سازماندهی کنند.
+        </p>
+        <ol>
+          <li>
+            <strong>مرور فرم‌ها و متدهای GET/POST (۲۰ دقیقه):</strong>
+            مرور فرم جلسه اول، تفاوت GET و POST، کاربرد هر کدام.
+          </li>
+          <li>
+            <strong>متغیرهای سوپرگلوبال $_GET و $_POST (۳۰ دقیقه):</strong>
+            نحوه دریافت داده از فرم، بررسی وجود داده، نمایش داده‌ها.
+          </li>
+          <li>
+            <strong>تعریف و استفاده از توابع (۳۰ دقیقه):</strong>
+            ساختار توابع، آرگومان‌ها، مقدار بازگشتی، دامنه متغیرها.
+          </li>
+          <li>
+            <strong>تمرین عملی: اعتبارسنجی فرم ثبت‌نام (۴۰ دقیقه):</strong>
+            دریافت داده، اعتبارسنجی با توابع، نمایش پیام‌های خطا و موفقیت.
+          </li>
+        </ol>
+
+        <div class="info-box">
+          <strong>📌 نکته مهم برای مدرس:</strong>
+          در این جلسه، دانشجویان با دو مفهوم کلیدی آشنا می‌شوند:
+          <ul>
+            <li>
+              <strong>ارتباط با کاربر:</strong> چگونه داده‌های فرم را دریافت
+              کنیم.
+            </li>
+            <li>
+              <strong>سازماندهی کد:</strong> چگونه با توابع، کدهای خود را تمیز و
+              قابل استفاده مجدد کنیم.
+            </li>
+          </ul>
+          تأکید کنید که <strong>اعتبارسنجی (Validation)</strong> یکی از مهم‌ترین
+          مباحث امنیتی است. هیچ‌گاه به داده‌های ورودی کاربر اعتماد نکنید!
+        </div>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- SECTION 2: GET & POST -->
+      <!-- ============================================================ -->
+      <div class="section-block">
+        <h2>بخش دوم: متغیرهای سوپرگلوبال $_GET و $_POST (۳۰ دقیقه)</h2>
+
+        <div class="teacher-speech">
+          <strong>🗣 کلمه به کلمه چه بگویید:</strong>
+          «تا الان فرم‌هایی ساختیم که فقط ظاهر داشتند و هیچ کاری نمی‌کردند.
+          امروز قرار است به این فرم‌ها جان بدهیم! وقتی کاربر روی دکمه ارسال کلیک
+          می‌کند، داده‌های فرم به سرور فرستاده می‌شوند. در PHP، این داده‌ها را
+          با استفاده از <strong>متغیرهای سوپرگلوبال</strong> دریافت می‌کنیم. دو
+          متغیر سوپرگلوبال مهم برای دریافت داده‌های فرم: ۱. <code>$_GET</code> →
+          برای داده‌هایی که با متد GET ارسال می‌شوند. ۲. <code>$_POST</code> →
+          برای داده‌هایی که با متد POST ارسال می‌شوند. این متغیرها در همه جای
+          برنامه در دسترس هستند (سوپرگلوبال یعنی همه‌جا قابل دسترس).»
+        </div>
+
+        <h3>۱. تفاوت GET و POST:</h3>
+
+        <div style="overflow-x: auto; margin: 15px 0; direction: ltr">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>ویژگی</th>
+                <th>GET</th>
+                <th>POST</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>مکان داده</td>
+                <td>در URL (نوار آدرس)</td>
+                <td>در بدنه درخواست (HTTP Body)</td>
+              </tr>
+              <tr>
+                <td>قابلیت مشاهده</td>
+                <td>قابل مشاهده برای همه</td>
+                <td>پنهان (در URL دیده نمی‌شود)</td>
+              </tr>
+              <tr>
+                <td>محدودیت حجم</td>
+                <td>حداکثر ۲۰۴۸ کاراکتر</td>
+                <td>بدون محدودیت (تا چند مگابایت)</td>
+              </tr>
+              <tr>
+                <td>قابل نشانه‌گذاری (Bookmark)</td>
+                <td>بله</td>
+                <td>خیر</td>
+              </tr>
+              <tr>
+                <td>ایمنی برای رمز عبور</td>
+                <td>❌ خطرناک</td>
+                <td>✅ امن</td>
+              </tr>
+              <tr>
+                <td>کاربرد اصلی</td>
+                <td>جستجو، فیلتر، صفحه‌بندی</td>
+                <td>ثبت‌نام، لاگین، فرم‌های طولانی</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="info-box">
+          <strong>📌 قانون طلایی:</strong>
+          <ul>
+            <li>
+              برای <strong>نمایش داده</strong> (مثل جستجو و فیلتر) از
+              <code>GET</code> استفاده کنید.
+            </li>
+            <li>
+              برای <strong>تغییر داده</strong> (مثل ثبت‌نام، لاگین، حذف) از
+              <code>POST</code> استفاده کنید.
+            </li>
+            <li>
+              هرگز اطلاعات حساس (رمز عبور، شماره کارت) را با
+              <code>GET</code> ارسال نکنید!
+            </li>
+          </ul>
+        </div>
+
+        <h3>۲. دریافت داده با $_GET:</h3>
+
+        <pre><code>&lt;?php
+// ===== مثال: دریافت از URL =====
+// آدرس: http://localhost/lesson/profile.php?name=ali&age=25
+
+// دریافت داده از URL
+$name = $_GET['name'];  // 'ali'
+$age = $_GET['age'];    // '25'
+
+echo "نام: " . $name . "&lt;br&gt;";
+echo "سن: " . $age . "&lt;br&gt;";
+
+// ===== بررسی وجود پارامتر =====
+if (isset($_GET['id'])) {
+    $user_id = $_GET['id'];
+    echo "شناسه کاربر: " . $user_id;
+} else {
+    echo "شناسه کاربر مشخص نشده است.";
+}
+
+// ===== نمایش تمام پارامترهای GET =====
+print_r($_GET);
+
+// ===== ساخت لینک با پارامترهای GET =====
+echo '&lt;a href="page.php?page=2&sort=name"&gt;صفحه ۲ با مرتب‌سازی نام&lt;/a&gt;';
+?&gt;</code></pre>
+
+        <h3>۳. دریافت داده با $_POST:</h3>
+
+        <pre><code>&lt;?php
+// ===== مثال: دریافت از فرم =====
+// فرم با method="POST"
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // دریافت داده از فرم
+    $username = $_POST['username'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
+    echo "نام کاربری: " . $username . "&lt;br&gt;";
+    echo "ایمیل: " . $email . "&lt;br&gt;";
+    echo "رمز عبور: " . $password . "&lt;br&gt;";
+}
+
+// ===== بررسی وجود داده =====
+if (isset($_POST['submit'])) {
+    // کاربر دکمه ارسال را زده است
+    $data = $_POST;
+    // پردازش داده‌ها
+}
+
+// ===== نمایش تمام داده‌های POST =====
+print_r($_POST);
+
+// ===== $_REQUEST =====
+// $_REQUEST شامل داده‌های GET، POST و COOKIE است
+// اما استفاده از آن توصیه نمی‌شود (به دلیل عدم شفافیت)
+$data = $_REQUEST['name'];
+?&gt;</code></pre>
+
+        <h3>۴. مثال ترکیبی: فرم با روش‌های مختلف</h3>
+
+        <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="fa" dir="rtl"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;مثال فرم&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+    &lt;?php
+        // ===== دریافت پیام از URL (GET) =====
+        if (isset($_GET['message'])) {
+            echo '&lt;p style="color: green;"&gt;' . htmlspecialchars($_GET['message']) . '&lt;/p&gt;';
+        }
+
+        // ===== پردازش فرم (POST) =====
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $name = htmlspecialchars($_POST['name']);
+            $email = htmlspecialchars($_POST['email']);
+            echo "&lt;p&gt;سلام " . $name . "، ایمیل شما: " . $email . "&lt;/p&gt;";
+        }
+    ?&gt;
+
+    &lt;!-- ===== فرم با POST ===== --&gt;
+    &lt;form method="POST" action=""&gt;
+        &lt;label&gt;نام: &lt;input type="text" name="name"&gt;&lt;/label&gt;&lt;br&gt;
+        &lt;label&gt;ایمیل: &lt;input type="email" name="email"&gt;&lt;/label&gt;&lt;br&gt;
+        &lt;button type="submit"&gt;ارسال&lt;/button&gt;
+    &lt;/form&gt;
+
+    &lt;!-- ===== لینک با GET ===== --&gt;
+    &lt;a href="?message=ثبت+نام+با+موفقیت+انجام+شد"&gt;نمایش پیام موفقیت&lt;/a&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+        <div class="challenge-box">
+          <strong>🧪 تمرین سریع برای دانشجویان (۵ دقیقه):</strong>
+          <p>
+            یک فایل <code>get_test.php</code> بسازید که پارامترهای زیر را از URL
+            دریافت کند:
+          </p>
+          <ul>
+            <li><code>product_id</code> → شناسه محصول</li>
+            <li><code>category</code> → دسته‌بندی</li>
+            <li><code>page</code> → شماره صفحه</li>
+          </ul>
+          <p>سپس آن‌ها را در یک جدول نمایش دهید. آدرس نمونه:</p>
+          <p>
+            <code
+              >http://localhost/lesson/get_test.php?product_id=5&category=electronics&page=2</code
+            >
+          </p>
+        </div>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- SECTION 3: FUNCTIONS -->
+      <!-- ============================================================ -->
+      <div class="section-block">
+        <h2>بخش سوم: توابع در PHP (۳۰ دقیقه)</h2>
+
+        <div class="teacher-speech">
+          <strong>🗣 کلمه به کلمه چه بگویید:</strong>
+          «تا الان کدهایمان را خط به خط نوشته‌ایم. اما در پروژه‌های واقعی، کدها
+          هزاران خط می‌شوند. اگر همه کدها را بدون سازماندهی بنویسیم، کار با
+          آن‌ها غیرممکن می‌شود. اینجا است که <strong>توابع</strong> به کمک ما
+          می‌آیند. تابع یک بلوک کد است که یک کار خاص را انجام می‌دهد. می‌توانیم
+          یک تابع را یک بار بنویسیم و بارها و بارها از آن استفاده کنیم. به تابع
+          مثل یک ماشین لباسشویی فکر کنید! شما لباس‌ها را داخل آن می‌ریزید
+          (ورودی)، ماشین کار شستشو را انجام می‌دهد (پردازش)، و لباس‌های تمیز را
+          تحویل می‌دهد (خروجی).»
+        </div>
+
+        <h3>۱. ساختار توابع:</h3>
+
+        <div class="function-visual">
+          <div class="flow">
+            <div class="box input">ورودی (آرگومان‌ها)</div>
+            <span class="arrow">→</span>
+            <div class="box process">پردازش (بدنه تابع)</div>
+            <span class="arrow">→</span>
+            <div class="box output">خروجی (return)</div>
+          </div>
+        </div>
+
+        <pre><code>&lt;?php
+// ===== ساختار پایه تابع =====
+function function_name($parameter1, $parameter2) {
+    // بدنه تابع
+    // ...
+    return $result;
+}
+
+// ===== مثال ۱: تابع ساده بدون آرگومان =====
+function sayHello() {
+    echo "سلام دنیا!&lt;br&gt;";
+}
+
+sayHello(); // فراخوانی: سلام دنیا!
+
+// ===== مثال ۲: تابع با آرگومان =====
+function greetUser($name) {
+    echo "سلام " . $name . "! خوش آمدید.&lt;br&gt;";
+}
+
+greetUser("علی"); // سلام علی! خوش آمدید.
+greetUser("سارا"); // سلام سارا! خوش آمدید.
+
+// ===== مثال ۳: تابع با مقدار بازگشتی =====
+function add($a, $b) {
+    return $a + $b;
+}
+
+$result = add(5, 3);
+echo "۵ + ۳ = " . $result . "&lt;br&gt;"; // ۵ + ۳ = 8
+
+// ===== مثال ۴: تابع با آرگومان پیش‌فرض =====
+function power($base, $exponent = 2) {
+    return pow($base, $exponent);
+}
+
+echo power(3) . "&lt;br&gt;";   // 9 (3^2)
+echo power(3, 3) . "&lt;br&gt;"; // 27 (3^3)
+
+// ===== مثال ۵: تابع با چندین مقدار بازگشتی (آرایه) =====
+function getUserInfo($id) {
+    // در واقعیت، از دیتابیس می‌خوانیم
+    return [
+        "id" => $id,
+        "name" => "کاربر " . $id,
+        "email" => "user" . $id . "@site.com"
+    ];
+}
+
+$user = getUserInfo(5);
+echo "نام: " . $user['name'] . "&lt;br&gt;";
+echo "ایمیل: " . $user['email'] . "&lt;br&gt;";
+?&gt;</code></pre>
+
+        <h3>۲. دامنه متغیرها (Variable Scope):</h3>
+
+        <pre><code>&lt;?php
+// ===== متغیر سراسری (Global) =====
+$global_var = "من یک متغیر سراسری هستم";
+
+function testScope() {
+    // ===== متغیر محلی (Local) =====
+    $local_var = "من یک متغیر محلی هستم";
+
+    echo "داخل تابع: " . $local_var . "&lt;br&gt;";
+
+    // برای دسترسی به متغیر سراسری باید از کلیدواژه global استفاده کرد
+    global $global_var;
+    echo "داخل تابع (global): " . $global_var . "&lt;br&gt;";
+
+    // یا از $GLOBALS استفاده کنید
+    echo "داخل تابع (GLOBALS): " . $GLOBALS['global_var'] . "&lt;br&gt;";
+}
+
+testScope();
+
+// متغیر محلی خارج از تابع قابل دسترس نیست
+// echo $local_var; // خطا: undefined variable
+
+// متغیر سراسری خارج از تابع قابل دسترس است
+echo "خارج از تابع: " . $global_var . "&lt;br&gt;";
+
+// ===== متغیرهای استاتیک (Static) =====
+function counter() {
+    static $count = 0;
+    $count++;
+    echo "تعداد فراخوانی: " . $count . "&lt;br&gt;";
+}
+
+counter(); // 1
+counter(); // 2
+counter(); // 3
+// متغیر static مقدار خود را بین فراخوانی‌ها حفظ می‌کند
+?&gt;</code></pre>
+
+        <h3>۳. توابع مفید برای اعتبارسنجی:</h3>
+
+        <pre><code>&lt;?php
+// ===== توابع اعتبارسنجی =====
+
+// ۱. بررسی خالی بودن
+function isEmpty($value) {
+    return empty(trim($value));
+}
+
+// ۲. بررسی طول رشته
+function isLengthValid($value, $min, $max) {
+    $length = strlen(trim($value));
+    return $length >= $min && $length <= $max;
+}
+
+// ۳. بررسی ایمیل
+function isValidEmail($email) {
+    return filter_var($email, FILTER_VALIDATE_EMAIL) !== false;
+}
+
+// ۴. بررسی شماره تلفن (ساده)
+function isValidPhone($phone) {
+    return preg_match('/^[0-9]{11}$/', $phone) === 1;
+}
+
+// ۵. بررسی عدد بودن
+function isNumeric($value) {
+    return is_numeric($value);
+}
+
+// ۶. بررسی دامنه سن
+function isValidAge($age, $min = 18, $max = 100) {
+    return is_numeric($age) && $age >= $min && $age <= $max;
+}
+
+// ۷. پاک‌سازی ورودی (برای جلوگیری از XSS)
+function sanitize($value) {
+    return htmlspecialchars(trim($value), ENT_QUOTES, 'UTF-8');
+}
+
+// ===== استفاده از توابع =====
+$username = "  علی  ";
+$email = "ali@site.com";
+$phone = "09123456789";
+$age = 25;
+
+if (isEmpty($username)) {
+    echo "❌ نام کاربری نمی‌تواند خالی باشد.&lt;br&gt;";
+} else {
+    echo "✅ نام کاربری: " . sanitize($username) . "&lt;br&gt;";
+}
+
+if (isValidEmail($email)) {
+    echo "✅ ایمیل معتبر است.&lt;br&gt;";
+} else {
+    echo "❌ ایمیل نامعتبر است.&lt;br&gt;";
+}
+
+if (isValidPhone($phone)) {
+    echo "✅ شماره تلفن معتبر است.&lt;br&gt;";
+} else {
+    echo "❌ شماره تلفن نامعتبر است.&lt;br&gt;";
+}
+
+if (isValidAge($age)) {
+    echo "✅ سن معتبر است.&lt;br&gt;";
+} else {
+    echo "❌ سن نامعتبر است.&lt;br&gt;";
+}
+?&gt;</code></pre>
+
+        <div class="info-box">
+          <strong>📌 نکته مهم:</strong>
+          <ul>
+            <li>
+              از <code>htmlspecialchars()</code> برای جلوگیری از حملات
+              <strong>XSS</strong> (Cross-Site Scripting) استفاده کنید.
+            </li>
+            <li>
+              از <code>filter_var()</code> با
+              <code>FILTER_VALIDATE_EMAIL</code> برای اعتبارسنجی ایمیل استفاده
+              کنید.
+            </li>
+            <li>
+              از <code>preg_match()</code> برای اعتبارسنجی با الگوی Regex
+              استفاده کنید.
+            </li>
+            <li>
+              هیچ‌گاه به ورودی کاربر اعتماد نکنید! همیشه آن را اعتبارسنجی و
+              پاک‌سازی کنید.
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- SECTION 4: PRACTICAL EXERCISE -->
+      <!-- ============================================================ -->
+      <div class="section-block">
+        <h2>بخش چهارم: تمرین عملی – اعتبارسنجی فرم ثبت‌نام (۴۰ دقیقه)</h2>
+
+        <div class="teacher-speech">
+          <strong>🗣 مأموریت کلاسی:</strong>
+          «حالا همه چیز را کنار هم می‌گذاریم. یک سیستم کامل ثبت‌نام با
+          اعتبارسنجی پیشرفته می‌سازیم. ویژگی‌های سیستم: ۱. فرم ثبت‌نام با
+          فیلدهای: نام کاربری، ایمیل، رمز عبور، تأیید رمز عبور، سن، شماره تلفن
+          ۲. اعتبارسنجی همه فیلدها با توابع اختصاصی ۳. نمایش پیام‌های خطا در
+          کنار هر فیلد ۴. اگر همه چیز درست بود، نمایش پیام موفقیت و خلاصه
+          اطلاعات ۵. نگه‌داری مقادیر وارد شده در فرم (تا کاربر مجبور به
+          دوباره‌نویسی نباشد)»
+        </div>
+
+        <h3>کد کامل تمرین (حل):</h3>
+
+        <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="fa" dir="rtl"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;سیستم ثبت‌نام با اعتبارسنجی&lt;/title&gt;
+    &lt;style&gt;
+        /* ===== RESET ===== */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Tahoma', sans-serif;
+        }
+
+        body {
+            background-color: #0d0d0d;
+            color: #e5e5e5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+        }
+
+        /* ===== FORM CARD ===== */
+        .form-card {
+            background-color: #161111;
+            border: 1px solid #2a1212;
+            border-radius: 10px;
+            padding: 35px;
+            box-shadow: 0 4px 20px rgba(255, 51, 51, 0.05);
+        }
+
+        .form-card h1 {
+            color: #ffffff;
+            font-size: 1.8rem;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+
+        .form-card .subtitle {
+            text-align: center;
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 25px;
+        }
+
+        /* ===== FORM GROUP ===== */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #ff8888;
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        .form-group label .required {
+            color: #ff3333;
+            margin-right: 3px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px 12px;
+            background-color: #0d0d0d;
+            border: 1px solid #2a1212;
+            color: #e5e5e5;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #ff3333;
+            outline: none;
+        }
+
+        .form-group input.error {
+            border-color: #ff4444;
+        }
+
+        .form-group input.success {
+            border-color: #66ff66;
+        }
+
+        /* ===== ERROR MESSAGE ===== */
+        .form-group .error-message {
+            color: #ff4444;
+            font-size: 0.8rem;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .form-group .error-message.show {
+            display: block;
+        }
+
+        .form-group .hint {
+            color: #666;
+            font-size: 0.8rem;
+            margin-top: 3px;
+        }
+
+        /* ===== BUTTON ===== */
+        .btn-submit {
+            width: 100%;
+            padding: 12px;
+            background-color: #ff3333;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-submit:hover {
+            background-color: #cc0000;
+        }
+
+        /* ===== SUCCESS MESSAGE ===== */
+        .success-message {
+            background-color: #0d1a0d;
+            border: 1px solid #2a4a2a;
+            border-radius: 6px;
+            padding: 20px;
+            margin-bottom: 20px;
+            color: #88ff88;
+        }
+
+        .success-message h3 {
+            color: #66ff66;
+            margin-bottom: 10px;
+        }
+
+        .success-message .data-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            border-bottom: 1px solid #1a2a1a;
+        }
+
+        .success-message .data-row:last-child {
+            border-bottom: none;
+        }
+
+        .success-message .data-row .label {
+            color: #888;
+        }
+
+        .success-message .data-row .value {
+            color: #e5e5e5;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 480px) {
+            .form-card {
+                padding: 20px;
+            }
+            .form-card h1 {
+                font-size: 1.4rem;
+            }
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;div class="container"&gt;
+
+    &lt;?php
+        // ============================================================
+        // ۱. توابع اعتبارسنجی
+        // ============================================================
+
+        // پاک‌سازی ورودی
+        function sanitize($value) {
+            return htmlspecialchars(trim($value), ENT_QUOTES, 'UTF-8');
+        }
+
+        // بررسی خالی بودن
+        function isEmpty($value) {
+            return empty(trim($value));
+        }
+
+        // بررسی طول رشته
+        function isLengthValid($value, $min, $max) {
+            $length = strlen(trim($value));
+            return $length >= $min && $length <= $max;
+        }
+
+        // بررسی ایمیل
+        function isValidEmail($email) {
+            return filter_var($email, FILTER_VALIDATE_EMAIL) !== false;
+        }
+
+        // بررسی شماره تلفن (۱۱ رقم)
+        function isValidPhone($phone) {
+            return preg_match('/^[0-9]{11}$/', $phone) === 1;
+        }
+
+        // بررسی سن
+        function isValidAge($age) {
+            return is_numeric($age) && $age >= 18 && $age <= 100;
+        }
+
+        // بررسی تطابق رمز عبور
+        function passwordsMatch($password, $confirm) {
+            return $password === $confirm;
+        }
+
+        // بررسی قدرت رمز عبور (حداقل ۶ کاراکتر، شامل حرف و عدد)
+        function isStrongPassword($password) {
+            if (strlen($password) < 6) {
+                return false;
+            }
+            return preg_match('/[A-Za-z]/', $password) && preg_match('/[0-9]/', $password);
+        }
+
+        // ============================================================
+        // ۲. پردازش فرم
+        // ============================================================
+
+        $errors = [];
+        $old_data = [];
+        $is_success = false;
+
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+            // دریافت داده‌ها
+            $username = isset($_POST['username']) ? $_POST['username'] : '';
+            $email = isset($_POST['email']) ? $_POST['email'] : '';
+            $password = isset($_POST['password']) ? $_POST['password'] : '';
+            $confirm_password = isset($_POST['confirm_password']) ? $_POST['confirm_password'] : '';
+            $age = isset($_POST['age']) ? $_POST['age'] : '';
+            $phone = isset($_POST['phone']) ? $_POST['phone'] : '';
+
+            // ذخیره برای نمایش مجدد
+            $old_data = [
+                'username' => $username,
+                'email' => $email,
+                'age' => $age,
+                'phone' => $phone
+            ];
+
+            // ===== اعتبارسنجی =====
+
+            // ۱. نام کاربری
+            if (isEmpty($username)) {
+                $errors['username'] = 'نام کاربری الزامی است.';
+            } elseif (!isLengthValid($username, 3, 20)) {
+                $errors['username'] = 'نام کاربری باید بین ۳ تا ۲۰ کاراکتر باشد.';
+            }
+
+            // ۲. ایمیل
+            if (isEmpty($email)) {
+                $errors['email'] = 'ایمیل الزامی است.';
+            } elseif (!isValidEmail($email)) {
+                $errors['email'] = 'ایمیل نامعتبر است.';
+            }
+
+            // ۳. رمز عبور
+            if (isEmpty($password)) {
+                $errors['password'] = 'رمز عبور الزامی است.';
+            } elseif (!isStrongPassword($password)) {
+                $errors['password'] = 'رمز عبور باید حداقل ۶ کاراکتر و شامل حروف و اعداد باشد.';
+            }
+
+            // ۴. تأیید رمز عبور
+            if (isEmpty($confirm_password)) {
+                $errors['confirm_password'] = 'تأیید رمز عبور الزامی است.';
+            } elseif (!passwordsMatch($password, $confirm_password)) {
+                $errors['confirm_password'] = 'رمز عبور و تأیید آن مطابقت ندارند.';
+            }
+
+            // ۵. سن
+            if (isEmpty($age)) {
+                $errors['age'] = 'سن الزامی است.';
+            } elseif (!isValidAge($age)) {
+                $errors['age'] = 'سن باید بین ۱۸ تا ۱۰۰ سال باشد.';
+            }
+
+            // ۶. شماره تلفن
+            if (isEmpty($phone)) {
+                $errors['phone'] = 'شماره تلفن الزامی است.';
+            } elseif (!isValidPhone($phone)) {
+                $errors['phone'] = 'شماره تلفن باید ۱۱ رقم باشد (مثال: ۰۹۱۲۳۴۵۶۷۸۹).';
+            }
+
+            // ===== اگر خطایی نبود =====
+            if (empty($errors)) {
+                $is_success = true;
+                // در پروژه واقعی، داده‌ها را در دیتابیس ذخیره می‌کنیم
+                // در اینجا فقط نمایش می‌دهیم
+            }
+        }
+    ?&gt;
+
+    &lt;div class="form-card"&gt;
+        &lt;h1&gt;📝 ثبت‌نام کاربر&lt;/h1&gt;
+        &lt;p class="subtitle"&gt;لطفاً اطلاعات خود را به دقت وارد کنید&lt;/p&gt;
+
+        &lt;?php if ($is_success): ?&gt;
+            &lt;div class="success-message"&gt;
+                &lt;h3&gt;✅ ثبت‌نام با موفقیت انجام شد!&lt;/h3&gt;
+                &lt;p&gt;اطلاعات وارد شده:&lt;/p&gt;
+                &lt;div class="data-row"&gt;
+                    &lt;span class="label"&gt;نام کاربری:&lt;/span&gt;
+                    &lt;span class="value"&gt;&lt;?php echo sanitize($old_data['username']); ?&gt;&lt;/span&gt;
+                &lt;/div&gt;
+                &lt;div class="data-row"&gt;
+                    &lt;span class="label"&gt;ایمیل:&lt;/span&gt;
+                    &lt;span class="value"&gt;&lt;?php echo sanitize($old_data['email']); ?&gt;&lt;/span&gt;
+                &lt;/div&gt;
+                &lt;div class="data-row"&gt;
+                    &lt;span class="label"&gt;سن:&lt;/span&gt;
+                    &lt;span class="value"&gt;&lt;?php echo sanitize($old_data['age']); ?&gt;&lt;/span&gt;
+                &lt;/div&gt;
+                &lt;div class="data-row"&gt;
+                    &lt;span class="label"&gt;شماره تلفن:&lt;/span&gt;
+                    &lt;span class="value"&gt;&lt;?php echo sanitize($old_data['phone']); ?&gt;&lt;/span&gt;
+                &lt;/div&gt;
+                &lt;p style="margin-top: 15px; color: #666; font-size: 0.9rem;"&gt;
+                    🔒 رمز عبور به دلیل امنیت نمایش داده نمی‌شود.
+                &lt;/p&gt;
+            &lt;/div&gt;
+        &lt;?php endif; ?&gt;
+
+        &lt;form method="POST" action=""&gt;
+
+            &lt;!-- ===== نام کاربری ===== --&gt;
+            &lt;div class="form-group"&gt;
+                &lt;label&gt;
+                    نام کاربری
+                    &lt;span class="required"&gt;*&lt;/span&gt;
+                &lt;/label&gt;
+                &lt;input
+                    type="text"
+                    name="username"
+                    value="&lt;?php echo isset($old_data['username']) ? sanitize($old_data['username']) : ''; ?&gt;"
+                    placeholder="حداقل ۳ کاراکتر"
+                    class="&lt;?php echo isset($errors['username']) ? 'error' : (isset($old_data['username']) && !empty($old_data['username']) ? 'success' : ''); ?&gt;"
+                &gt;
+                &lt;div class="error-message &lt;?php echo isset($errors['username']) ? 'show' : ''; ?&gt;"&gt;
+                    &lt;?php echo isset($errors['username']) ? $errors['username'] : ''; ?&gt;
+                &lt;/div&gt;
+                &lt;div class="hint"&gt;بین ۳ تا ۲۰ کاراکتر، فقط حروف و اعداد&lt;/div&gt;
+            &lt;/div&gt;
+
+            &lt;!-- ===== ایمیل ===== --&gt;
+            &lt;div class="form-group"&gt;
+                &lt;label&gt;
+                    ایمیل
+                    &lt;span class="required"&gt;*&lt;/span&gt;
+                &lt;/label&gt;
+                &lt;input
+                    type="email"
+                    name="email"
+                    value="&lt;?php echo isset($old_data['email']) ? sanitize($old_data['email']) : ''; ?&gt;"
+                    placeholder="example@site.com"
+                    class="&lt;?php echo isset($errors['email']) ? 'error' : (isset($old_data['email']) && !empty($old_data['email']) ? 'success' : ''); ?&gt;"
+                &gt;
+                &lt;div class="error-message &lt;?php echo isset($errors['email']) ? 'show' : ''; ?&gt;"&gt;
+                    &lt;?php echo isset($errors['email']) ? $errors['email'] : ''; ?&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+
+            &lt;!-- ===== رمز عبور ===== --&gt;
+            &lt;div class="form-group"&gt;
+                &lt;label&gt;
+                    رمز عبور
+                    &lt;span class="required"&gt;*&lt;/span&gt;
+                &lt;/label&gt;
+                &lt;input
+                    type="password"
+                    name="password"
+                    placeholder="حداقل ۶ کاراکتر"
+                    class="&lt;?php echo isset($errors['password']) ? 'error' : ''; ?&gt;"
+                &gt;
+                &lt;div class="error-message &lt;?php echo isset($errors['password']) ? 'show' : ''; ?&gt;"&gt;
+                    &lt;?php echo isset($errors['password']) ? $errors['password'] : ''; ?&gt;
+                &lt;/div&gt;
+                &lt;div class="hint"&gt;حداقل ۶ کاراکتر، شامل حروف و اعداد&lt;/div&gt;
+            &lt;/div&gt;
+
+            &lt;!-- ===== تأیید رمز عبور ===== --&gt;
+            &lt;div class="form-group"&gt;
+                &lt;label&gt;
+                    تأیید رمز عبور
+                    &lt;span class="required"&gt;*&lt;/span&gt;
+                &lt;/label&gt;
+                &lt;input
+                    type="password"
+                    name="confirm_password"
+                    placeholder="رمز عبور را دوباره وارد کنید"
+                    class="&lt;?php echo isset($errors['confirm_password']) ? 'error' : ''; ?&gt;"
+                &gt;
+                &lt;div class="error-message &lt;?php echo isset($errors['confirm_password']) ? 'show' : ''; ?&gt;"&gt;
+                    &lt;?php echo isset($errors['confirm_password']) ? $errors['confirm_password'] : ''; ?&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+
+            &lt;!-- ===== سن ===== --&gt;
+            &lt;div class="form-group"&gt;
+                &lt;label&gt;
+                    سن
+                    &lt;span class="required"&gt;*&lt;/span&gt;
+                &lt;/label&gt;
+                &lt;input
+                    type="number"
+                    name="age"
+                    value="&lt;?php echo isset($old_data['age']) ? sanitize($old_data['age']) : ''; ?&gt;"
+                    placeholder="مثال: ۲۵"
+                    min="18"
+                    max="100"
+                    class="&lt;?php echo isset($errors['age']) ? 'error' : (isset($old_data['age']) && !empty($old_data['age']) ? 'success' : ''); ?&gt;"
+                &gt;
+                &lt;div class="error-message &lt;?php echo isset($errors['age']) ? 'show' : ''; ?&gt;"&gt;
+                    &lt;?php echo isset($errors['age']) ? $errors['age'] : ''; ?&gt;
+                &lt;/div&gt;
+                &lt;div class="hint"&gt;بین ۱۸ تا ۱۰۰ سال&lt;/div&gt;
+            &lt;/div&gt;
+
+            &lt;!-- ===== شماره تلفن ===== --&gt;
+            &lt;div class="form-group"&gt;
+                &lt;label&gt;
+                    شماره تلفن
+                    &lt;span class="required"&gt;*&lt;/span&gt;
+                &lt;/label&gt;
+                &lt;input
+                    type="tel"
+                    name="phone"
+                    value="&lt;?php echo isset($old_data['phone']) ? sanitize($old_data['phone']) : ''; ?&gt;"
+                    placeholder="۰۹۱۲۳۴۵۶۷۸۹"
+                    class="&lt;?php echo isset($errors['phone']) ? 'error' : (isset($old_data['phone']) && !empty($old_data['phone']) ? 'success' : ''); ?&gt;"
+                &gt;
+                &lt;div class="error-message &lt;?php echo isset($errors['phone']) ? 'show' : ''; ?&gt;"&gt;
+                    &lt;?php echo isset($errors['phone']) ? $errors['phone'] : ''; ?&gt;
+                &lt;/div&gt;
+                &lt;div class="hint"&gt;۱۱ رقم (مثال: ۰۹۱۲۳۴۵۶۷۸۹)&lt;/div&gt;
+            &lt;/div&gt;
+
+            &lt;button type="submit" class="btn-submit"&gt;ثبت‌نام&lt;/button&gt;
+
+        &lt;/form&gt;
+
+        &lt;?php if (!empty($errors) && !$is_success): ?&gt;
+            &lt;div style="margin-top: 15px; color: #ff6666; text-align: center; font-size: 0.9rem;"&gt;
+                ⚠️ لطفاً خطاهای بالا را تصحیح کنید.
+            &lt;/div&gt;
+        &lt;?php endif; ?&gt;
+
+    &lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+        <h3>گام‌های اجرایی برای دانشجویان:</h3>
+
+        <ol>
+          <li>
+            فایل <code>register.php</code> را در پوشه <code>lesson</code> ایجاد
+            کنید.
+          </li>
+          <li>کد بالا را کپی کنید و در فایل ذخیره کنید.</li>
+          <li>
+            در مرورگر آدرس <code>http://localhost/lesson/register.php</code> را
+            باز کنید.
+          </li>
+          <li>
+            سناریوهای مختلف را تست کنید:
+            <ul>
+              <li>فرم را خالی ارسال کنید → همه خطاها نمایش داده شوند.</li>
+              <li>ایمیل نامعتبر وارد کنید → خطای ایمیل نمایش داده شود.</li>
+              <li>
+                رمز عبور با تأیید مطابقت نداشته باشد → خطا نمایش داده شود.
+              </li>
+              <li>همه فیلدها را درست پر کنید → پیام موفقیت نمایش داده شود.</li>
+            </ul>
+          </li>
+          <li>
+            مقادیر فیلدها بعد از ارسال، در فرم باقی می‌مانند (بررسی کنید).
+          </li>
+        </ol>
+
+        <div class="challenge-box">
+          <strong>🧪 چالش‌های اضافی برای دانشجویان قوی‌تر:</strong>
+
+          <h4>چالش ۱: اعتبارسنجی در سمت کلاینت</h4>
+          <p>
+            با استفاده از HTML5 (مثل <code>required</code>،
+            <code>pattern</code>، <code>min</code> و <code>max</code>)
+            اعتبارسنجی سمت کلاینت را اضافه کنید.
+          </p>
+
+          <h4>چالش ۲: کپچا (CAPTCHA) ساده</h4>
+          <p>
+            یک سوال ساده ریاضی (مثل ۵ + ۳ = ؟) به فرم اضافه کنید و پاسخ را
+            اعتبارسنجی کنید.
+          </p>
+
+          <h4>چالش ۳: ذخیره در فایل</h4>
+          <p>
+            به جای نمایش پیام موفقیت، داده‌های ثبت‌نام را در یک فایل
+            <code>users.txt</code> ذخیره کنید.
+          </p>
+          <p>
+            راهنما: از <code>file_put_contents()</code> با
+            <code>FILE_APPEND</code> استفاده کنید.
+          </p>
+
+          <h4>چالش ۴: فرم چند مرحله‌ای</h4>
+          <p>
+            فرم را به دو مرحله تقسیم کنید: مرحله اول (نام و ایمیل) و مرحله دوم
+            (رمز عبور و تلفن).
+          </p>
+        </div>
+
+        <div class="info-box">
+          <strong>📌 خروجی نهایی قابل قبول:</strong>
+          <ul>
+            <li>فایل <code>register.php</code> بدون خطا اجرا می‌شود.</li>
+            <li>همه ۶ فیلد به درستی اعتبارسنجی می‌شوند.</li>
+            <li>
+              پیام‌های خطا به‌صورت اختصاصی در کنار هر فیلد نمایش داده می‌شوند.
+            </li>
+            <li>مقادیر وارد شده بعد از ارسال، در فرم باقی می‌مانند.</li>
+            <li>
+              در صورت موفقیت، پیام سبز با خلاصه اطلاعات نمایش داده می‌شود.
+            </li>
+            <li>از توابع اختصاصی برای اعتبارسنجی استفاده شده است.</li>
+            <li>
+              ورودی‌ها با <code>htmlspecialchars()</code> پاک‌سازی شده‌اند.
+            </li>
+          </ul>
+        </div>
+
+        <div class="teacher-speech" style="border-right-color: #4a9eff">
+          <strong>🗣 جمع‌بندی جلسه:</strong>
+          «امروز سه تا از مهم‌ترین مباحث برنامه‌نویسی وب را یاد گرفتیم: ۱.
+          <strong>دریافت داده از فرم</strong> با <code>$_GET</code> و
+          <code>$_POST</code> ۲. <strong>توابع</strong> برای سازماندهی و استفاده
+          مجدد از کد ۳. <strong>اعتبارسنجی</strong> برای امنیت و تجربه کاربری
+          بهتر این مباحث پایه‌ای‌ترین ابزارهای هر توسعه‌دهنده بک‌اند هستند. از
+          این به بعد، هر فرمی که می‌سازید، باید اعتبارسنجی داشته باشد! در جلسه
+          بعد، با <strong>پایگاه داده MySQL</strong> آشنا می‌شویم و یاد می‌گیریم
+          چگونه داده‌ها را به‌صورت دائمی ذخیره کنیم. تکلیف: چالش ذخیره در فایل
+          را پیاده‌سازی کنید. همچنین یک تابع جدید برای اعتبارسنجی کد پستی (۱۰
+          رقم) بنویسید.»
+        </div>
+      </div>
+    </div>
+    <!-- END container -->
+  </body>
+</html>

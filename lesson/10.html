@@ -1,0 +1,922 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>جلسه ۱۰: مفاهیم پایه شیءگرایی و جمع‌بندی</title>
+
+    <style>
+      /* ===== RESET & BASE ===== */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        background-color: #0d0d0d;
+        color: #e5e5e5;
+        line-height: 1.8;
+        padding: 40px 20px;
+      }
+
+      .container {
+        max-width: 950px;
+        margin: 0 auto;
+      }
+
+      /* ===== LINKS ===== */
+      .back-link {
+        color: #ff3333;
+        text-decoration: none;
+        font-size: 0.9rem;
+        display: inline-block;
+        margin-bottom: 25px;
+        font-weight: bold;
+      }
+
+      .back-link:hover {
+        text-decoration: underline;
+      }
+
+      /* ===== HEADINGS ===== */
+      h1 {
+        color: #ffffff;
+        font-size: 2.2rem;
+        margin-bottom: 10px;
+        border-bottom: 2px solid #ff3333;
+        padding-bottom: 15px;
+        font-weight: 800;
+      }
+
+      h2 {
+        color: #ff3333;
+        font-size: 1.5rem;
+        margin-top: 40px;
+        margin-bottom: 15px;
+        border-bottom: 1px dashed #2a1212;
+        padding-bottom: 5px;
+      }
+
+      h3 {
+        color: #ffffff;
+        font-size: 1.2rem;
+        margin-top: 25px;
+        margin-bottom: 10px;
+      }
+
+      h4 {
+        color: #ff8888;
+        font-size: 1.05rem;
+        margin-top: 20px;
+        margin-bottom: 8px;
+      }
+
+      /* ===== SECTIONS ===== */
+      .section-block {
+        background-color: #161111;
+        border: 1px solid #2a1212;
+        padding: 30px;
+        border-radius: 6px;
+        margin-bottom: 30px;
+      }
+
+      /* ===== PARAGRAPHS & LISTS ===== */
+      p {
+        margin-bottom: 15px;
+        color: #b3b3b3;
+        text-align: justify;
+      }
+
+      ul,
+      ol {
+        margin-right: 25px;
+        margin-bottom: 20px;
+      }
+
+      li {
+        margin-bottom: 10px;
+        color: #cccccc;
+      }
+
+      /* ===== CODE ===== */
+      code {
+        background-color: #241414;
+        color: #ff5252;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-family: "Courier New", Courier, monospace;
+        font-size: 0.95rem;
+        border: 1px solid #421818;
+      }
+
+      pre {
+        background-color: #1a1212;
+        border: 1px solid #2a1212;
+        padding: 18px;
+        border-radius: 6px;
+        overflow-x: auto;
+        margin: 20px 0;
+        direction: ltr;
+        text-align: left;
+      }
+
+      pre code {
+        color: #f8f8f2;
+        background: none;
+        padding: 0;
+        border: none;
+        font-size: 0.9rem;
+        line-height: 1.7;
+        font-family: "Consolas", monospace;
+        white-space: pre;
+      }
+
+      /* ===== TEACHER SPEECH BOX ===== */
+      .teacher-speech {
+        background-color: #241414;
+        border-right: 4px solid #ff3333;
+        padding: 18px;
+        border-radius: 0 6px 6px 0;
+        margin: 20px 0;
+        color: #ffbaba;
+      }
+
+      .teacher-speech strong {
+        color: #ffffff;
+        display: block;
+        margin-bottom: 8px;
+        font-size: 1.05rem;
+      }
+
+      /* ===== CHALLENGE BOX ===== */
+      .challenge-box {
+        background-color: #2a1010;
+        border-right: 4px solid #ff1111;
+        padding: 18px;
+        border-radius: 0 6px 6px 0;
+        margin: 20px 0;
+        color: #ffcccc;
+      }
+
+      /* ===== INFO BOX ===== */
+      .info-box {
+        background-color: #1a1a2e;
+        border-right: 4px solid #4a9eff;
+        padding: 18px;
+        border-radius: 0 6px 6px 0;
+        margin: 20px 0;
+        color: #aaccff;
+      }
+
+      .info-box strong {
+        color: #ffffff;
+        display: block;
+        margin-bottom: 8px;
+        font-size: 1.05rem;
+      }
+
+      /* ===== SUCCESS BOX ===== */
+      .success-box {
+        background-color: #0d1a0d;
+        border-right: 4px solid #66ff66;
+        padding: 18px;
+        border-radius: 0 6px 6px 0;
+        margin: 20px 0;
+        color: #88ff88;
+      }
+
+      .success-box strong {
+        color: #ffffff;
+        display: block;
+        margin-bottom: 8px;
+        font-size: 1.05rem;
+      }
+
+      /* ===== OOP FLOW ===== */
+      .oop-flow {
+        background-color: #0d0d0d;
+        border: 1px solid #2a1212;
+        padding: 20px;
+        border-radius: 6px;
+        margin: 15px 0;
+        direction: ltr;
+        text-align: center;
+      }
+
+      .oop-flow .step {
+        display: inline-block;
+        background-color: #161111;
+        border: 1px solid #2a1212;
+        padding: 10px 20px;
+        border-radius: 4px;
+        margin: 5px;
+      }
+
+      .oop-flow .step.class {
+        border-color: #ff3333;
+      }
+
+      .oop-flow .step.object {
+        border-color: #66ff66;
+      }
+
+      .oop-flow .step.property {
+        border-color: #4a9eff;
+      }
+
+      .oop-flow .step.method {
+        border-color: #ffaa00;
+      }
+
+      .oop-flow .arrow {
+        color: #666;
+        font-size: 1.5rem;
+        display: inline-block;
+      }
+
+      /* ===== ROADMAP ===== */
+      .roadmap {
+        background-color: #0d0d0d;
+        border: 1px solid #2a1212;
+        padding: 25px;
+        border-radius: 6px;
+        margin: 15px 0;
+      }
+
+      .roadmap .milestone {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding: 12px 15px;
+        margin-bottom: 10px;
+        background-color: #161111;
+        border-radius: 4px;
+        border-left: 3px solid #ff3333;
+      }
+
+      .roadmap .milestone .number {
+        background-color: #ff3333;
+        color: #ffffff;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 0.9rem;
+        flex-shrink: 0;
+      }
+
+      .roadmap .milestone .content {
+        flex: 1;
+      }
+
+      .roadmap .milestone .content .title {
+        color: #ffffff;
+        font-weight: bold;
+      }
+
+      .roadmap .milestone .content .desc {
+        color: #b3b3b3;
+        font-size: 0.9rem;
+      }
+
+      .roadmap .milestone.completed {
+        border-left-color: #66ff66;
+        opacity: 0.7;
+      }
+
+      .roadmap .milestone.completed .number {
+        background-color: #66ff66;
+        color: #0d0d0d;
+      }
+
+      .roadmap .milestone.current {
+        border-left-color: #ffaa00;
+        background-color: #1a1a0d;
+      }
+
+      .roadmap .milestone.current .number {
+        background-color: #ffaa00;
+        color: #0d0d0d;
+      }
+
+      /* ===== TABLE STYLES ===== */
+      .data-table {
+        width: 100%;
+        border-collapse: collapse;
+        color: #e5e5e5;
+        background-color: #0d0d0d;
+        border: 1px solid #2a1212;
+        margin: 15px 0;
+        direction: ltr;
+      }
+
+      .data-table th {
+        background-color: #2a1212;
+        padding: 10px;
+        border: 1px solid #3a1a1a;
+        text-align: center;
+      }
+
+      .data-table td {
+        padding: 10px;
+        border: 1px solid #3a1a1a;
+        text-align: center;
+      }
+
+      /* ===== RESPONSIVE ===== */
+      @media (max-width: 600px) {
+        .oop-flow .step {
+          display: block;
+          margin: 5px auto;
+        }
+        .oop-flow .arrow {
+          display: block;
+          transform: rotate(90deg);
+        }
+        .roadmap .milestone {
+          flex-direction: column;
+          text-align: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- ===== BACK LINK ===== -->
+      <a href="../syllabus.html" class="back-link"
+        >← بازگشت به جدول اصلی سرفصل‌ها</a
+      >
+
+      <!-- ===== HEADER ===== -->
+      <h1>جلسه ۱۰: مفاهیم پایه شیءگرایی و جمع‌بندی</h1>
+      <p style="color: #ff3333; font-weight: bold; font-size: 1.1rem">
+        مدت زمان تدریس: ۱۲۰ دقیقه | هدف: آشنایی با OOP، بازنویسی اتصال دیتابیس
+        با کلاس و نقشه راه آینده
+      </p>
+
+      <!-- ============================================================ -->
+      <!-- SECTION 1: TIMING -->
+      <!-- ============================================================ -->
+      <div class="section-block">
+        <h2>بخش اول: زمان‌بندی جلسه (۱۲۰ دقیقه)</h2>
+        <p>
+          این جلسه، <strong>آخرین جلسه</strong> دوره است. دانشجویان با مفاهیم
+          پایه <strong>برنامه‌نویسی شیءگرا (OOP)</strong> آشنا می‌شوند و سپس کل
+          دوره را مرور کرده و <strong>نقشه راه</strong> آینده را ترسیم می‌کنیم.
+        </p>
+        <ol>
+          <li>
+            <strong>مفهوم شیءگرایی (OOP) (۳۰ دقیقه):</strong>
+            کلاس، شیء، ویژگی‌ها، متدها، سازنده (Constructor).
+          </li>
+          <li>
+            <strong>ساخت کلاس Database با MySQLi (۳۰ دقیقه):</strong>
+            کپسوله کردن اتصال و متدهای عمومی برای عملیات دیتابیس.
+          </li>
+          <li>
+            <strong>بازنویسی پروژه با کلاس (۳۰ دقیقه):</strong>
+            استفاده از کلاس Database به جای کدهای تکراری.
+          </li>
+          <li>
+            <strong>جمع‌بندی و نقشه راه (۳۰ دقیقه):</strong>
+            مرور کل دوره، معرفی MVC، لاراول و مسیر یادگیری آینده.
+          </li>
+        </ol>
+
+        <div class="info-box">
+          <strong>📌 نکته مهم برای مدرس:</strong>
+          <ul>
+            <li>
+              هدف، آشنایی با مفاهیم پایه است تا دانشجویان برای یادگیری
+              فریم‌ورک‌ها آماده شوند.
+            </li>
+            <li>
+              تأکید کنید که OOP یک <strong>تغییر نگرش</strong> در برنامه‌نویسی
+              است.
+            </li>
+            <li>
+              جمع‌بندی و نقشه راه، انگیزه دانشجویان را برای ادامه مسیر حفظ
+              می‌کند.
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- SECTION 2: OOP CONCEPTS -->
+      <!-- ============================================================ -->
+      <div class="section-block">
+        <h2>بخش دوم: مفاهیم پایه شیءگرایی (OOP) (۳۰ دقیقه)</h2>
+
+        <div class="teacher-speech">
+          <strong>🗣 کلمه به کلمه چه بگویید:</strong>
+          «تا الان به‌صورت <strong>رویه‌ای (Procedural)</strong> کد می‌نوشتیم.
+          یعنی توابع را می‌نوشتیم و آن‌ها را صدا می‌زدیم.
+
+          <strong>برنامه‌نویسی شیءگرا (OOP)</strong> یک روش متفاوت است. در OOP،
+          به جای توابع و متغیرهای جداگانه، همه چیز را در قالب
+          <strong>اشیاء (Objects)</strong> سازماندهی می‌کنیم. یک
+          <strong>کلاس (Class)</strong> مثل یک <strong>قالب</strong> یا
+          <strong>نقشه</strong> است. یک <strong>شیء (Object)</strong> مثل یک
+          <strong>نمونه</strong> ساخته شده از آن قالب است.»
+        </div>
+
+        <h3>۱. اجزای اصلی یک کلاس:</h3>
+
+        <div class="oop-flow">
+          <span class="step class">📋 کلاس (Class)</span>
+          <span class="arrow">→</span>
+          <span class="step object">📦 شیء (Object)</span>
+          <br />
+          <span class="step property">📝 ویژگی‌ها (Properties)</span>
+          <span class="arrow">+</span>
+          <span class="step method">⚡ متدها (Methods)</span>
+        </div>
+
+        <h3>۲. ساختار یک کلاس در PHP:</h3>
+
+        <pre><code>&lt;?php
+<span class="sql-comment">// ===== تعریف یک کلاس ساده =====</span>
+class Car {
+    <span class="sql-comment">// ===== ویژگی‌ها =====</span>
+    public $brand;
+    public $color;
+    public $speed = 0;
+    
+    <span class="sql-comment">// ===== سازنده =====</span>
+    public function __construct($brand, $color) {
+        $this->brand = $brand;
+        $this->color = $color;
+    }
+    
+    <span class="sql-comment">// ===== متدها =====</span>
+    public function start() {
+        echo "ماشین {$this->brand} روشن شد.&lt;br&gt;";
+    }
+    
+    public function accelerate($amount) {
+        $this->speed += $amount;
+        echo "سرعت: {$this->speed}&lt;br&gt;";
+    }
+}
+
+<span class="sql-comment">// ===== ایجاد شیء =====</span>
+$myCar = new Car("BMW", "آبی");
+$myCar->start();
+?&gt;</code></pre>
+
+        <h3>۳. سطوح دسترسی (Visibility):</h3>
+
+        <div style="overflow-x: auto; margin: 15px 0; direction: ltr">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>سطح دسترسی</th>
+                <th>توضیح</th>
+                <th>مثال</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>public</code></td>
+                <td>قابل دسترس از همه جا</td>
+                <td><code>public $name;</code></td>
+              </tr>
+              <tr>
+                <td><code>protected</code></td>
+                <td>در کلاس و کلاس‌های فرزند</td>
+                <td><code>protected $age;</code></td>
+              </tr>
+              <tr>
+                <td><code>private</code></td>
+                <td>فقط در خود کلاس</td>
+                <td><code>private $password;</code></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>۴. کلاس User با MySQLi:</h3>
+
+        <pre><code>&lt;?php
+<span class="sql-comment">// ===== کلاس User =====</span>
+class User {
+    private $id;
+    private $username;
+    private $email;
+    private $password;
+    private $is_active;
+    
+    public function __construct($username, $email, $password) {
+        $this->username = $username;
+        $this->email = $email;
+        $this->password = password_hash($password, PASSWORD_DEFAULT);
+        $this->is_active = true;
+    }
+    
+    public function getUsername() {
+        return $this->username;
+    }
+    
+    public function verifyPassword($password) {
+        return password_verify($password, $this->password);
+    }
+}
+
+<span class="sql-comment">// ===== استفاده =====</span>
+$user = new User("ali_dev", "ali@site.com", "123456");
+echo "نام کاربری: " . $user->getUsername();
+?&gt;</code></pre>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- SECTION 3: DATABASE CLASS WITH MYSQLI -->
+      <!-- ============================================================ -->
+      <div class="section-block">
+        <h2>بخش سوم: ساخت کلاس Database با MySQLi (۳۰ دقیقه)</h2>
+
+        <div class="teacher-speech">
+          <strong>🗣 کلمه به کلمه چه بگویید:</strong>
+          «حالا می‌خواهیم کدهای اتصال به دیتابیس را به‌صورت یک
+          <strong>کلاس</strong> بازنویسی کنیم. مزایای این کار: ۱.
+          <strong>سازماندهی</strong> بهتر کدها. ۲.
+          <strong>قابلیت استفاده مجدد</strong> در پروژه‌های دیگر. ۳.
+          <strong>خوانایی</strong> بیشتر.»
+        </div>
+
+        <h3>کلاس Database با MySQLi:</h3>
+
+        <pre><code>&lt;?php
+<span class="sql-comment">// ===== فایل: classes/Database.php (MySQLi) =====</span>
+
+class Database {
+    private $host;
+    private $dbname;
+    private $username;
+    private $password;
+    private $charset;
+    private $conn;
+    private $error;
+    
+    public function __construct($host = 'localhost', $dbname = 'guestbook_db', 
+                                $username = 'root', $password = '', $charset = 'utf8mb4') {
+        $this->host = $host;
+        $this->dbname = $dbname;
+        $this->username = $username;
+        $this->password = $password;
+        $this->charset = $charset;
+        
+        $this->connect();
+    }
+    
+    private function connect() {
+        $this->conn = new mysqli($this->host, $this->username, $this->password, $this->dbname);
+        
+        if ($this->conn->connect_error) {
+            $this->error = $this->conn->connect_error;
+            return false;
+        }
+        
+        $this->conn->set_charset($this->charset);
+        return true;
+    }
+    
+    public function getConnection() {
+        return $this->conn;
+    }
+    
+    public function getError() {
+        return $this->error;
+    }
+    
+    public function query($sql, $params = []) {
+        $stmt = $this->conn->prepare($sql);
+        
+        if ($params) {
+            $types = '';
+            $bind_params = [];
+            foreach ($params as $key => $value) {
+                if (is_int($value)) {
+                    $types .= 'i';
+                } elseif (is_double($value)) {
+                    $types .= 'd';
+                } elseif (is_string($value)) {
+                    $types .= 's';
+                } else {
+                    $types .= 's';
+                }
+                $bind_params[] = $value;
+            }
+            $stmt->bind_param($types, ...$bind_params);
+        }
+        
+        $stmt->execute();
+        
+        if (strpos(strtoupper($sql), 'SELECT') === 0) {
+            $result = $stmt->get_result();
+            $stmt->close();
+            return $result;
+        }
+        
+        $affected = $stmt->affected_rows;
+        $insert_id = $stmt->insert_id;
+        $stmt->close();
+        
+        return ['affected' => $affected, 'insert_id' => $insert_id];
+    }
+    
+    public function fetchAll($sql, $params = []) {
+        $result = $this->query($sql, $params);
+        if ($result instanceof mysqli_result) {
+            return $result->fetch_all(MYSQLI_ASSOC);
+        }
+        return false;
+    }
+    
+    public function fetch($sql, $params = []) {
+        $result = $this->query($sql, $params);
+        if ($result instanceof mysqli_result) {
+            return $result->fetch_assoc();
+        }
+        return false;
+    }
+    
+    public function insert($table, $data) {
+        $fields = array_keys($data);
+        $placeholders = array_fill(0, count($fields), '?');
+        
+        $sql = "INSERT INTO {$table} (" . implode(', ', $fields) . ") 
+                VALUES (" . implode(', ', $placeholders) . ")";
+        
+        $result = $this->query($sql, array_values($data));
+        if ($result && isset($result['insert_id'])) {
+            return $result['insert_id'];
+        }
+        return false;
+    }
+    
+    public function update($table, $data, $where, $whereParams = []) {
+        $set = [];
+        foreach (array_keys($data) as $field) {
+            $set[] = "{$field} = ?";
+        }
+        
+        $sql = "UPDATE {$table} SET " . implode(', ', $set) . " WHERE {$where}";
+        $params = array_merge(array_values($data), array_values($whereParams));
+        
+        $result = $this->query($sql, $params);
+        if ($result && isset($result['affected'])) {
+            return $result['affected'];
+        }
+        return false;
+    }
+    
+    public function delete($table, $where, $params = []) {
+        $sql = "DELETE FROM {$table} WHERE {$where}";
+        $result = $this->query($sql, $params);
+        if ($result && isset($result['affected'])) {
+            return $result['affected'];
+        }
+        return false;
+    }
+    
+    public function count($table, $where = '', $params = []) {
+        $sql = "SELECT COUNT(*) as total FROM {$table}";
+        if (!empty($where)) {
+            $sql .= " WHERE {$where}";
+        }
+        $result = $this->fetch($sql, $params);
+        return $result ? $result['total'] : 0;
+    }
+    
+    public function close() {
+        if ($this->conn) {
+            $this->conn->close();
+        }
+    }
+}
+?&gt;</code></pre>
+
+        <h3>استفاده از کلاس Database:</h3>
+
+        <pre><code>&lt;?php
+require_once 'classes/Database.php';
+
+$db = new Database();
+
+<span class="sql-comment">// ===== درج پیام =====</span>
+$message_id = $db->insert('messages', [
+    'username' => 'ali_developer',
+    'message' => 'این یک پیام تست است.',
+    'is_approved' => 0
+]);
+
+<span class="sql-comment">// ===== خواندن همه پیام‌ها =====</span>
+$messages = $db->fetchAll("SELECT * FROM messages ORDER BY created_at DESC");
+
+<span class="sql-comment">// ===== به‌روزرسانی =====</span>
+$db->update('messages', ['is_approved' => 1], 'id = ?', [$message_id]);
+
+<span class="sql-comment">// ===== تعداد پیام‌ها =====</span>
+$total = $db->count('messages');
+
+<span class="sql-comment">// ===== حذف =====</span>
+$db->delete('messages', 'id = ?', [$message_id]);
+
+$db->close();
+?&gt;</code></pre>
+
+        <div class="info-box">
+          <strong>📌 مزایای بازنویسی با کلاس:</strong>
+          <ul>
+            <li>
+              کدها <strong>تمیزتر</strong> و <strong>خواناتر</strong> شده‌اند.
+            </li>
+            <li>تکرار کدها <strong>حذف</strong> شده است.</li>
+            <li>
+              کلاس Database را می‌توان در
+              <strong>پروژه‌های دیگر</strong> استفاده کرد.
+            </li>
+            <li>آمادگی برای <strong>فریم‌ورک‌های مدرن</strong> مثل لاراول.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- SECTION 4: SUMMARY & ROADMAP -->
+      <!-- ============================================================ -->
+      <div class="section-block">
+        <h2>بخش چهارم: جمع‌بندی و نقشه راه (۳۰ دقیقه)</h2>
+
+        <div class="teacher-speech">
+          <strong>🗣 کلمه به کلمه چه بگویید:</strong>
+          «تبریک می‌گویم! شما یک دوره کامل ۱۰ جلسه‌ای را با موفقیت به پایان
+          رساندید. در این ۱۰ جلسه، از صفر تا یک
+          <strong>توسعه‌دهنده بک‌اند مقدماتی</strong> تبدیل شدید.»
+        </div>
+
+        <h3>مرور سرفصل‌های دوره:</h3>
+
+        <div class="roadmap">
+          <div class="milestone completed">
+            <div class="number">۱</div>
+            <div class="content">
+              <div class="title">معماری وب و فرانت‌اند پایه</div>
+              <div class="desc">پروتکل HTTP، HTML، CSS، ساختار فرم‌ها</div>
+            </div>
+          </div>
+
+          <div class="milestone completed">
+            <div class="number">۲</div>
+            <div class="content">
+              <div class="title">شروع کار با PHP و منطق شرط‌ها</div>
+              <div class="desc">نصب XAMPP، متغیرها، انواع داده، if/else</div>
+            </div>
+          </div>
+
+          <div class="milestone completed">
+            <div class="number">۳</div>
+            <div class="content">
+              <div class="title">حلقه‌ها و ساختار آرایه‌ها</div>
+              <div class="desc">آرایه‌های عددی و انجمنی، for و foreach</div>
+            </div>
+          </div>
+
+          <div class="milestone completed">
+            <div class="number">۴</div>
+            <div class="content">
+              <div class="title">توابع و مدیریت ورودی‌های فرم</div>
+              <div class="desc">$_GET، $_POST، توابع، اعتبارسنجی</div>
+            </div>
+          </div>
+
+          <div class="milestone completed">
+            <div class="number">۵</div>
+            <div class="content">
+              <div class="title">طراحی پایگاه داده (MySQL)</div>
+              <div class="desc">مفاهیم RDBMS، SQL، CREATE، INSERT، SELECT</div>
+            </div>
+          </div>
+
+          <div class="milestone completed">
+            <div class="number">۶</div>
+            <div class="content">
+              <div class="title">اتصال PHP به دیتابیس با MySQLi</div>
+              <div class="desc">MySQLi، Prepared Statements، امنیت</div>
+            </div>
+          </div>
+
+          <div class="milestone completed">
+            <div class="number">۷</div>
+            <div class="content">
+              <div class="title">عملیات خواندن و حذف (Read & Delete)</div>
+              <div class="desc">SELECT، DELETE، Query String، صفحه‌بندی</div>
+            </div>
+          </div>
+
+          <div class="milestone completed">
+            <div class="number">۸</div>
+            <div class="content">
+              <div class="title">عملیات ایجاد و ویرایش (Create & Update)</div>
+              <div class="desc">INSERT، UPDATE، فرم‌های ویرایش</div>
+            </div>
+          </div>
+
+          <div class="milestone completed">
+            <div class="number">۹</div>
+            <div class="content">
+              <div class="title">نشست‌ها (Sessions) و امنیت ورود</div>
+              <div class="desc">Session، Cookie، لاگین، خروج</div>
+            </div>
+          </div>
+
+          <div class="milestone current">
+            <div class="number">۱۰</div>
+            <div class="content">
+              <div class="title">مفاهیم پایه شیءگرایی و جمع‌بندی</div>
+              <div class="desc">OOP، کلاس Database، نقشه راه</div>
+            </div>
+          </div>
+        </div>
+
+        <h3>نقشه راه آینده:</h3>
+
+        <div class="roadmap" style="border-color: #ff3333">
+          <h4 style="color: #ff3333; margin-bottom: 15px">
+            🚀 مسیر یادگیری پس از این دوره:
+          </h4>
+
+          <div class="milestone">
+            <div class="number" style="background-color: #4a9eff">۱</div>
+            <div class="content">
+              <div class="title">تکمیل پروژه Guestbook</div>
+              <div class="desc">
+                اضافه کردن قابلیت‌های بیشتر: تأیید خودکار، ایمیل، جستجو
+              </div>
+            </div>
+          </div>
+
+          <div class="milestone">
+            <div class="number" style="background-color: #4a9eff">۲</div>
+            <div class="content">
+              <div class="title">یادگیری فریم‌ورک لاراول (Laravel)</div>
+              <div class="desc">
+                محبوب‌ترین فریم‌ورک PHP. شامل: Routing، Eloquent ORM، Blade
+              </div>
+            </div>
+          </div>
+
+          <div class="milestone">
+            <div class="number" style="background-color: #4a9eff">۳</div>
+            <div class="content">
+              <div class="title">مسلط شدن به Git و GitHub</div>
+              <div class="desc">مدیریت نسخه، همکاری تیمی</div>
+            </div>
+          </div>
+
+          <div class="milestone">
+            <div class="number" style="background-color: #4a9eff">۴</div>
+            <div class="content">
+              <div class="title">یادگیری RESTful API</div>
+              <div class="desc">ساخت API، احراز هویت با JWT</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="success-box">
+          <strong>🎓 تبریک به شما!</strong>
+          <p>شما در این دوره، مهارت‌های زیر را کسب کردید:</p>
+          <ul>
+            <li>✅ درک کامل معماری وب و پروتکل HTTP</li>
+            <li>
+              ✅ برنامه‌نویسی با PHP (متغیرها، شرط‌ها، حلقه‌ها، آرایه‌ها، توابع)
+            </li>
+            <li>✅ طراحی پایگاه داده MySQL و نوشتن کوئری‌های SQL</li>
+            <li>✅ اتصال به دیتابیس با MySQLi و Prepared Statements</li>
+            <li>✅ پیاده‌سازی کامل CRUD (ایجاد، خواندن، به‌روزرسانی، حذف)</li>
+            <li>✅ مدیریت نشست‌ها و پیاده‌سازی سیستم لاگین</li>
+            <li>✅ آشنایی با مفاهیم پایه شیءگرایی</li>
+            <li>✅ ساخت یک پروژه کامل Guestbook از صفر</li>
+          </ul>
+          <p style="margin-top: 15px; color: #66ff66">
+            🌟 این تنها <strong>شروع</strong> مسیر شماست. هر روز کد بزنید،
+            اشتباه کنید، یاد بگیرید و پیشرفت کنید!
+          </p>
+        </div>
+
+        <div class="teacher-speech" style="border-right-color: #ffaa00">
+          <strong>🗣 کلام پایانی مدرس:</strong>
+          «از همراهی شما در این ۱۰ جلسه بی‌نهایت سپاسگزارم. به یاد داشته باشید:
+          <strong>برنامه‌نویسی یک سفر است، نه یک مقصد.</strong>
+          موفق باشید! 🚀»
+        </div>
+      </div>
+    </div>
+    <!-- END container -->
+  </body>
+</html>

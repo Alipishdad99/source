@@ -1,0 +1,1059 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>جلسه ۰۸: پیاده‌سازی عملیات ایجاد و ویرایش (Create & Update)</title>
+
+    <style>
+      /* ===== RESET & BASE ===== */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        background-color: #0d0d0d;
+        color: #e5e5e5;
+        line-height: 1.8;
+        padding: 40px 20px;
+      }
+
+      .container {
+        max-width: 950px;
+        margin: 0 auto;
+      }
+
+      /* ===== LINKS ===== */
+      .back-link {
+        color: #ff3333;
+        text-decoration: none;
+        font-size: 0.9rem;
+        display: inline-block;
+        margin-bottom: 25px;
+        font-weight: bold;
+      }
+
+      .back-link:hover {
+        text-decoration: underline;
+      }
+
+      /* ===== HEADINGS ===== */
+      h1 {
+        color: #ffffff;
+        font-size: 2.2rem;
+        margin-bottom: 10px;
+        border-bottom: 2px solid #ff3333;
+        padding-bottom: 15px;
+        font-weight: 800;
+      }
+
+      h2 {
+        color: #ff3333;
+        font-size: 1.5rem;
+        margin-top: 40px;
+        margin-bottom: 15px;
+        border-bottom: 1px dashed #2a1212;
+        padding-bottom: 5px;
+      }
+
+      h3 {
+        color: #ffffff;
+        font-size: 1.2rem;
+        margin-top: 25px;
+        margin-bottom: 10px;
+      }
+
+      h4 {
+        color: #ff8888;
+        font-size: 1.05rem;
+        margin-top: 20px;
+        margin-bottom: 8px;
+      }
+
+      /* ===== SECTIONS ===== */
+      .section-block {
+        background-color: #161111;
+        border: 1px solid #2a1212;
+        padding: 30px;
+        border-radius: 6px;
+        margin-bottom: 30px;
+      }
+
+      /* ===== PARAGRAPHS & LISTS ===== */
+      p {
+        margin-bottom: 15px;
+        color: #b3b3b3;
+        text-align: justify;
+      }
+
+      ul,
+      ol {
+        margin-right: 25px;
+        margin-bottom: 20px;
+      }
+
+      li {
+        margin-bottom: 10px;
+        color: #cccccc;
+      }
+
+      /* ===== CODE ===== */
+      code {
+        background-color: #241414;
+        color: #ff5252;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-family: "Courier New", Courier, monospace;
+        font-size: 0.95rem;
+        border: 1px solid #421818;
+      }
+
+      pre {
+        background-color: #1a1212;
+        border: 1px solid #2a1212;
+        padding: 18px;
+        border-radius: 6px;
+        overflow-x: auto;
+        margin: 20px 0;
+        direction: ltr;
+        text-align: left;
+      }
+
+      pre code {
+        color: #f8f8f2;
+        background: none;
+        padding: 0;
+        border: none;
+        font-size: 0.9rem;
+        line-height: 1.7;
+        font-family: "Consolas", monospace;
+        white-space: pre;
+      }
+
+      /* ===== TEACHER SPEECH BOX ===== */
+      .teacher-speech {
+        background-color: #241414;
+        border-right: 4px solid #ff3333;
+        padding: 18px;
+        border-radius: 0 6px 6px 0;
+        margin: 20px 0;
+        color: #ffbaba;
+      }
+
+      .teacher-speech strong {
+        color: #ffffff;
+        display: block;
+        margin-bottom: 8px;
+        font-size: 1.05rem;
+      }
+
+      /* ===== CHALLENGE BOX ===== */
+      .challenge-box {
+        background-color: #2a1010;
+        border-right: 4px solid #ff1111;
+        padding: 18px;
+        border-radius: 0 6px 6px 0;
+        margin: 20px 0;
+        color: #ffcccc;
+      }
+
+      /* ===== INFO BOX ===== */
+      .info-box {
+        background-color: #1a1a2e;
+        border-right: 4px solid #4a9eff;
+        padding: 18px;
+        border-radius: 0 6px 6px 0;
+        margin: 20px 0;
+        color: #aaccff;
+      }
+
+      .info-box strong {
+        color: #ffffff;
+        display: block;
+        margin-bottom: 8px;
+        font-size: 1.05rem;
+      }
+
+      /* ===== SUCCESS BOX ===== */
+      .success-box {
+        background-color: #0d1a0d;
+        border-right: 4px solid #66ff66;
+        padding: 18px;
+        border-radius: 0 6px 6px 0;
+        margin: 20px 0;
+        color: #88ff88;
+      }
+
+      .success-box strong {
+        color: #ffffff;
+        display: block;
+        margin-bottom: 8px;
+        font-size: 1.05rem;
+      }
+
+      /* ===== ERROR BOX ===== */
+      .error-box {
+        background-color: #1a0d0d;
+        border-right: 4px solid #ff4444;
+        padding: 18px;
+        border-radius: 0 6px 6px 0;
+        margin: 20px 0;
+        color: #ff8888;
+      }
+
+      .error-box strong {
+        color: #ffffff;
+        display: block;
+        margin-bottom: 8px;
+        font-size: 1.05rem;
+      }
+
+      /* ===== CRUD FLOW ===== */
+      .crud-flow {
+        background-color: #0d0d0d;
+        border: 1px solid #2a1212;
+        padding: 20px;
+        border-radius: 6px;
+        margin: 15px 0;
+        direction: ltr;
+        text-align: center;
+      }
+
+      .crud-flow .step {
+        display: inline-block;
+        background-color: #161111;
+        border: 1px solid #2a1212;
+        padding: 10px 20px;
+        border-radius: 4px;
+        margin: 5px;
+        min-width: 80px;
+      }
+
+      .crud-flow .step.create {
+        border-color: #66ff66;
+      }
+
+      .crud-flow .step.read {
+        border-color: #4a9eff;
+      }
+
+      .crud-flow .step.update {
+        border-color: #ffaa00;
+      }
+
+      .crud-flow .step.delete {
+        border-color: #ff4444;
+      }
+
+      .crud-flow .arrow {
+        color: #666;
+        font-size: 1.5rem;
+        display: inline-block;
+      }
+
+      /* ===== FORM STYLES ===== */
+      .form-card {
+        background-color: #161111;
+        border: 1px solid #2a1212;
+        border-radius: 8px;
+        padding: 30px;
+        max-width: 700px;
+        margin: 0 auto;
+      }
+
+      .form-card h3 {
+        color: #ffffff;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      .form-group label {
+        display: block;
+        color: #ff8888;
+        font-weight: bold;
+        font-size: 0.9rem;
+        margin-bottom: 5px;
+      }
+
+      .form-group label .required {
+        color: #ff3333;
+      }
+
+      .form-group input,
+      .form-group textarea {
+        width: 100%;
+        padding: 10px 12px;
+        background-color: #0d0d0d;
+        border: 1px solid #2a1212;
+        color: #e5e5e5;
+        border-radius: 4px;
+        font-size: 1rem;
+        transition: border-color 0.3s ease;
+      }
+
+      .form-group input:focus,
+      .form-group textarea:focus {
+        border-color: #ff3333;
+        outline: none;
+      }
+
+      .form-group textarea {
+        min-height: 120px;
+        resize: vertical;
+      }
+
+      .form-group .error-message {
+        color: #ff4444;
+        font-size: 0.8rem;
+        margin-top: 5px;
+      }
+
+      .form-group .hint {
+        color: #666;
+        font-size: 0.8rem;
+        margin-top: 3px;
+      }
+
+      .btn-submit {
+        width: 100%;
+        padding: 12px;
+        background-color: #ff3333;
+        color: #ffffff;
+        border: none;
+        border-radius: 4px;
+        font-size: 1.1rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      .btn-submit:hover {
+        background-color: #cc0000;
+      }
+
+      .btn-cancel {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #333;
+        color: #e5e5e5;
+        text-decoration: none;
+        border-radius: 4px;
+        margin-top: 10px;
+        transition: background-color 0.3s ease;
+      }
+
+      .btn-cancel:hover {
+        background-color: #555;
+      }
+
+      .form-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 10px;
+      }
+
+      .form-actions .btn-submit {
+        flex: 1;
+      }
+
+      .form-actions .btn-cancel {
+        flex: 0 0 auto;
+      }
+
+      /* ===== ALERT ===== */
+      .alert {
+        padding: 15px 20px;
+        border-radius: 6px;
+        margin-bottom: 20px;
+      }
+
+      .alert-success {
+        background-color: #0d1a0d;
+        border: 1px solid #2a4a2a;
+        color: #88ff88;
+      }
+
+      .alert-error {
+        background-color: #1a0d0d;
+        border: 1px solid #4a2a2a;
+        color: #ff8888;
+      }
+
+      .alert-info {
+        background-color: #0d0d1a;
+        border: 1px solid #2a2a4a;
+        color: #8888ff;
+      }
+
+      /* ===== RESPONSIVE ===== */
+      @media (max-width: 600px) {
+        .form-card {
+          padding: 20px;
+        }
+        .form-actions {
+          flex-direction: column;
+        }
+        .crud-flow .step {
+          display: block;
+          margin: 5px auto;
+        }
+        .crud-flow .arrow {
+          display: block;
+          transform: rotate(90deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- ===== BACK LINK ===== -->
+      <a href="../syllabus.html" class="back-link"
+        >← بازگشت به جدول اصلی سرفصل‌ها</a
+      >
+
+      <!-- ===== HEADER ===== -->
+      <h1>جلسه ۰۸: پیاده‌سازی عملیات ایجاد و ویرایش (Create & Update)</h1>
+      <p style="color: #ff3333; font-weight: bold; font-size: 1.1rem">
+        مدت زمان تدریس: ۱۲۰ دقیقه | هدف: تکمیل عملیات CRUD با افزودن Create و
+        Update
+      </p>
+
+      <!-- ============================================================ -->
+      <!-- SECTION 1: TIMING -->
+      <!-- ============================================================ -->
+      <div class="section-block">
+        <h2>بخش اول: زمان‌بندی جلسه (۱۲۰ دقیقه)</h2>
+        <p>
+          در این جلسه، دو عملیات باقی‌مانده از CRUD را کامل می‌کنیم:
+          <strong>ایجاد (Create)</strong> و <strong>ویرایش (Update)</strong>. با
+          این جلسه، دانشجویان توانایی انجام تمام عملیات‌های اصلی روی داده‌ها را
+          خواهند داشت.
+        </p>
+        <ol>
+          <li>
+            <strong>مرور CRUD و ایجاد (Create) (۲۰ دقیقه):</strong>
+            مرور جلسات قبل، تکمیل فرم عمومی برای افزودن پیام.
+          </li>
+          <li>
+            <strong>ویرایش (Update) – قسمت اول (۳۰ دقیقه):</strong>
+            خواندن داده‌های یک رکورد خاص برای فرم ویرایش.
+          </li>
+          <li>
+            <strong>ویرایش – قسمت دوم (۳۰ دقیقه):</strong>
+            ذخیره تغییرات با UPDATE و Prepared Statement.
+          </li>
+          <li>
+            <strong>تمرین عملی: فرم ویرایش پیام (۴۰ دقیقه):</strong>
+            ساخت صفحه ویرایش کامل با اعتبارسنجی و به‌روزرسانی.
+          </li>
+        </ol>
+
+        <div class="info-box">
+          <strong>📌 نکته مهم برای مدرس:</strong>
+          <ul>
+            <li>
+              این جلسه، CRUD را کامل می‌کند. دانشجویان باید تمام عملیات را درک
+              کنند.
+            </li>
+            <li>
+              تأکید کنید که <strong>UPDATE</strong> هم مانند DELETE نیاز به
+              WHERE دارد.
+            </li>
+            <li>
+              نحوه <strong>بارگذاری داده‌ها در فرم ویرایش</strong> را با دقت
+              توضیح دهید.
+            </li>
+            <li>
+              از <strong>header()</strong> برای هدایت کاربر بعد از عملیات
+              استفاده کنید.
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- SECTION 2: CRUD OVERVIEW & CREATE -->
+      <!-- ============================================================ -->
+      <div class="section-block">
+        <h2>بخش دوم: مرور CRUD و ایجاد (Create) (۲۰ دقیقه)</h2>
+
+        <div class="teacher-speech">
+          <strong>🗣 کلمه به کلمه چه بگویید:</strong>
+          «تا الان با سه عملیات CRUD آشنا شدیم: -
+          <strong>Create</strong> (ایجاد) → INSERT (جلسه ۶) -
+          <strong>Read</strong> (خواندن) → SELECT (جلسه ۷) -
+          <strong>Delete</strong> (حذف) → DELETE (جلسه ۷) در این جلسه،
+          <strong>Update</strong> (به‌روزرسانی) را کامل می‌کنیم. با این جلسه،
+          شما یک <strong>سیستم CRUD کامل</strong> خواهید داشت!»
+        </div>
+
+        <h3>نمودار چرخه CRUD:</h3>
+
+        <div class="crud-flow">
+          <span class="step create">📝 Create</span>
+          <span class="arrow">→</span>
+          <span class="step read">📖 Read</span>
+          <span class="arrow">→</span>
+          <span class="step update">✏️ Update</span>
+          <span class="arrow">→</span>
+          <span class="step delete">🗑️ Delete</span>
+        </div>
+
+        <h3>مرور Create با MySQLi:</h3>
+
+        <pre><code>&lt;?php
+<span class="sql-comment">// ===== فایل: save_message.php (MySQLi) =====</span>
+require_once 'config/db.php';
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $username = trim($_POST['username']);
+    $message = trim($_POST['message']);
+    
+    <span class="sql-comment">// اعتبارسنجی</span>
+    $errors = [];
+    if (empty($username)) $errors[] = "نام کاربری الزامی است.";
+    if (empty($message)) $errors[] = "متن پیام الزامی است.";
+    
+    if (empty($errors)) {
+        $conn = getDBConnection();
+        $stmt = $conn->prepare("INSERT INTO messages (username, message, is_approved) VALUES (?, ?, 0)");
+        $stmt->bind_param("ss", $username, $message);
+        $stmt->execute();
+        $stmt->close();
+        $conn->close();
+        header('Location: index.php?status=success');
+        exit;
+    }
+}
+?&gt;</code></pre>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- SECTION 3: UPDATE - READING DATA FOR FORM -->
+      <!-- ============================================================ -->
+      <div class="section-block">
+        <h2>بخش سوم: ویرایش (Update) – خواندن داده برای فرم (۳۰ دقیقه)</h2>
+
+        <div class="teacher-speech">
+          <strong>🗣 کلمه به کلمه چه بگویید:</strong>
+          «برای ویرایش یک رکورد، باید دو مرحله را انجام دهیم:
+
+          <strong>مرحله ۱:</strong> داده‌های رکورد را از دیتابیس بخوانیم و در
+          فرم نمایش دهیم. <strong>مرحله ۲:</strong> تغییرات را دریافت کنیم و با
+          UPDATE در دیتابیس ذخیره کنیم. در این بخش، مرحله ۱ را انجام می‌دهیم.
+          شناسه رکورد را از Query String دریافت می‌کنیم و با SELECT داده‌ها را
+          می‌خوانیم. نکته مهم: اگر رکورد وجود نداشت، کاربر را به صفحه مدیریت
+          بازگردانید.»
+        </div>
+
+        <h3>۱. خواندن داده برای ویرایش با MySQLi:</h3>
+
+        <pre><code>&lt;?php
+<span class="sql-comment">// ===== فایل: edit.php (MySQLi) =====</span>
+require_once 'config/db.php';
+
+<span class="sql-comment">// ===== دریافت شناسه از URL =====</span>
+if (!isset($_GET['id'])) {
+    header('Location: admin.php?error=no_id');
+    exit;
+}
+
+$id = (int)$_GET['id'];
+
+if ($id <= 0) {
+    header('Location: admin.php?error=invalid_id');
+    exit;
+}
+
+<span class="sql-comment">// ===== خواندن داده‌ها =====</span>
+$conn = getDBConnection();
+
+$stmt = $conn->prepare("SELECT id, username, message, is_approved, created_at FROM messages WHERE id = ?");
+$stmt->bind_param("i", $id);
+$stmt->execute();
+$result = $stmt->get_result();
+$message = $result->fetch_assoc();
+$stmt->close();
+
+<span class="sql-comment">// اگر رکورد وجود نداشت</span>
+if (!$message) {
+    $conn->close();
+    header('Location: admin.php?error=not_found');
+    exit;
+}
+
+$conn->close();
+?&gt;</code></pre>
+
+        <h3>۲. نمایش داده‌ها در فرم با MySQLi:</h3>
+
+        <pre><code>&lt;form method="POST" action="update.php"&gt;
+    <span class="sql-comment"><!-- شناسه را به‌صورت hidden ارسال می‌کنیم --></span>
+    &lt;input type="hidden" name="id" value="&lt;?php echo $message['id']; ?&gt;"&gt;
+    
+    &lt;div class="form-group"&gt;
+        &lt;label&gt;نام کاربری&lt;/label&gt;
+        &lt;input type="text" name="username" 
+               value="&lt;?php echo htmlspecialchars($message['username']); ?&gt;" 
+               required&gt;
+    &lt;/div&gt;
+    
+    &lt;div class="form-group"&gt;
+        &lt;label&gt;متن پیام&lt;/label&gt;
+        &lt;textarea name="message" required&gt;&lt;?php echo htmlspecialchars($message['message']); ?&gt;&lt;/textarea&gt;
+    &lt;/div&gt;
+    
+    &lt;div class="form-group"&gt;
+        &lt;label&gt;وضعیت تأیید&lt;/label&gt;
+        &lt;select name="is_approved"&gt;
+            &lt;option value="0" &lt;?php echo $message['is_approved'] == 0 ? 'selected' : ''; ?&gt;&gt;در انتظار تأیید&lt;/option&gt;
+            &lt;option value="1" &lt;?php echo $message['is_approved'] == 1 ? 'selected' : ''; ?&gt;&gt;تأیید شده&lt;/option&gt;
+        &lt;/select&gt;
+    &lt;/div&gt;
+    
+    &lt;button type="submit"&gt;به‌روزرسانی&lt;/button&gt;
+    &lt;a href="admin.php"&gt;انصراف&lt;/a&gt;
+&lt;/form&gt;</code></pre>
+
+        <div class="info-box">
+          <strong>📌 نکات مهم در فرم ویرایش با MySQLi:</strong>
+          <ul>
+            <li>شناسه را با <code>input type="hidden"</code> ارسال کنید.</li>
+            <li>
+              از <code>htmlspecialchars()</code> برای نمایش امن داده‌ها استفاده
+              کنید.
+            </li>
+            <li>
+              برای <code>select</code>، گزینه فعلی را با
+              <code>selected</code> مشخص کنید.
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- SECTION 4: UPDATE - SAVING CHANGES -->
+      <!-- ============================================================ -->
+      <div class="section-block">
+        <h2>بخش چهارم: ویرایش – ذخیره تغییرات با UPDATE (۳۰ دقیقه)</h2>
+
+        <div class="teacher-speech">
+          <strong>🗣 کلمه به کلمه چه بگویید:</strong>
+          «حالا به مرحله دوم می‌رسیم: ذخیره تغییرات در دیتابیس. برای به‌روزرسانی
+          از دستور <code>UPDATE</code> استفاده می‌کنیم. مهم‌ترین نکته:
+          <strong>همیشه از WHERE استفاده کنید!</strong> اگر WHERE را فراموش
+          کنید، <strong>همه</strong> رکوردها تغییر می‌کنند. همچنین باید: ۱.
+          داده‌ها را اعتبارسنجی کنید. ۲. از Prepared Statements استفاده کنید. ۳.
+          کاربر را بعد از عملیات هدایت کنید.»
+        </div>
+
+        <h3>۱. ساختار UPDATE با MySQLi:</h3>
+
+        <pre><code>&lt;?php
+<span class="sql-comment">// ===== فایل: update.php (MySQLi) =====</span>
+require_once 'config/db.php';
+
+<span class="sql-comment">// ===== بررسی روش ارسال =====</span>
+if ($_SERVER["REQUEST_METHOD"] != "POST") {
+    header('Location: admin.php');
+    exit;
+}
+
+<span class="sql-comment">// ===== دریافت داده‌ها =====</span>
+$id = isset($_POST['id']) ? (int)$_POST['id'] : 0;
+$username = isset($_POST['username']) ? trim($_POST['username']) : '';
+$message = isset($_POST['message']) ? trim($_POST['message']) : '';
+$is_approved = isset($_POST['is_approved']) ? (int)$_POST['is_approved'] : 0;
+
+<span class="sql-comment">// ===== اعتبارسنجی =====</span>
+$errors = [];
+
+if ($id <= 0) {
+    $errors[] = "شناسه نامعتبر است.";
+}
+
+if (empty($username)) {
+    $errors[] = "نام کاربری الزامی است.";
+} elseif (strlen($username) < 2 || strlen($username) > 50) {
+    $errors[] = "نام کاربری باید بین ۲ تا ۵۰ کاراکتر باشد.";
+}
+
+if (empty($message)) {
+    $errors[] = "متن پیام الزامی است.";
+} elseif (strlen($message) < 5) {
+    $errors[] = "متن پیام باید حداقل ۵ کاراکتر باشد.";
+}
+
+<span class="sql-comment">// ===== اگر خطایی وجود داشت =====</span>
+if (!empty($errors)) {
+    session_start();
+    $_SESSION['update_errors'] = $errors;
+    $_SESSION['update_data'] = [
+        'id' => $id,
+        'username' => $username,
+        'message' => $message,
+        'is_approved' => $is_approved
+    ];
+    header('Location: edit.php?id=' . $id);
+    exit;
+}
+
+<span class="sql-comment">// ===== به‌روزرسانی در دیتابیس =====</span>
+$conn = getDBConnection();
+
+<span class="sql-comment">// ابتدا بررسی کنیم که رکورد وجود دارد</span>
+$check_stmt = $conn->prepare("SELECT id FROM messages WHERE id = ?");
+$check_stmt->bind_param("i", $id);
+$check_stmt->execute();
+$check_result = $check_stmt->get_result();
+
+if ($check_result->num_rows == 0) {
+    $check_stmt->close();
+    $conn->close();
+    header('Location: admin.php?error=not_found');
+    exit;
+}
+$check_stmt->close();
+
+<span class="sql-comment">// به‌روزرسانی</span>
+$update_stmt = $conn->prepare("
+    UPDATE messages 
+    SET username = ?, 
+        message = ?, 
+        is_approved = ? 
+    WHERE id = ?
+");
+$update_stmt->bind_param("ssii", $username, $message, $is_approved, $id);
+
+if ($update_stmt->execute()) {
+    $update_stmt->close();
+    $conn->close();
+    header('Location: admin.php?success=updated');
+} else {
+    $update_stmt->close();
+    $conn->close();
+    header('Location: admin.php?error=update_failed');
+}
+exit;
+?&gt;</code></pre>
+
+        <h3>۲. UPDATE با چندین شرط:</h3>
+
+        <pre><code>&lt;?php
+<span class="sql-comment">// ===== به‌روزرسانی با چند شرط =====</span>
+$stmt = $conn->prepare("
+    UPDATE messages 
+    SET is_approved = ? 
+    WHERE user_id = ? AND created_at > ?
+");
+$stmt->bind_param("iis", $approved, $user_id, $date);
+$approved = 1;
+$user_id = 5;
+$date = '2024-01-01';
+$stmt->execute();
+
+<span class="sql-comment">// ===== به‌روزرسانی با محاسبه =====</span>
+$stmt = $conn->prepare("UPDATE users SET age = age + 1 WHERE is_active = ?");
+$stmt->bind_param("i", $active);
+$active = 1;
+$stmt->execute();
+?&gt;</code></pre>
+
+        <div class="challenge-box">
+          <strong>⚠️ هشدار مهم:</strong>
+          <ul>
+            <li>همیشه از <code>WHERE</code> در UPDATE استفاده کنید.</li>
+            <li>
+              اگر <code>WHERE</code> را فراموش کنید،
+              <strong>همه</strong> رکوردها تغییر می‌کنند!
+            </li>
+            <li>
+              از <code>affected_rows</code> برای بررسی اینکه آیا رکوردی تغییر
+              کرده است استفاده کنید.
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- SECTION 5: PRACTICAL EXERCISE -->
+      <!-- ============================================================ -->
+      <div class="section-block">
+        <h2>بخش پنجم: تمرین عملی – فرم ویرایش پیام (۴۰ دقیقه)</h2>
+
+        <div class="teacher-speech">
+          <strong>🗣 مأموریت کلاسی:</strong>
+          «حالا سیستم Guestbook را کامل می‌کنیم. دو فایل جدید به پروژه اضافه
+          می‌کنیم: - <code>edit.php</code> → نمایش فرم ویرایش با داده‌های فعلی -
+          <code>update.php</code> → پردازش و ذخیره تغییرات همچنین دکمه ویرایش را
+          در <code>admin.php</code> فعال می‌کنیم.»
+        </div>
+
+        <h3>۱. فایل edit.php (فرم ویرایش با MySQLi):</h3>
+
+        <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="fa" dir="rtl"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;ویرایش پیام - Guestbook Admin&lt;/title&gt;
+    &lt;style&gt;
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Tahoma', sans-serif; }
+        body { background-color: #0d0d0d; color: #e5e5e5; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 40px 20px; }
+        .container { width: 100%; max-width: 700px; }
+        .form-card { background-color: #161111; border: 1px solid #2a1212; border-radius: 10px; padding: 35px; }
+        .form-card h1 { color: #ffffff; font-size: 1.8rem; text-align: center; margin-bottom: 5px; }
+        .form-card .subtitle { text-align: center; color: #888; font-size: 0.9rem; margin-bottom: 25px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; color: #ff8888; font-weight: bold; font-size: 0.9rem; margin-bottom: 5px; }
+        .form-group label .required { color: #ff3333; }
+        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 10px 12px; background-color: #0d0d0d; border: 1px solid #2a1212; color: #e5e5e5; border-radius: 4px; font-size: 1rem; transition: border-color 0.3s ease; }
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: #ff3333; outline: none; }
+        .form-group textarea { min-height: 120px; resize: vertical; }
+        .form-group .error-message { color: #ff4444; font-size: 0.85rem; margin-top: 5px; }
+        .alert { padding: 15px 20px; border-radius: 6px; margin-bottom: 20px; }
+        .alert-error { background-color: #1a0d0d; border: 1px solid #4a2a2a; color: #ff8888; }
+        .alert-error ul { margin-right: 20px; margin-bottom: 0; }
+        .meta-info { background-color: #0d0d0d; padding: 10px 15px; border-radius: 4px; margin-bottom: 20px; color: #888; font-size: 0.9rem; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+        .meta-info span { color: #b3b3b3; }
+        .meta-info .id-label { color: #ff8888; }
+        .form-actions { display: flex; gap: 10px; margin-top: 5px; }
+        .btn-submit { flex: 1; padding: 12px; background-color: #ff3333; color: #ffffff; border: none; border-radius: 4px; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: background-color 0.3s ease; }
+        .btn-submit:hover { background-color: #cc0000; }
+        .btn-cancel { display: inline-flex; align-items: center; justify-content: center; padding: 12px 25px; background-color: #333; color: #e5e5e5; text-decoration: none; border-radius: 4px; font-size: 1rem; transition: background-color 0.3s ease; border: none; cursor: pointer; }
+        .btn-cancel:hover { background-color: #555; }
+        @media (max-width: 600px) { .form-card { padding: 20px; } .form-actions { flex-direction: column; } }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div class="container"&gt;
+
+    &lt;?php
+        require_once 'config/db.php';
+
+        if (!isset($_GET['id'])) {
+            header('Location: admin.php?error=no_id');
+            exit;
+        }
+
+        $id = (int)$_GET['id'];
+
+        if ($id <= 0) {
+            header('Location: admin.php?error=invalid_id');
+            exit;
+        }
+
+        $conn = getDBConnection();
+
+        $stmt = $conn->prepare("SELECT id, username, message, is_approved, created_at FROM messages WHERE id = ?");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $message = $result->fetch_assoc();
+        $stmt->close();
+
+        if (!$message) {
+            $conn->close();
+            header('Location: admin.php?error=not_found');
+            exit;
+        }
+
+        $conn->close();
+
+        session_start();
+        $errors = isset($_SESSION['update_errors']) ? $_SESSION['update_errors'] : [];
+        $old_data = isset($_SESSION['update_data']) ? $_SESSION['update_data'] : [];
+        unset($_SESSION['update_errors']);
+        unset($_SESSION['update_data']);
+
+        $username = isset($old_data['username']) ? $old_data['username'] : $message['username'];
+        $message_text = isset($old_data['message']) ? $old_data['message'] : $message['message'];
+        $is_approved = isset($old_data['is_approved']) ? $old_data['is_approved'] : $message['is_approved'];
+    ?&gt;
+
+    &lt;div class="form-card"&gt;
+        &lt;h1&gt;✏️ ویرایش پیام&lt;/h1&gt;
+        &lt;p class="subtitle"&gt;اطلاعات پیام را ویرایش کنید&lt;/p&gt;
+
+        &lt;?php if (!empty($errors)): ?&gt;
+            &lt;div class="alert alert-error"&gt;
+                &lt;strong&gt;❌ خطاهای زیر رخ داده است:&lt;/strong&gt;
+                &lt;ul&gt;
+                    &lt;?php foreach ($errors as $error): ?&gt;
+                        &lt;li&gt;&lt;?php echo htmlspecialchars($error); ?&gt;&lt;/li&gt;
+                    &lt;?php endforeach; ?&gt;
+                &lt;/ul&gt;
+            &lt;/div&gt;
+        &lt;?php endif; ?&gt;
+
+        &lt;div class="meta-info"&gt;
+            &lt;span&gt;🆔 &lt;span class="id-label"&gt;شناسه پیام:&lt;/span&gt; &lt;?php echo $message['id']; ?&gt;&lt;/span&gt;
+            &lt;span&gt;📅 تاریخ ثبت: &lt;?php echo date('Y/m/d H:i', strtotime($message['created_at'])); ?&gt;&lt;/span&gt;
+        &lt;/div&gt;
+
+        &lt;form method="POST" action="update.php"&gt;
+
+            &lt;input type="hidden" name="id" value="&lt;?php echo $message['id']; ?&gt;"&gt;
+
+            &lt;div class="form-group"&gt;
+                &lt;label&gt;نام کاربری &lt;span class="required"&gt;*&lt;/span&gt;&lt;/label&gt;
+                &lt;input type="text" name="username" value="&lt;?php echo htmlspecialchars($username); ?&gt;" required minlength="2" maxlength="50"&gt;
+            &lt;/div&gt;
+
+            &lt;div class="form-group"&gt;
+                &lt;label&gt;متن پیام &lt;span class="required"&gt;*&lt;/span&gt;&lt;/label&gt;
+                &lt;textarea name="message" required minlength="5"&gt;&lt;?php echo htmlspecialchars($message_text); ?&gt;&lt;/textarea&gt;
+            &lt;/div&gt;
+
+            &lt;div class="form-group"&gt;
+                &lt;label&gt;وضعیت تأیید&lt;/label&gt;
+                &lt;select name="is_approved"&gt;
+                    &lt;option value="0" &lt;?php echo $is_approved == 0 ? 'selected' : ''; ?&gt;&gt;⏳ در انتظار تأیید&lt;/option&gt;
+                    &lt;option value="1" &lt;?php echo $is_approved == 1 ? 'selected' : ''; ?&gt;&gt;✅ تأیید شده&lt;/option&gt;
+                &lt;/select&gt;
+            &lt;/div&gt;
+
+            &lt;div class="form-actions"&gt;
+                &lt;button type="submit" class="btn-submit"&gt;💾 ذخیره تغییرات&lt;/button&gt;
+                &lt;a href="admin.php" class="btn-cancel"&gt;↩️ انصراف&lt;/a&gt;
+            &lt;/div&gt;
+
+        &lt;/form&gt;
+    &lt;/div&gt;
+
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+        <h3>۲. فایل update.php (پردازش ویرایش با MySQLi):</h3>
+
+        <pre><code>&lt;?php
+<span class="sql-comment">// ===== فایل: update.php (MySQLi) =====</span>
+require_once 'config/db.php';
+
+if ($_SERVER["REQUEST_METHOD"] != "POST") {
+    header('Location: admin.php');
+    exit;
+}
+
+$id = isset($_POST['id']) ? (int)$_POST['id'] : 0;
+$username = isset($_POST['username']) ? trim($_POST['username']) : '';
+$message = isset($_POST['message']) ? trim($_POST['message']) : '';
+$is_approved = isset($_POST['is_approved']) ? (int)$_POST['is_approved'] : 0;
+
+$errors = [];
+
+if ($id <= 0) {
+    $errors[] = "شناسه نامعتبر است.";
+}
+
+if (empty($username)) {
+    $errors[] = "نام کاربری الزامی است.";
+} elseif (strlen($username) < 2 || strlen($username) > 50) {
+    $errors[] = "نام کاربری باید بین ۲ تا ۵۰ کاراکتر باشد.";
+}
+
+if (empty($message)) {
+    $errors[] = "متن پیام الزامی است.";
+} elseif (strlen($message) < 5) {
+    $errors[] = "متن پیام باید حداقل ۵ کاراکتر باشد.";
+}
+
+if (!empty($errors)) {
+    session_start();
+    $_SESSION['update_errors'] = $errors;
+    $_SESSION['update_data'] = [
+        'id' => $id,
+        'username' => $username,
+        'message' => $message,
+        'is_approved' => $is_approved
+    ];
+    header('Location: edit.php?id=' . $id);
+    exit;
+}
+
+$conn = getDBConnection();
+
+<span class="sql-comment">// بررسی وجود رکورد</span>
+$check_stmt = $conn->prepare("SELECT id FROM messages WHERE id = ?");
+$check_stmt->bind_param("i", $id);
+$check_stmt->execute();
+$check_result = $check_stmt->get_result();
+
+if ($check_result->num_rows == 0) {
+    $check_stmt->close();
+    $conn->close();
+    header('Location: admin.php?error=not_found');
+    exit;
+}
+$check_stmt->close();
+
+<span class="sql-comment">// به‌روزرسانی</span>
+$update_stmt = $conn->prepare("UPDATE messages SET username = ?, message = ?, is_approved = ? WHERE id = ?");
+$update_stmt->bind_param("ssii", $username, $message, $is_approved, $id);
+
+if ($update_stmt->execute()) {
+    $update_stmt->close();
+    $conn->close();
+    header('Location: admin.php?success=updated');
+} else {
+    $update_stmt->close();
+    $conn->close();
+    header('Location: admin.php?error=update_failed');
+}
+exit;
+?&gt;</code></pre>
+
+        <h3>۳. به‌روزرسانی admin.php (اضافه کردن دکمه ویرایش):</h3>
+
+        <pre><code>&lt;?php
+<span class="sql-comment">// ===== در admin.php، بخش actions را به‌روزرسانی کنید =====</span>
+?&gt;
+
+&lt;div class="actions"&gt;
+    &lt;!-- دکمه ویرایش --&gt;
+    &lt;a href="edit.php?id=&lt;?php echo $message['id']; ?&gt;" class="btn-edit"&gt;✏️ ویرایش&lt;/a&gt;
+
+    &lt;!-- فرم حذف --&gt;
+    &lt;form method="POST" action="delete.php" 
+            onsubmit="return confirm('آیا از حذف این پیام مطمئن هستید؟')"&gt;
+        &lt;input type="hidden" name="id" value="&lt;?php echo $message['id']; ?&gt;"&gt;
+        &lt;button type="submit" class="btn-delete"&gt;🗑️ حذف&lt;/button&gt;
+    &lt;/form&gt;
+&lt;/div&gt;</code></pre>
+
+        <div class="info-box">
+          <strong>📌 خروجی نهایی قابل قبول:</strong>
+          <ul>
+            <li>
+              صفحه <code>edit.php</code> داده‌های پیام را در فرم نمایش می‌دهد.
+            </li>
+            <li>دکمه ویرایش در <code>admin.php</code> فعال است.</li>
+            <li>پس از ویرایش، پیام به‌درستی در دیتابیس به‌روزرسانی می‌شود.</li>
+            <li>اعتبارسنجی کامل انجام می‌شود.</li>
+            <li>خطاها به‌درستی نمایش داده می‌شوند.</li>
+          </ul>
+        </div>
+
+        <div class="teacher-speech" style="border-right-color: #4a9eff">
+          <strong>🗣 جمع‌بندی جلسه:</strong>
+          «تبریک می‌گویم! شما یک <strong>سیستم CRUD کامل</strong> ساختید! با این
+          جلسه، تمام عملیات‌های اصلی روی داده‌ها را یاد گرفتید: -
+          <strong>Create</strong> (INSERT) → ثبت پیام جدید -
+          <strong>Read</strong> (SELECT) → نمایش پیام‌ها -
+          <strong>Update</strong> (UPDATE) → ویرایش پیام -
+          <strong>Delete</strong> (DELETE) → حذف پیام در جلسه بعد،
+          <strong>مدیریت نشست‌ها (Sessions)</strong> و
+          <strong>سیستم لاگین</strong> را یاد می‌گیریم.»
+        </div>
+      </div>
+    </div>
+    <!-- END container -->
+  </body>
+</html>

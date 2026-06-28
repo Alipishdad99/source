@@ -1,0 +1,1027 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>جلسه ۰۷: پیاده‌سازی عملیات خواندن و حذف (Read & Delete)</title>
+
+    <style>
+      /* ===== RESET & BASE ===== */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        background-color: #0d0d0d;
+        color: #e5e5e5;
+        line-height: 1.8;
+        padding: 40px 20px;
+      }
+
+      .container {
+        max-width: 950px;
+        margin: 0 auto;
+      }
+
+      /* ===== LINKS ===== */
+      .back-link {
+        color: #ff3333;
+        text-decoration: none;
+        font-size: 0.9rem;
+        display: inline-block;
+        margin-bottom: 25px;
+        font-weight: bold;
+      }
+
+      .back-link:hover {
+        text-decoration: underline;
+      }
+
+      /* ===== HEADINGS ===== */
+      h1 {
+        color: #ffffff;
+        font-size: 2.2rem;
+        margin-bottom: 10px;
+        border-bottom: 2px solid #ff3333;
+        padding-bottom: 15px;
+        font-weight: 800;
+      }
+
+      h2 {
+        color: #ff3333;
+        font-size: 1.5rem;
+        margin-top: 40px;
+        margin-bottom: 15px;
+        border-bottom: 1px dashed #2a1212;
+        padding-bottom: 5px;
+      }
+
+      h3 {
+        color: #ffffff;
+        font-size: 1.2rem;
+        margin-top: 25px;
+        margin-bottom: 10px;
+      }
+
+      h4 {
+        color: #ff8888;
+        font-size: 1.05rem;
+        margin-top: 20px;
+        margin-bottom: 8px;
+      }
+
+      /* ===== SECTIONS ===== */
+      .section-block {
+        background-color: #161111;
+        border: 1px solid #2a1212;
+        padding: 30px;
+        border-radius: 6px;
+        margin-bottom: 30px;
+      }
+
+      /* ===== PARAGRAPHS & LISTS ===== */
+      p {
+        margin-bottom: 15px;
+        color: #b3b3b3;
+        text-align: justify;
+      }
+
+      ul,
+      ol {
+        margin-right: 25px;
+        margin-bottom: 20px;
+      }
+
+      li {
+        margin-bottom: 10px;
+        color: #cccccc;
+      }
+
+      /* ===== CODE ===== */
+      code {
+        background-color: #241414;
+        color: #ff5252;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-family: "Courier New", Courier, monospace;
+        font-size: 0.95rem;
+        border: 1px solid #421818;
+      }
+
+      pre {
+        background-color: #1a1212;
+        border: 1px solid #2a1212;
+        padding: 18px;
+        border-radius: 6px;
+        overflow-x: auto;
+        margin: 20px 0;
+        direction: ltr;
+        text-align: left;
+      }
+
+      pre code {
+        color: #f8f8f2;
+        background: none;
+        padding: 0;
+        border: none;
+        font-size: 0.9rem;
+        line-height: 1.7;
+        font-family: "Consolas", monospace;
+        white-space: pre;
+      }
+
+      /* ===== TEACHER SPEECH BOX ===== */
+      .teacher-speech {
+        background-color: #241414;
+        border-right: 4px solid #ff3333;
+        padding: 18px;
+        border-radius: 0 6px 6px 0;
+        margin: 20px 0;
+        color: #ffbaba;
+      }
+
+      .teacher-speech strong {
+        color: #ffffff;
+        display: block;
+        margin-bottom: 8px;
+        font-size: 1.05rem;
+      }
+
+      /* ===== CHALLENGE BOX ===== */
+      .challenge-box {
+        background-color: #2a1010;
+        border-right: 4px solid #ff1111;
+        padding: 18px;
+        border-radius: 0 6px 6px 0;
+        margin: 20px 0;
+        color: #ffcccc;
+      }
+
+      /* ===== INFO BOX ===== */
+      .info-box {
+        background-color: #1a1a2e;
+        border-right: 4px solid #4a9eff;
+        padding: 18px;
+        border-radius: 0 6px 6px 0;
+        margin: 20px 0;
+        color: #aaccff;
+      }
+
+      .info-box strong {
+        color: #ffffff;
+        display: block;
+        margin-bottom: 8px;
+        font-size: 1.05rem;
+      }
+
+      /* ===== TABLE STYLES ===== */
+      .data-table {
+        width: 100%;
+        border-collapse: collapse;
+        color: #e5e5e5;
+        background-color: #0d0d0d;
+        border: 1px solid #2a1212;
+        margin: 15px 0;
+        direction: ltr;
+      }
+
+      .data-table th {
+        background-color: #2a1212;
+        padding: 10px;
+        border: 1px solid #3a1a1a;
+        text-align: center;
+      }
+
+      .data-table td {
+        padding: 10px;
+        border: 1px solid #3a1a1a;
+        text-align: center;
+      }
+
+      .data-table tr:hover {
+        background-color: #1a0d0d;
+      }
+
+      .data-table .delete-btn {
+        color: #ff4444;
+        text-decoration: none;
+        padding: 3px 10px;
+        border: 1px solid #ff4444;
+        border-radius: 3px;
+        font-size: 0.8rem;
+        transition: all 0.3s ease;
+      }
+
+      .data-table .delete-btn:hover {
+        background-color: #ff4444;
+        color: #ffffff;
+      }
+
+      .data-table .edit-btn {
+        color: #4a9eff;
+        text-decoration: none;
+        padding: 3px 10px;
+        border: 1px solid #4a9eff;
+        border-radius: 3px;
+        font-size: 0.8rem;
+        transition: all 0.3s ease;
+      }
+
+      .data-table .edit-btn:hover {
+        background-color: #4a9eff;
+        color: #ffffff;
+      }
+
+      /* ===== MESSAGE CARD ===== */
+      .message-card {
+        background-color: #0d0d0d;
+        border: 1px solid #2a1212;
+        padding: 15px 20px;
+        border-radius: 6px;
+        margin-bottom: 10px;
+        transition: all 0.3s ease;
+      }
+
+      .message-card:hover {
+        border-color: #ff3333;
+      }
+
+      .message-card .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 5px;
+      }
+
+      .message-card .username {
+        color: #ff8888;
+        font-weight: bold;
+      }
+
+      .message-card .date {
+        color: #666;
+        font-size: 0.8rem;
+      }
+
+      .message-card .content {
+        color: #b3b3b3;
+        margin: 5px 0;
+      }
+
+      .message-card .actions {
+        margin-top: 10px;
+        display: flex;
+        gap: 10px;
+      }
+
+      .message-card .actions a {
+        text-decoration: none;
+        padding: 3px 12px;
+        border-radius: 3px;
+        font-size: 0.8rem;
+        transition: all 0.3s ease;
+      }
+
+      .message-card .actions .delete-link {
+        color: #ff4444;
+        border: 1px solid #ff4444;
+      }
+
+      .message-card .actions .delete-link:hover {
+        background-color: #ff4444;
+        color: #ffffff;
+      }
+
+      .message-card .status-badge {
+        font-size: 0.7rem;
+        padding: 2px 10px;
+        border-radius: 10px;
+      }
+
+      .message-card .status-badge.approved {
+        background-color: #0d1a0d;
+        color: #66ff66;
+        border: 1px solid #2a4a2a;
+      }
+
+      .message-card .status-badge.pending {
+        background-color: #1a1a0d;
+        color: #ffaa00;
+        border: 1px solid #4a3a2a;
+      }
+
+      /* ===== EMPTY STATE ===== */
+      .empty-state {
+        text-align: center;
+        padding: 50px 20px;
+        color: #888;
+      }
+
+      .empty-state .icon {
+        font-size: 3rem;
+        margin-bottom: 15px;
+      }
+
+      .empty-state h3 {
+        color: #666;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- ===== BACK LINK ===== -->
+      <a href="../syllabus.html" class="back-link"
+        >← بازگشت به جدول اصلی سرفصل‌ها</a
+      >
+
+      <!-- ===== HEADER ===== -->
+      <h1>جلسه ۰۷: پیاده‌سازی عملیات خواندن و حذف (Read & Delete)</h1>
+      <p style="color: #ff3333; font-weight: bold; font-size: 1.1rem">
+        مدت زمان تدریس: ۱۲۰ دقیقه | هدف: نمایش داده‌ها از دیتابیس و حذف امن با
+        Query String
+      </p>
+
+      <!-- ============================================================ -->
+      <!-- SECTION 1: TIMING -->
+      <!-- ============================================================ -->
+      <div class="section-block">
+        <h2>بخش اول: زمان‌بندی جلسه (۱۲۰ دقیقه)</h2>
+        <p>
+          در این جلسه، دانشجویان با دو عملیات اصلی CRUD آشنا می‌شوند:
+          <strong>خواندن (Read)</strong> و <strong>حذف (Delete)</strong>. این
+          عملیات پایه‌ای‌ترین عملیات‌های هر سیستم مدیریت محتوا هستند.
+        </p>
+        <ol>
+          <li>
+            <strong>مرور MySQLi و SELECT (۲۰ دقیقه):</strong>
+            مرور مفاهیم جلسه قبل، دریافت و نمایش داده‌ها با MySQLi.
+          </li>
+          <li>
+            <strong>Query String و پارامترهای URL (۳۰ دقیقه):</strong>
+            نحوه انتقال داده از طریق URL، دریافت با $_GET، کاربردها.
+          </li>
+          <li>
+            <strong>پیاده‌سازی حذف با DELETE (۳۰ دقیقه):</strong>
+            نوشتن کوئری DELETE با Prepared Statement، تایید حذف.
+          </li>
+          <li>
+            <strong>تمرین عملی: نمایش و حذف پیام‌ها (۴۰ دقیقه):</strong>
+            ساخت صفحه مدیریت پیام‌ها با قابلیت نمایش و حذف.
+          </li>
+        </ol>
+
+        <div class="info-box">
+          <strong>📌 نکته مهم برای مدرس:</strong>
+          <ul>
+            <li>
+              تأکید کنید که <strong>حذف</strong> یک عملیات حساس است و باید با
+              دقت انجام شود.
+            </li>
+            <li>
+              حتماً مفهوم <strong>Query String</strong> را با مثال‌های عملی نشان
+              دهید.
+            </li>
+            <li>
+              استفاده از <strong>تأیید حذف</strong> (با جاوااسکریپت یا صفحه
+              جداگانه) را توضیح دهید.
+            </li>
+            <li>
+              تأکید کنید که همیشه از <code>WHERE</code> در DELETE استفاده شود.
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- SECTION 2: READING DATA WITH MYSQLI -->
+      <!-- ============================================================ -->
+      <div class="section-block">
+        <h2>بخش دوم: خواندن داده‌ها با MySQLi (۲۰ دقیقه)</h2>
+
+        <div class="teacher-speech">
+          <strong>🗣 کلمه به کلمه چه بگویید:</strong>
+          «در جلسه قبل یاد گرفتیم که چطور داده‌ها را در دیتابیس ذخیره کنیم. حالا
+          نوبت به <strong>خواندن</strong> داده‌هاست. در یک سیستم مدیریت محتوا،
+          ما دائماً نیاز داریم که داده‌ها را از دیتابیس بخوانیم و به کاربر نمایش
+          دهیم. مثلاً لیست محصولات، لیست کاربران، یا لیست پیام‌ها. برای خواندن
+          داده‌ها از <code>SELECT</code> استفاده می‌کنیم. با MySQLi، می‌توانیم
+          داده‌ها را به‌صورت <strong>آرایه</strong> یا
+          <strong>شیء</strong> دریافت کنیم.»
+        </div>
+
+        <h3>۱. خواندن همه رکوردها:</h3>
+
+        <pre><code>&lt;?php
+require_once 'config/db.php';
+$conn = getDBConnection();
+
+<span class="sql-comment">// ===== خواندن همه پیام‌ها =====</span>
+$result = $conn->query("SELECT * FROM messages ORDER BY created_at DESC");
+
+<span class="sql-comment">// ===== نمایش داده‌ها =====</span>
+while ($message = $result->fetch_assoc()) {
+    echo "نام: " . $message['username'] . "&lt;br&gt;";
+    echo "پیام: " . $message['message'] . "&lt;br&gt;";
+    echo "تاریخ: " . $message['created_at'] . "&lt;br&gt;&lt;br&gt;";
+}
+
+<span class="sql-comment">// ===== تعداد رکوردها =====</span>
+$count = $result->num_rows;
+echo "تعداد کل پیام‌ها: " . $count;
+
+$conn->close();
+?&gt;</code></pre>
+
+        <h3>۲. خواندن با شرط و Prepared Statement:</h3>
+
+        <pre><code>&lt;?php
+require_once 'config/db.php';
+$conn = getDBConnection();
+
+<span class="sql-comment">// ===== خواندن پیام‌های تأیید شده =====</span>
+$stmt = $conn->prepare("SELECT * FROM messages WHERE is_approved = ?");
+$stmt->bind_param("i", $approved);
+$approved = 1;
+$stmt->execute();
+$result = $stmt->get_result();
+$approved_messages = $result->fetch_all(MYSQLI_ASSOC);
+
+<span class="sql-comment">// ===== خواندن با محدودیت (صفحه‌بندی) =====</span>
+$page = 1;
+$per_page = 10;
+$offset = ($page - 1) * $per_page;
+
+$stmt = $conn->prepare("SELECT * FROM messages ORDER BY created_at DESC LIMIT ? OFFSET ?");
+$stmt->bind_param("ii", $per_page, $offset);
+$stmt->execute();
+$result = $stmt->get_result();
+$paginated_messages = $result->fetch_all(MYSQLI_ASSOC);
+
+<span class="sql-comment">// ===== تعداد کل رکوردها =====</span>
+$count_result = $conn->query("SELECT COUNT(*) as total FROM messages");
+$total = $count_result->fetch_assoc()['total'];
+$total_pages = ceil($total / $per_page);
+
+$conn->close();
+?&gt;</code></pre>
+
+        <h3>۳. روش‌های مختلف fetch:</h3>
+
+        <div style="overflow-x: auto; margin: 15px 0; direction: ltr">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>متد</th>
+                <th>توضیح</th>
+                <th>نحوه دسترسی</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>fetch_assoc()</code></td>
+                <td>آرایه انجمنی</td>
+                <td><code>$row['column_name']</code></td>
+              </tr>
+              <tr>
+                <td><code>fetch_object()</code></td>
+                <td>شیء</td>
+                <td><code>$row->column_name</code></td>
+              </tr>
+              <tr>
+                <td><code>fetch_row()</code></td>
+                <td>آرایه عددی</td>
+                <td><code>$row[0]</code></td>
+              </tr>
+              <tr>
+                <td><code>fetch_all(MYSQLI_ASSOC)</code></td>
+                <td>همه رکوردها به‌صورت آرایه</td>
+                <td><code>$rows[0]['column_name']</code></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <pre><code>&lt;?php
+require_once 'config/db.php';
+$conn = getDBConnection();
+
+<span class="sql-comment">// ===== مثال fetch_object() =====</span>
+$result = $conn->query("SELECT id, username, message FROM messages LIMIT 5");
+while ($row = $result->fetch_object()) {
+    echo $row->username . ": " . $row->message . "&lt;br&gt;";
+}
+
+<span class="sql-comment">// ===== مثال fetch_all() =====</span>
+$result = $conn->query("SELECT username FROM users");
+$usernames = $result->fetch_all(MYSQLI_ASSOC);
+foreach ($usernames as $user) {
+    echo $user['username'] . "&lt;br&gt;";
+}
+
+$conn->close();
+?&gt;</code></pre>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- SECTION 3: QUERY STRING -->
+      <!-- ============================================================ -->
+      <div class="section-block">
+        <h2>بخش سوم: Query String و پارامترهای URL (۳۰ دقیقه)</h2>
+
+        <div class="teacher-speech">
+          <strong>🗣 کلمه به کلمه چه بگویید:</strong>
+          «<strong>Query String</strong> بخشی از URL است که بعد از علامت
+          <code>?</code> قرار می‌گیرد. از آن برای انتقال داده‌های کوچک بین صفحات
+          استفاده می‌شود. کاربردهای Query String: - انتقال شناسه رکورد برای
+          ویرایش یا حذف - صفحه‌بندی (Pagination) - فیلتر کردن داده‌ها - جستجو -
+          مرتب‌سازی در PHP، داده‌های Query String را با
+          <code>$_GET</code> دریافت می‌کنیم.»
+        </div>
+
+        <h3>۱. ساختار و کاربرد Query String:</h3>
+
+        <pre><code>&lt;?php
+<span class="sql-comment">// ===== دریافت پارامترها از URL =====</span>
+<span class="sql-comment">// URL: http://localhost/admin.php?page=3&sort=date&filter=approved</span>
+
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$sort = isset($_GET['sort']) ? $_GET['sort'] : 'date';
+$filter = isset($_GET['filter']) ? $_GET['filter'] : 'all';
+
+echo "صفحه: $page, مرتب‌سازی: $sort, فیلتر: $filter";
+
+<span class="sql-comment">// ===== ساخت لینک با پارامترهای GET =====</span>
+echo '&lt;a href="?page=2&sort=name"&gt;صفحه ۲ با مرتب‌سازی نام&lt;/a&gt;';
+
+<span class="sql-comment">// ===== ساخت لینک حذف =====</span>
+echo '&lt;a href="delete.php?id=' . $message['id'] . '" onclick="return confirm(\'آیا مطمئن هستید؟\')"&gt;حذف&lt;/a&gt;';
+?&gt;</code></pre>
+
+        <h3>۲. مثال کامل: صفحه‌بندی با Query String:</h3>
+
+        <pre><code>&lt;?php
+require_once 'config/db.php';
+$conn = getDBConnection();
+
+<span class="sql-comment">// ===== تنظیمات صفحه‌بندی =====</span>
+$per_page = 5;
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+if ($page < 1) $page = 1;
+$offset = ($page - 1) * $per_page;
+
+<span class="sql-comment">// ===== دریافت داده‌ها =====</span>
+$stmt = $conn->prepare("SELECT * FROM messages ORDER BY created_at DESC LIMIT ? OFFSET ?");
+$stmt->bind_param("ii", $per_page, $offset);
+$stmt->execute();
+$result = $stmt->get_result();
+$messages = $result->fetch_all(MYSQLI_ASSOC);
+
+<span class="sql-comment">// ===== تعداد کل رکوردها =====</span>
+$count_result = $conn->query("SELECT COUNT(*) as total FROM messages");
+$total = $count_result->fetch_assoc()['total'];
+$total_pages = ceil($total / $per_page);
+
+<span class="sql-comment">// ===== نمایش لینک‌های صفحه‌بندی =====</span>
+echo '&lt;div class="pagination"&gt;';
+
+<span class="sql-comment">// لینک صفحه قبلی</span>
+if ($page > 1) {
+    echo '&lt;a href="?page=' . ($page - 1) . '"&gt;قبلی&lt;/a&gt;';
+}
+
+<span class="sql-comment">// شماره صفحات</span>
+for ($i = 1; $i <= $total_pages; $i++) {
+    if ($i == $page) {
+        echo '&lt;strong&gt;' . $i . '&lt;/strong&gt;';
+    } else {
+        echo '&lt;a href="?page=' . $i . '"&gt;' . $i . '&lt;/a&gt;';
+    }
+}
+
+<span class="sql-comment">// لینک صفحه بعدی</span>
+if ($page < $total_pages) {
+    echo '&lt;a href="?page=' . ($page + 1) . '"&gt;بعدی&lt;/a&gt;';
+}
+
+echo '&lt;/div&gt;';
+
+$conn->close();
+?&gt;</code></pre>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- SECTION 4: DELETE OPERATION -->
+      <!-- ============================================================ -->
+      <div class="section-block">
+        <h2>بخش چهارم: پیاده‌سازی حذف با DELETE (۳۰ دقیقه)</h2>
+
+        <div class="teacher-speech">
+          <strong>🗣 کلمه به کلمه چه بگویید:</strong>
+          «عملیات <strong>حذف</strong> یکی از حساس‌ترین عملیات‌های هر سیستم است.
+          اگر اشتباه انجام شود، داده‌های مهمی را از دست می‌دهیم. برای حذف از
+          دستور <code>DELETE</code> استفاده می‌کنیم. اما قبل از حذف، باید: ۱.
+          مطمئن شویم که کاربر مجوز حذف دارد. ۲. از کاربر تأیید بگیریم. ۳. شناسه
+          رکورد را به‌درستی دریافت کنیم. ۴. از Prepared Statement برای امنیت
+          استفاده کنیم.»
+        </div>
+
+        <h3>۱. ساختار پایه حذف:</h3>
+
+        <pre><code>&lt;?php
+<span class="sql-comment">// ===== فایل: delete.php =====</span>
+require_once 'config/db.php';
+
+<span class="sql-comment">// ===== دریافت شناسه =====</span>
+if (!isset($_GET['id'])) {
+    header('Location: admin.php?error=no_id');
+    exit;
+}
+
+$id = (int)$_GET['id'];
+
+<span class="sql-comment">// ===== حذف با Prepared Statement =====</span>
+$conn = getDBConnection();
+
+$stmt = $conn->prepare("DELETE FROM messages WHERE id = ?");
+$stmt->bind_param("i", $id);
+
+if ($stmt->execute()) {
+    <span class="sql-comment">// بررسی اینکه آیا رکوردی حذف شده است</span>
+    if ($stmt->affected_rows > 0) {
+        header('Location: admin.php?success=deleted');
+    } else {
+        header('Location: admin.php?error=not_found');
+    }
+} else {
+    header('Location: admin.php?error=delete_failed');
+}
+
+$stmt->close();
+$conn->close();
+exit;
+?&gt;</code></pre>
+
+        <h3>۲. حذف با تأیید جاوااسکریپت:</h3>
+
+        <pre><code>&lt;?php
+<span class="sql-comment">// ===== در صفحه admin.php =====</span>
+<span class="sql-comment">// لینک حذف با تأیید</span>
+echo '&lt;a href="delete.php?id=' . $message['id'] . '" 
+        onclick="return confirm(\'آیا از حذف این پیام مطمئن هستید؟\')" 
+        class="delete-btn"&gt;
+    🗑️ حذف
+&lt;/a&gt;';
+?&gt;</code></pre>
+
+        <h3>۳. حذف با متد POST (امن‌تر):</h3>
+
+        <pre><code>&lt;?php
+<span class="sql-comment">// ===== فرم حذف با POST =====</span>
+<span class="sql-comment">// در admin.php</span>
+echo '&lt;form method="POST" action="delete.php" style="display:inline;" 
+        onsubmit="return confirm(\'آیا از حذف این پیام مطمئن هستید؟\')"&gt;
+    &lt;input type="hidden" name="id" value="' . $message['id'] . '"&gt;
+    &lt;button type="submit" class="delete-btn"&gt;🗑️ حذف&lt;/button&gt;
+&lt;/form&gt;';
+
+<span class="sql-comment">// ===== فایل delete.php با POST =====</span>
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $id = isset($_POST['id']) ? (int)$_POST['id'] : 0;
+    
+    if ($id > 0) {
+        $conn = getDBConnection();
+        $stmt = $conn->prepare("DELETE FROM messages WHERE id = ?");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        
+        if ($stmt->affected_rows > 0) {
+            header('Location: admin.php?success=deleted');
+        } else {
+            header('Location: admin.php?error=not_found');
+        }
+        $stmt->close();
+        $conn->close();
+        exit;
+    }
+}
+?&gt;</code></pre>
+
+        <div class="challenge-box">
+          <strong>⚠️ هشدار مهم:</strong>
+          <ul>
+            <li>همیشه از <code>WHERE</code> در DELETE استفاده کنید.</li>
+            <li>
+              از <code>affected_rows</code> برای بررسی اینکه آیا رکوردی حذف شده
+              است استفاده کنید.
+            </li>
+            <li>
+              برای حذف چندین رکورد، از <code>IN</code> با آرایه استفاده کنید.
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- SECTION 5: PRACTICAL EXERCISE -->
+      <!-- ============================================================ -->
+      <div class="section-block">
+        <h2>بخش پنجم: تمرین عملی – نمایش و حذف پیام‌ها (۴۰ دقیقه)</h2>
+
+        <div class="teacher-speech">
+          <strong>🗣 مأموریت کلاسی:</strong>
+          «حالا یک صفحه مدیریت کامل برای Guestbook می‌سازیم. این صفحه تمام
+          پیام‌های ثبت شده را نمایش می‌دهد و امکان حذف آن‌ها را فراهم می‌کند.
+          ویژگی‌های صفحه مدیریت: - نمایش تمام پیام‌ها با جزئیات کامل - نمایش
+          وضعیت تأیید هر پیام - دکمه حذف با تأیید جاوااسکریپت - نمایش تعداد کل
+          پیام‌ها - صفحه‌بندی (Pagination) - پیام‌های موفقیت و خطا»
+        </div>
+
+        <h3>فایل کامل admin.php (نسخه MySQLi):</h3>
+
+        <pre><code>&lt;?php
+<span class="sql-comment">// ===== فایل: admin.php (نسخه MySQLi) =====</span>
+require_once 'config/db.php';
+
+<span class="sql-comment">// ===== دریافت پارامترهای صفحه =====</span>
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+if ($page < 1) $page = 1;
+$per_page = 5;
+$offset = ($page - 1) * $per_page;
+
+<span class="sql-comment">// ===== دریافت پیام‌ها از دیتابیس =====</span>
+$conn = getDBConnection();
+
+<span class="sql-comment">// دریافت پیام‌ها با صفحه‌بندی</span>
+$stmt = $conn->prepare("
+    SELECT id, username, message, is_approved, created_at 
+    FROM messages 
+    ORDER BY created_at DESC 
+    LIMIT ? OFFSET ?
+");
+$stmt->bind_param("ii", $per_page, $offset);
+$stmt->execute();
+$result = $stmt->get_result();
+$messages = $result->fetch_all(MYSQLI_ASSOC);
+$stmt->close();
+
+<span class="sql-comment">// تعداد کل پیام‌ها</span>
+$count_result = $conn->query("SELECT COUNT(*) as total FROM messages");
+$total_messages = $count_result->fetch_assoc()['total'];
+$total_pages = ceil($total_messages / $per_page);
+
+$conn->close();
+
+<span class="sql-comment">// ===== نمایش پیام‌های موفقیت و خطا =====</span>
+$success_message = '';
+$error_message = '';
+
+if (isset($_GET['success'])) {
+    if ($_GET['success'] == 'deleted') {
+        $success_message = '✅ پیام با موفقیت حذف شد.';
+    }
+}
+
+if (isset($_GET['error'])) {
+    if ($_GET['error'] == 'no_id') {
+        $error_message = '❌ شناسه پیام مشخص نشده است.';
+    } elseif ($_GET['error'] == 'not_found') {
+        $error_message = '❌ پیام مورد نظر پیدا نشد.';
+    } elseif ($_GET['error'] == 'delete_failed') {
+        $error_message = '❌ خطا در حذف پیام.';
+    }
+}
+?&gt;
+
+&lt;!DOCTYPE html&gt;
+&lt;html lang="fa" dir="rtl"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;مدیریت پیام‌ها - Guestbook Admin&lt;/title&gt;
+    &lt;style&gt;
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Tahoma', sans-serif; }
+        body { background-color: #0d0d0d; color: #e5e5e5; padding: 40px 20px; }
+        .container { max-width: 1100px; margin: 0 auto; }
+        .header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 20px; border-bottom: 1px solid #2a1212; margin-bottom: 30px; flex-wrap: wrap; gap: 15px; }
+        .header h1 { color: #ffffff; font-size: 1.8rem; }
+        .header .stats { color: #888; font-size: 0.9rem; }
+        .header .stats strong { color: #ff3333; }
+        .back-link { color: #4a9eff; text-decoration: none; }
+        .back-link:hover { text-decoration: underline; }
+        .alert { padding: 15px 20px; border-radius: 6px; margin-bottom: 20px; }
+        .alert-success { background-color: #0d1a0d; border: 1px solid #2a4a2a; color: #88ff88; }
+        .alert-error { background-color: #1a0d0d; border: 1px solid #4a2a2a; color: #ff8888; }
+        .message-card { background-color: #161111; border: 1px solid #2a1212; border-radius: 6px; padding: 18px 20px; margin-bottom: 12px; transition: all 0.3s ease; }
+        .message-card:hover { border-color: #ff3333; }
+        .message-card .top-row { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 8px; }
+        .message-card .username { color: #ff8888; font-weight: bold; }
+        .message-card .message-id { color: #666; font-size: 0.8rem; }
+        .message-card .date { color: #666; font-size: 0.8rem; }
+        .message-card .message-content { color: #b3b3b3; padding: 8px 0; border-top: 1px solid #1a1a1a; margin-top: 5px; }
+        .message-card .bottom-row { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 10px; padding-top: 10px; border-top: 1px solid #1a1a1a; }
+        .message-card .status-badge { font-size: 0.75rem; padding: 3px 12px; border-radius: 12px; }
+        .status-badge.approved { background-color: #0d1a0d; color: #66ff66; border: 1px solid #2a4a2a; }
+        .status-badge.pending { background-color: #1a1a0d; color: #ffaa00; border: 1px solid #4a3a2a; }
+        .message-card .actions { display: flex; gap: 8px; }
+        .btn-delete { background: none; border: 1px solid #ff4444; color: #ff4444; padding: 4px 12px; border-radius: 3px; cursor: pointer; font-size: 0.8rem; transition: all 0.3s ease; }
+        .btn-delete:hover { background-color: #ff4444; color: #ffffff; }
+        .btn-edit { background: none; border: 1px solid #4a9eff; color: #4a9eff; padding: 4px 12px; border-radius: 3px; cursor: pointer; font-size: 0.8rem; transition: all 0.3s ease; text-decoration: none; display: inline-block; }
+        .btn-edit:hover { background-color: #4a9eff; color: #ffffff; }
+        .empty-state { text-align: center; padding: 60px 20px; color: #888; }
+        .empty-state .icon { font-size: 4rem; margin-bottom: 15px; }
+        .pagination { display: flex; justify-content: center; gap: 8px; margin-top: 30px; flex-wrap: wrap; }
+        .pagination a, .pagination span { padding: 8px 14px; border: 1px solid #2a1212; border-radius: 4px; text-decoration: none; color: #b3b3b3; transition: all 0.3s ease; }
+        .pagination a:hover { border-color: #ff3333; color: #ffffff; }
+        .pagination .active { background-color: #ff3333; color: #ffffff; border-color: #ff3333; }
+        .pagination .disabled { opacity: 0.3; cursor: not-allowed; }
+        @media (max-width: 768px) { .message-card .top-row { flex-direction: column; align-items: flex-start; } .message-card .bottom-row { flex-direction: column; align-items: flex-start; } .header { flex-direction: column; align-items: flex-start; } }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;div class="container"&gt;
+
+    &lt;div class="header"&gt;
+        &lt;div&gt;
+            &lt;h1&gt;📋 مدیریت پیام‌ها&lt;/h1&gt;
+            &lt;a href="index.php" class="back-link"&gt;← بازگشت به صفحه عمومی&lt;/a&gt;
+        &lt;/div&gt;
+        &lt;div class="stats"&gt;
+            تعداد کل پیام‌ها: &lt;strong&gt;&lt;?php echo $total_messages; ?&gt;&lt;/strong&gt;
+            &lt;span style="margin:0 10px;"&gt;|&lt;/span&gt;
+            صفحه &lt;strong&gt;&lt;?php echo $page; ?&gt;&lt;/strong&gt; از &lt;strong&gt;&lt;?php echo $total_pages; ?&gt;&lt;/strong&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;?php if ($success_message): ?&gt;
+        &lt;div class="alert alert-success"&gt;&lt;?php echo $success_message; ?&gt;&lt;/div&gt;
+    &lt;?php endif; ?&gt;
+
+    &lt;?php if ($error_message): ?&gt;
+        &lt;div class="alert alert-error"&gt;&lt;?php echo $error_message; ?&gt;&lt;/div&gt;
+    &lt;?php endif; ?&gt;
+
+    &lt;?php if (empty($messages)): ?&gt;
+        &lt;div class="empty-state"&gt;
+            &lt;div class="icon"&gt;📭&lt;/div&gt;
+            &lt;h3&gt;هیچ پیامی برای نمایش وجود ندارد&lt;/h3&gt;
+        &lt;/div&gt;
+    &lt;?php else: ?&gt;
+
+        &lt;?php foreach ($messages as $message): ?&gt;
+            &lt;div class="message-card"&gt;
+                &lt;div class="top-row"&gt;
+                    &lt;div&gt;
+                        &lt;span class="username"&gt;👤 &lt;?php echo htmlspecialchars($message['username']); ?&gt;&lt;/span&gt;
+                        &lt;span class="message-id"&gt;ID: &lt;?php echo $message['id']; ?&gt;&lt;/span&gt;
+                    &lt;/div&gt;
+                    &lt;div&gt;
+                        &lt;span class="status-badge &lt;?php echo $message['is_approved'] ? 'approved' : 'pending'; ?&gt;"&gt;
+                            &lt;?php echo $message['is_approved'] ? '✅ تأیید شده' : '⏳ در انتظار تأیید'; ?&gt;
+                        &lt;/span&gt;
+                        &lt;span class="date"&gt;📅 &lt;?php echo date('Y/m/d H:i', strtotime($message['created_at'])); ?&gt;&lt;/span&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+
+                &lt;div class="message-content"&gt;
+                    &lt;?php echo nl2br(htmlspecialchars($message['message'])); ?&gt;
+                &lt;/div&gt;
+
+                &lt;div class="bottom-row"&gt;
+                    &lt;div class="actions"&gt;
+                        &lt;a href="edit.php?id=&lt;?php echo $message['id']; ?&gt;" class="btn-edit"&gt;✏️ ویرایش&lt;/a&gt;
+                        &lt;form method="POST" action="delete.php" onsubmit="return confirm('آیا از حذف این پیام مطمئن هستید؟')"&gt;
+                            &lt;input type="hidden" name="id" value="&lt;?php echo $message['id']; ?&gt;"&gt;
+                            &lt;button type="submit" class="btn-delete"&gt;🗑️ حذف&lt;/button&gt;
+                        &lt;/form&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;?php endforeach; ?&gt;
+
+        &lt;?php if ($total_pages > 1): ?&gt;
+            &lt;div class="pagination"&gt;
+                &lt;?php if ($page > 1): ?&gt;
+                    &lt;a href="?page=&lt;?php echo $page - 1; ?&gt;"&gt;« قبلی&lt;/a&gt;
+                &lt;?php else: ?&gt;
+                    &lt;span class="disabled"&gt;« قبلی&lt;/span&gt;
+                &lt;?php endif; ?&gt;
+
+                &lt;?php
+                    $start_page = max(1, $page - 2);
+                    $end_page = min($total_pages, $page + 2);
+                    for ($i = $start_page; $i <= $end_page; $i++) {
+                        if ($i == $page) {
+                            echo '&lt;span class="active"&gt;' . $i . '&lt;/span&gt;';
+                        } else {
+                            echo '&lt;a href="?page=' . $i . '"&gt;' . $i . '&lt;/a&gt;';
+                        }
+                    }
+                ?&gt;
+
+                &lt;?php if ($page < $total_pages): ?&gt;
+                    &lt;a href="?page=&lt;?php echo $page + 1; ?&gt;"&gt;بعدی »&lt;/a&gt;
+                &lt;?php else: ?&gt;
+                    &lt;span class="disabled"&gt;بعدی »&lt;/span&gt;
+                &lt;?php endif; ?&gt;
+            &lt;/div&gt;
+        &lt;?php endif; ?&gt;
+
+    &lt;?php endif; ?&gt;
+
+&lt;/div&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+        <h3>فایل delete.php (پردازش حذف با MySQLi):</h3>
+
+        <pre><code>&lt;?php
+<span class="sql-comment">// ===== فایل: delete.php (نسخه MySQLi) =====</span>
+require_once 'config/db.php';
+
+<span class="sql-comment">// ===== بررسی روش ارسال =====</span>
+if ($_SERVER["REQUEST_METHOD"] != "POST") {
+    header('Location: admin.php?error=invalid_method');
+    exit;
+}
+
+<span class="sql-comment">// ===== دریافت شناسه =====</span>
+if (!isset($_POST['id'])) {
+    header('Location: admin.php?error=no_id');
+    exit;
+}
+
+$id = (int)$_POST['id'];
+
+if ($id <= 0) {
+    header('Location: admin.php?error=invalid_id');
+    exit;
+}
+
+<span class="sql-comment">// ===== حذف از دیتابیس =====</span>
+$conn = getDBConnection();
+
+<span class="sql-comment">// ابتدا بررسی کنیم که پیام وجود دارد</span>
+$check_stmt = $conn->prepare("SELECT id FROM messages WHERE id = ?");
+$check_stmt->bind_param("i", $id);
+$check_stmt->execute();
+$check_result = $check_stmt->get_result();
+
+if ($check_result->num_rows == 0) {
+    $check_stmt->close();
+    $conn->close();
+    header('Location: admin.php?error=not_found');
+    exit;
+}
+$check_stmt->close();
+
+<span class="sql-comment">// حذف پیام</span>
+$delete_stmt = $conn->prepare("DELETE FROM messages WHERE id = ?");
+$delete_stmt->bind_param("i", $id);
+$delete_stmt->execute();
+
+if ($delete_stmt->affected_rows > 0) {
+    $delete_stmt->close();
+    $conn->close();
+    header('Location: admin.php?success=deleted');
+} else {
+    $delete_stmt->close();
+    $conn->close();
+    header('Location: admin.php?error=delete_failed');
+}
+exit;
+?&gt;</code></pre>
+
+        <div class="info-box">
+          <strong>📌 خروجی نهایی قابل قبول:</strong>
+          <ul>
+            <li>
+              صفحه <code>admin.php</code> تمام پیام‌ها را با صفحه‌بندی نمایش
+              می‌دهد.
+            </li>
+            <li>دکمه حذف با تأیید جاوااسکریپت کار می‌کند.</li>
+            <li>
+              پس از حذف، صفحه رفرش می‌شود و پیام موفقیت نمایش داده می‌شود.
+            </li>
+            <li>خطاها به‌درستی مدیریت و نمایش داده می‌شوند.</li>
+          </ul>
+        </div>
+
+        <div class="teacher-speech" style="border-right-color: #4a9eff">
+          <strong>🗣 جمع‌بندی جلسه:</strong>
+          «امروز دو عملیات مهم CRUD را یاد گرفتیم:
+          <strong>خواندن (Read)</strong> و <strong>حذف (Delete)</strong>. با
+          <strong>Query String</strong> آشنا شدیم و دیدیم که چطور می‌توانیم
+          داده‌ها را بین صفحات منتقل کنیم. در جلسه بعد، دو عملیات باقی‌مانده را
+          کامل می‌کنیم: <strong>ایجاد (Create)</strong> و
+          <strong>ویرایش (Update)</strong>.»
+        </div>
+      </div>
+    </div>
+    <!-- END container -->
+  </body>
+</html>

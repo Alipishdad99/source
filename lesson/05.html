@@ -1,0 +1,962 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>جلسه ۰۵: طراحی پایگاه داده (MySQL)</title>
+
+    <style>
+      /* ===== RESET & BASE ===== */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        background-color: #0d0d0d;
+        color: #e5e5e5;
+        line-height: 1.8;
+        padding: 40px 20px;
+      }
+
+      .container {
+        max-width: 950px;
+        margin: 0 auto;
+      }
+
+      /* ===== LINKS ===== */
+      .back-link {
+        color: #ff3333;
+        text-decoration: none;
+        font-size: 0.9rem;
+        display: inline-block;
+        margin-bottom: 25px;
+        font-weight: bold;
+      }
+
+      .back-link:hover {
+        text-decoration: underline;
+      }
+
+      /* ===== HEADINGS ===== */
+      h1 {
+        color: #ffffff;
+        font-size: 2.2rem;
+        margin-bottom: 10px;
+        border-bottom: 2px solid #ff3333;
+        padding-bottom: 15px;
+        font-weight: 800;
+      }
+
+      h2 {
+        color: #ff3333;
+        font-size: 1.5rem;
+        margin-top: 40px;
+        margin-bottom: 15px;
+        border-bottom: 1px dashed #2a1212;
+        padding-bottom: 5px;
+      }
+
+      h3 {
+        color: #ffffff;
+        font-size: 1.2rem;
+        margin-top: 25px;
+        margin-bottom: 10px;
+      }
+
+      h4 {
+        color: #ff8888;
+        font-size: 1.05rem;
+        margin-top: 20px;
+        margin-bottom: 8px;
+      }
+
+      /* ===== SECTIONS ===== */
+      .section-block {
+        background-color: #161111;
+        border: 1px solid #2a1212;
+        padding: 30px;
+        border-radius: 6px;
+        margin-bottom: 30px;
+      }
+
+      /* ===== PARAGRAPHS & LISTS ===== */
+      p {
+        margin-bottom: 15px;
+        color: #b3b3b3;
+        text-align: justify;
+      }
+
+      ul,
+      ol {
+        margin-right: 25px;
+        margin-bottom: 20px;
+      }
+
+      li {
+        margin-bottom: 10px;
+        color: #cccccc;
+      }
+
+      /* ===== CODE ===== */
+      code {
+        background-color: #241414;
+        color: #ff5252;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-family: "Courier New", Courier, monospace;
+        font-size: 0.95rem;
+        border: 1px solid #421818;
+      }
+
+      pre {
+        background-color: #1a1212;
+        border: 1px solid #2a1212;
+        padding: 18px;
+        border-radius: 6px;
+        overflow-x: auto;
+        margin: 20px 0;
+        direction: ltr;
+        text-align: left;
+      }
+
+      pre code {
+        color: #f8f8f2;
+        background: none;
+        padding: 0;
+        border: none;
+        font-size: 0.9rem;
+        line-height: 1.7;
+        font-family: "Consolas", monospace;
+        white-space: pre;
+      }
+
+      /* ===== SQL HIGHLIGHT ===== */
+      .sql-keyword {
+        color: #ff79c6;
+      }
+      .sql-string {
+        color: #f1fa8c;
+      }
+      .sql-comment {
+        color: #6272a4;
+      }
+      .sql-function {
+        color: #50fa7b;
+      }
+
+      /* ===== TEACHER SPEECH BOX ===== */
+      .teacher-speech {
+        background-color: #241414;
+        border-right: 4px solid #ff3333;
+        padding: 18px;
+        border-radius: 0 6px 6px 0;
+        margin: 20px 0;
+        color: #ffbaba;
+      }
+
+      .teacher-speech strong {
+        color: #ffffff;
+        display: block;
+        margin-bottom: 8px;
+        font-size: 1.05rem;
+      }
+
+      /* ===== CHALLENGE BOX ===== */
+      .challenge-box {
+        background-color: #2a1010;
+        border-right: 4px solid #ff1111;
+        padding: 18px;
+        border-radius: 0 6px 6px 0;
+        margin: 20px 0;
+        color: #ffcccc;
+      }
+
+      /* ===== INFO BOX ===== */
+      .info-box {
+        background-color: #1a1a2e;
+        border-right: 4px solid #4a9eff;
+        padding: 18px;
+        border-radius: 0 6px 6px 0;
+        margin: 20px 0;
+        color: #aaccff;
+      }
+
+      .info-box strong {
+        color: #ffffff;
+        display: block;
+        margin-bottom: 8px;
+        font-size: 1.05rem;
+      }
+
+      /* ===== STEP BOX ===== */
+      .step-box {
+        background-color: #1f1414;
+        border: 1px solid #2a1212;
+        padding: 15px 20px;
+        border-radius: 6px;
+        margin: 15px 0;
+      }
+
+      .step-box strong {
+        color: #ff3333;
+      }
+
+      /* ===== TABLE STYLES ===== */
+      .data-table {
+        width: 100%;
+        border-collapse: collapse;
+        color: #e5e5e5;
+        background-color: #0d0d0d;
+        border: 1px solid #2a1212;
+        margin: 15px 0;
+        direction: ltr;
+      }
+
+      .data-table th {
+        background-color: #2a1212;
+        padding: 10px;
+        border: 1px solid #3a1a1a;
+        text-align: center;
+      }
+
+      .data-table td {
+        padding: 10px;
+        border: 1px solid #3a1a1a;
+        text-align: center;
+      }
+
+      .data-table tr:hover {
+        background-color: #1a0d0d;
+      }
+
+      /* ===== ER DIAGRAM ===== */
+      .er-diagram {
+        background-color: #0d0d0d;
+        border: 1px solid #2a1212;
+        padding: 20px;
+        border-radius: 6px;
+        margin: 15px 0;
+        text-align: center;
+        direction: ltr;
+      }
+
+      .er-diagram .entity {
+        display: inline-block;
+        background-color: #161111;
+        border: 2px solid #ff3333;
+        padding: 15px 25px;
+        border-radius: 6px;
+        margin: 10px;
+        min-width: 150px;
+      }
+
+      .er-diagram .entity .title {
+        color: #ffffff;
+        font-weight: bold;
+        border-bottom: 1px solid #2a1212;
+        padding-bottom: 5px;
+        margin-bottom: 5px;
+      }
+
+      .er-diagram .entity .field {
+        color: #88aaff;
+        font-size: 0.85rem;
+      }
+
+      .er-diagram .entity .field.primary {
+        color: #ff8888;
+      }
+
+      .er-diagram .arrow {
+        color: #666;
+        font-size: 2rem;
+        display: inline-block;
+        vertical-align: middle;
+      }
+
+      .er-diagram .relation {
+        display: inline-block;
+        background-color: #161111;
+        border: 2px solid #4a9eff;
+        padding: 10px 20px;
+        border-radius: 50%;
+        margin: 10px;
+        color: #4a9eff;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- ===== BACK LINK ===== -->
+      <a href="../syllabus.html" class="back-link"
+        >← بازگشت به جدول اصلی سرفصل‌ها</a
+      >
+
+      <!-- ===== HEADER ===== -->
+      <h1>جلسه ۰۵: طراحی پایگاه داده (MySQL)</h1>
+      <p style="color: #ff3333; font-weight: bold; font-size: 1.1rem">
+        مدت زمان تدریس: ۱۲۰ دقیقه | هدف: آشنایی با مفاهیم RDBMS، طراحی جدول و
+        نوشتن کوئری‌های پایه SQL
+      </p>
+
+      <!-- ============================================================ -->
+      <!-- SECTION 1: TIMING -->
+      <!-- ============================================================ -->
+      <div class="section-block">
+        <h2>بخش اول: زمان‌بندی جلسه (۱۲۰ دقیقه)</h2>
+        <p>
+          این جلسه، دانشجویان را با دنیای پایگاه داده آشنا می‌کند. مفاهیمی که در
+          این جلسه یاد گرفته می‌شود، پایه و اساس تمام پروژه‌های دیتابیس‌محور
+          است.
+        </p>
+        <ol>
+          <li>
+            <strong>معرفی پایگاه داده رابطه‌ای (۲۰ دقیقه):</strong>
+            مفاهیم جدول، رکورد، فیلد، کلید اصلی، روابط و مدل‌سازی داده.
+          </li>
+          <li>
+            <strong>آشنایی با phpMyAdmin (۳۰ دقیقه):</strong>
+            محیط phpMyAdmin، ایجاد دیتابیس، ایجاد جدول، درک ساختار.
+          </li>
+          <li>
+            <strong>دستورات SQL پایه (۳۰ دقیقه):</strong>
+            CREATE TABLE، INSERT INTO، SELECT، WHERE، ORDER BY.
+          </li>
+          <li>
+            <strong
+              >تمرین عملی: طراحی جدول کاربران و پیام‌ها (۴۰ دقیقه):</strong
+            >
+            ایجاد دو جدول و درج داده با کوئری‌های SQL.
+          </li>
+        </ol>
+
+        <div class="info-box">
+          <strong>📌 نکته مهم برای مدرس:</strong>
+          <ul>
+            <li>این جلسه، پایه‌ای‌ترین جلسه برای درک دیتابیس است.</li>
+            <li>
+              از مثال‌های روزمره برای توضیح مفاهیم استفاده کنید (دفترچه تلفن،
+              لیست خرید، سیستم نمرات).
+            </li>
+            <li>حتماً دانشجویان را به phpMyAdmin ببرید و عملاً جدول بسازید.</li>
+            <li>
+              تأکید کنید که <strong>کلید اصلی (Primary Key)</strong> مهم‌ترین
+              مفهوم در طراحی جدول است.
+            </li>
+            <li>
+              تفاوت بین <code>CHAR</code> و <code>VARCHAR</code> و
+              <code>TEXT</code> را توضیح دهید.
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- SECTION 2: RDBMS CONCEPTS -->
+      <!-- ============================================================ -->
+      <div class="section-block">
+        <h2>بخش دوم: مفاهیم پایگاه داده رابطه‌ای (۲۰ دقیقه)</h2>
+
+        <div class="teacher-speech">
+          <strong>🗣 کلمه به کلمه چه بگویید:</strong>
+          «تا الان، داده‌هایمان را در حافظه موقت (متغیرها و آرایه‌ها) ذخیره
+          می‌کردیم. اما وقتی برنامه را می‌بندیم، همه داده‌ها از بین می‌روند!
+          برای اینکه داده‌ها را <strong>دائمی</strong> نگهداری کنیم، به یک
+          <strong>پایگاه داده</strong> نیاز داریم. پایگاه داده مثل یک دفترچه
+          بزرگ است که اطلاعات را به‌صورت منظم و ساختاریافته ذخیره می‌کند. در
+          پایگاه داده رابطه‌ای، اطلاعات در <strong>جدول‌ها</strong> ذخیره
+          می‌شوند. به یک جدول مثل یک صفحه از دفترچه نگاه کنید: - هر
+          <strong>سطر (Row)</strong> یک <strong>رکورد (Record)</strong> است (یک
+          واحد کامل اطلاعات). - هر <strong>ستون (Column)</strong> یک
+          <strong>فیلد (Field)</strong> است (یک ویژگی از اطلاعات). برای مثال،
+          جدول کاربران:
+          <div style="text-align: left;">
+            ┌────┬──────────┬─────────────────┬──────────┐<br />
+            │ id │username │ email │ password │<br />
+            ├────┼──────────┼─────────────────┼──────────┤<br />
+            │ 1 │ ali │ali@site.com │ 123456 │<br> │ 2 │ sara │ sara@site.com │
+            654321 │<br />
+            └────┴──────────┴─────────────────┴──────────┘<br />
+            <br />
+          </div>
+          هر سطر یک کاربر است و هر ستون یک ویژگی از آن کاربر.»
+        </div>
+
+        <h3>۱. مفاهیم کلیدی:</h3>
+
+        <ul>
+          <li>
+            <strong>جدول (Table):</strong> مجموعه‌ای از رکوردها با ساختار یکسان.
+            مثل یک صفحه در دفترچه که همه سطرها دارای ستون‌های یکسانی هستند.
+          </li>
+          <li>
+            <strong>رکورد (Record / Row):</strong> یک واحد کامل از اطلاعات. مثل
+            اطلاعات یک کاربر خاص.
+          </li>
+          <li>
+            <strong>فیلد (Field / Column):</strong> یک ویژگی از اطلاعات. مثل
+            نام، ایمیل یا رمز عبور.
+          </li>
+          <li>
+            <strong>کلید اصلی (Primary Key):</strong> یک فیلد منحصر‌به‌فرد که هر
+            رکورد را به‌طور یکتا شناسایی می‌کند. مثل کد ملی یا شماره شناسنامه.
+            در جدول بالا، <code>id</code> کلید اصلی است.
+          </li>
+          <li>
+            <strong>کلید خارجی (Foreign Key):</strong> فیلدی که به کلید اصلی یک
+            جدول دیگر اشاره می‌کند. برای ایجاد ارتباط بین جدول‌ها استفاده
+            می‌شود.
+          </li>
+        </ul>
+
+        <h3>۲. انواع داده‌ها در MySQL:</h3>
+
+        <div style="overflow-x: auto; margin: 15px 0; direction: ltr">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>نوع داده</th>
+                <th>توضیح</th>
+                <th>مثال</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>INT</code></td>
+                <td>اعداد صحیح</td>
+                <td><code>age INT</code></td>
+              </tr>
+              <tr>
+                <td><code>VARCHAR(n)</code></td>
+                <td>رشته با طول متغیر (حداکثر n کاراکتر)</td>
+                <td><code>name VARCHAR(50)</code></td>
+              </tr>
+              <tr>
+                <td><code>TEXT</code></td>
+                <td>متن طولانی (حداکثر ۶۵۵۳۵ کاراکتر)</td>
+                <td><code>description TEXT</code></td>
+              </tr>
+              <tr>
+                <td><code>DATE</code></td>
+                <td>تاریخ (YYYY-MM-DD)</td>
+                <td><code>birthdate DATE</code></td>
+              </tr>
+              <tr>
+                <td><code>DATETIME</code></td>
+                <td>تاریخ و زمان</td>
+                <td><code>created_at DATETIME</code></td>
+              </tr>
+              <tr>
+                <td><code>DECIMAL(p,s)</code></td>
+                <td>اعداد اعشاری دقیق</td>
+                <td><code>price DECIMAL(10,2)</code></td>
+              </tr>
+              <tr>
+                <td><code>BOOLEAN</code></td>
+                <td>مقدار درست/نادرست (۰ یا ۱)</td>
+                <td><code>is_active BOOLEAN</code></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>۳. مدل‌سازی داده با نمودار ER:</h3>
+
+        <div class="er-diagram">
+          <div class="entity">
+            <div class="title">👤 users</div>
+            <div class="field primary">🔑 id (PK)</div>
+            <div class="field">username VARCHAR(50)</div>
+            <div class="field">email VARCHAR(100)</div>
+            <div class="field">password VARCHAR(255)</div>
+            <div class="field">created_at TIMESTAMP</div>
+          </div>
+
+          <span class="arrow">↔</span>
+
+          <div class="entity">
+            <div class="title">📝 messages</div>
+            <div class="field primary">🔑 id (PK)</div>
+            <div class="field">user_id INT (FK)</div>
+            <div class="field">message TEXT</div>
+            <div class="field">created_at TIMESTAMP</div>
+          </div>
+        </div>
+
+        <div class="info-box">
+          <strong>📌 رابطه بین جدول‌ها:</strong>
+          <p>هر کاربر می‌تواند چندین پیام داشته باشد (رابطه یک‌به‌چند).</p>
+          <p>
+            <code>user_id</code> در جدول <code>messages</code> به
+            <code>id</code> در جدول <code>users</code> اشاره می‌کند.
+          </p>
+          <p>این یعنی هر پیام به یک کاربر خاص تعلق دارد.</p>
+        </div>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- SECTION 3: phpMyAdmin -->
+      <!-- ============================================================ -->
+      <div class="section-block">
+        <h2>بخش سوم: آشنایی با phpMyAdmin (۳۰ دقیقه)</h2>
+
+        <div class="teacher-speech">
+          <strong>🗣 کلمه به کلمه چه بگویید:</strong>
+          «phpMyAdmin یک ابزار گرافیکی برای مدیریت MySQL است. با این ابزار، بدون
+          نوشتن کد، می‌توانید دیتابیس بسازید، جدول طراحی کنید، داده وارد کنید و
+          کوئری بنویسید. برای دسترسی به phpMyAdmin، مرورگر را باز کنید و آدرس
+          زیر را وارد کنید:
+          <code>http://localhost/phpmyadmin</code>
+
+          از اینجا می‌توانید: ۱. دیتابیس جدید بسازید ۲. جدول‌های جدید طراحی کنید
+          ۳. داده‌ها را وارد، ویرایش و حذف کنید ۴. کوئری‌های SQL بنویسید و اجرا
+          کنید»
+        </div>
+
+        <h3>مراحل کار با phpMyAdmin:</h3>
+
+        <div class="step-box">
+          <strong>مرحله ۱: ورود به phpMyAdmin</strong>
+          <p>
+            آدرس <code>http://localhost/phpmyadmin</code> را در مرورگر باز کنید.
+          </p>
+          <p>
+            اگر از XAMPP استفاده می‌کنید، معمولاً نیازی به وارد کردن نام کاربری
+            و رمز عبور نیست (نام کاربری: <code>root</code>، رمز عبور: خالی).
+          </p>
+        </div>
+
+        <div class="step-box">
+          <strong>مرحله ۲: ایجاد دیتابیس جدید</strong>
+          <p>روی گزینه «New» در سمت چپ کلیک کنید.</p>
+          <p>نام دیتابیس را <code>guestbook_db</code> وارد کنید.</p>
+          <p>
+            از کادر Collation، گزینه <code>utf8mb4_general_ci</code> را انتخاب
+            کنید (برای پشتیبانی از فارسی).
+          </p>
+          <p>روی «Create» کلیک کنید.</p>
+        </div>
+
+        <div class="step-box">
+          <strong>مرحله ۳: ایجاد جدول</strong>
+          <p>در دیتابیس جدید، روی «SQL» در بالای صفحه کلیک کنید.</p>
+          <p>کوئری CREATE TABLE را در کادر بنویسید و روی «Go» کلیک کنید.</p>
+        </div>
+
+        <div class="step-box">
+          <strong>مرحله ۴: بررسی ساختار جدول</strong>
+          <p>پس از ایجاد جدول، روی نام جدول در سمت چپ کلیک کنید.</p>
+          <p>در تب «Structure» می‌توانید ساختار جدول را ببینید.</p>
+          <p>در تب «Browse» می‌توانید داده‌های جدول را ببینید.</p>
+          <p>در تب «SQL» می‌توانید کوئری‌های دلخواه بنویسید.</p>
+        </div>
+
+        <div class="info-box">
+          <strong>📌 نکته:</strong>
+          <p>
+            تمام کارهایی که در phpMyAdmin انجام می‌دهید، معادل یک کوئری SQL است.
+          </p>
+          <p>در آینده، این کوئری‌ها را با PHP و PDO اجرا خواهیم کرد.</p>
+        </div>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- SECTION 4: SQL BASICS -->
+      <!-- ============================================================ -->
+      <div class="section-block">
+        <h2>بخش چهارم: دستورات SQL پایه (۳۰ دقیقه)</h2>
+
+        <div class="teacher-speech">
+          <strong>🗣 کلمه به کلمه چه بگویید:</strong>
+          «SQL مخفف <strong>S</strong>tructured <strong>Q</strong>uery
+          <strong>L</strong>anguage است. زبان استاندارد برای کار با پایگاه
+          داده‌های رابطه‌ای. چهار دستور اصلی که با آن‌ها کار می‌کنیم (CRUD): -
+          <strong>C</strong>reate → <code>INSERT</code> (درج داده) -
+          <strong>R</strong>ead → <code>SELECT</code> (خواندن داده) -
+          <strong>U</strong>pdate → <code>UPDATE</code> (به‌روزرسانی داده) -
+          <strong>D</strong>elete → <code>DELETE</code> (حذف داده)»
+        </div>
+
+        <h3>۱. CREATE TABLE (ایجاد جدول):</h3>
+
+        <pre><code><span class="sql-comment">-- ===== جدول کاربران =====</span>
+<span class="sql-keyword">CREATE TABLE</span> users (
+    id <span class="sql-keyword">INT</span>(11) <span class="sql-keyword">AUTO_INCREMENT</span> <span class="sql-keyword">PRIMARY KEY</span>,
+    username <span class="sql-keyword">VARCHAR</span>(50) <span class="sql-keyword">NOT NULL</span>,
+    email <span class="sql-keyword">VARCHAR</span>(100) <span class="sql-keyword">NOT NULL</span> <span class="sql-keyword">UNIQUE</span>,
+    password <span class="sql-keyword">VARCHAR</span>(255) <span class="sql-keyword">NOT NULL</span>,
+    age <span class="sql-keyword">INT</span>(3) <span class="sql-keyword">DEFAULT</span> <span class="sql-string">'0'</span>,
+    created_at <span class="sql-keyword">TIMESTAMP</span> <span class="sql-keyword">DEFAULT</span> <span class="sql-keyword">CURRENT_TIMESTAMP</span>
+);
+
+<span class="sql-comment">-- ===== جدول پیام‌ها =====</span>
+<span class="sql-keyword">CREATE TABLE</span> messages (
+    id <span class="sql-keyword">INT</span>(11) <span class="sql-keyword">AUTO_INCREMENT</span> <span class="sql-keyword">PRIMARY KEY</span>,
+    user_id <span class="sql-keyword">INT</span>(11) <span class="sql-keyword">NOT NULL</span>,
+    message <span class="sql-keyword">TEXT</span> <span class="sql-keyword">NOT NULL</span>,
+    created_at <span class="sql-keyword">TIMESTAMP</span> <span class="sql-keyword">DEFAULT</span> <span class="sql-keyword">CURRENT_TIMESTAMP</span>,
+    <span class="sql-keyword">FOREIGN KEY</span> (user_id) <span class="sql-keyword">REFERENCES</span> users(id) <span class="sql-keyword">ON DELETE CASCADE</span>
+);</code></pre>
+
+        <div class="info-box">
+          <strong>📌 توضیح کلمات کلیدی:</strong>
+          <ul>
+            <li>
+              <code>AUTO_INCREMENT</code>: مقدار به‌طور خودکار افزایش می‌یابد.
+            </li>
+            <li>
+              <code>PRIMARY KEY</code>: کلید اصلی (منحصر‌به‌فرد و غیرتکراری).
+            </li>
+            <li><code>NOT NULL</code>: فیلد نمی‌تواند خالی باشد.</li>
+            <li><code>UNIQUE</code>: مقدار فیلد باید منحصر‌به‌فرد باشد.</li>
+            <li><code>DEFAULT</code>: مقدار پیش‌فرض در صورت خالی بودن.</li>
+            <li><code>CURRENT_TIMESTAMP</code>: زمان فعلی را ذخیره می‌کند.</li>
+            <li>
+              <code>FOREIGN KEY</code>: کلید خارجی برای ارتباط با جدول دیگر.
+            </li>
+            <li>
+              <code>ON DELETE CASCADE</code>: اگر کاربر حذف شود، پیام‌هایش هم
+              حذف شوند.
+            </li>
+          </ul>
+        </div>
+
+        <h3>۲. INSERT INTO (درج داده):</h3>
+
+        <pre><code><span class="sql-comment">-- ===== درج کاربر جدید =====</span>
+<span class="sql-keyword">INSERT INTO</span> users (username, email, password, age)
+<span class="sql-keyword">VALUES</span> (<span class="sql-string">'ali_r'</span>, <span class="sql-string">'ali@site.com'</span>, <span class="sql-string">'123456'</span>, 25);
+
+<span class="sql-comment">-- درج چند کاربر با یک کوئری</span>
+<span class="sql-keyword">INSERT INTO</span> users (username, email, password, age) <span class="sql-keyword">VALUES</span>
+    (<span class="sql-string">'sara_k'</span>, <span class="sql-string">'sara@site.com'</span>, <span class="sql-string">'654321'</span>, 22),
+    (<span class="sql-string">'reza_m'</span>, <span class="sql-string">'reza@site.com'</span>, <span class="sql-string">'987654'</span>, 30),
+    (<span class="sql-string">'nina_j'</span>, <span class="sql-string">'nina@site.com'</span>, <span class="sql-string">'456123'</span>, 28);
+
+<span class="sql-comment">-- درج پیام برای یک کاربر خاص</span>
+<span class="sql-keyword">INSERT INTO</span> messages (user_id, message)
+<span class="sql-keyword">VALUES</span> (1, <span class="sql-string">'سلام، اولین پیام من است.'</span>);
+
+<span class="sql-keyword">INSERT INTO</span> messages (user_id, message) <span class="sql-keyword">VALUES</span>
+    (1, <span class="sql-string">'دوره PHP عالی است.'</span>),
+    (2, <span class="sql-string">'من تازه شروع کردم به یادگیری.'</span>),
+    (3, <span class="sql-string">'چه وب‌سایت جالبی!'</span>);</code></pre>
+
+        <h3>۳. SELECT (خواندن داده):</h3>
+
+        <pre><code><span class="sql-comment">-- ===== خواندن همه کاربران =====</span>
+<span class="sql-keyword">SELECT</span> * <span class="sql-keyword">FROM</span> users;
+
+<span class="sql-comment">-- ===== خواندن فقط فیلدهای خاص =====</span>
+<span class="sql-keyword">SELECT</span> id, username, email <span class="sql-keyword">FROM</span> users;
+
+<span class="sql-comment">-- ===== خواندن با شرط =====</span>
+<span class="sql-keyword">SELECT</span> * <span class="sql-keyword">FROM</span> users <span class="sql-keyword">WHERE</span> age <span class="sql-keyword">&gt;</span> 25;
+
+<span class="sql-comment">-- ===== خواندن با شرط دقیق =====</span>
+<span class="sql-keyword">SELECT</span> * <span class="sql-keyword">FROM</span> users <span class="sql-keyword">WHERE</span> username <span class="sql-keyword">=</span> <span class="sql-string">'ali_r'</span>;
+
+<span class="sql-comment">-- ===== خواندن با مرتب‌سازی =====</span>
+<span class="sql-keyword">SELECT</span> * <span class="sql-keyword">FROM</span> users <span class="sql-keyword">ORDER BY</span> created_at <span class="sql-keyword">DESC</span>;  <span class="sql-comment">-- جدیدترین اول</span>
+<span class="sql-keyword">SELECT</span> * <span class="sql-keyword">FROM</span> users <span class="sql-keyword">ORDER BY</span> age <span class="sql-keyword">ASC</span>;       <span class="sql-comment">-- کوچک‌ترین سن اول</span>
+
+<span class="sql-comment">-- ===== خواندن با محدودیت =====</span>
+<span class="sql-keyword">SELECT</span> * <span class="sql-keyword">FROM</span> users <span class="sql-keyword">LIMIT</span> 5;           <span class="sql-comment">-- فقط ۵ کاربر اول</span>
+<span class="sql-keyword">SELECT</span> * <span class="sql-keyword">FROM</span> users <span class="sql-keyword">LIMIT</span> 10 <span class="sql-keyword">OFFSET</span> 5;  <span class="sql-comment">-- ۱۰ کاربر از ردیف ۶</span>
+
+<span class="sql-comment">-- ===== خواندن با COUNT (تعداد رکوردها) =====</span>
+<span class="sql-keyword">SELECT</span> <span class="sql-keyword">COUNT</span>(*) <span class="sql-keyword">AS</span> total_users <span class="sql-keyword">FROM</span> users;
+
+<span class="sql-comment">-- ===== خواندن با JOIN (اتصال دو جدول) =====</span>
+<span class="sql-keyword">SELECT</span>
+    u.username,
+    u.email,
+    m.message,
+    m.created_at <span class="sql-keyword">AS</span> message_date
+<span class="sql-keyword">FROM</span> users u
+<span class="sql-keyword">JOIN</span> messages m <span class="sql-keyword">ON</span> u.id <span class="sql-keyword">=</span> m.user_id
+<span class="sql-keyword">ORDER BY</span> m.created_at <span class="sql-keyword">DESC</span>;</code></pre>
+
+        <div class="info-box">
+          <strong>📌 نکات مهم در SELECT:</strong>
+          <ul>
+            <li>
+              <code>*</code> یعنی همه فیلدها. برای خوانایی بهتر، فقط فیلدهای
+              مورد نیاز را بنویسید.
+            </li>
+            <li>
+              <code>AS</code> برای تغییر نام ستون در خروجی استفاده می‌شود.
+            </li>
+            <li>
+              <code>JOIN</code> برای ترکیب داده‌های دو یا چند جدول استفاده
+              می‌شود.
+            </li>
+            <li><code>WHERE</code> برای فیلتر کردن رکوردها.</li>
+            <li>
+              <code>ORDER BY</code> برای مرتب‌سازی (ASC صعودی، DESC نزولی).
+            </li>
+            <li><code>LIMIT</code> برای محدود کردن تعداد رکوردها.</li>
+          </ul>
+        </div>
+
+        <h3>۴. UPDATE (به‌روزرسانی داده):</h3>
+
+        <pre><code><span class="sql-comment">-- ===== به‌روزرسانی یک کاربر =====</span>
+<span class="sql-keyword">UPDATE</span> users
+<span class="sql-keyword">SET</span> email <span class="sql-keyword">=</span> <span class="sql-string">'ali_new@site.com'</span>, age <span class="sql-keyword">=</span> 26
+<span class="sql-keyword">WHERE</span> id <span class="sql-keyword">=</span> 1;
+
+<span class="sql-comment">-- ===== به‌روزرسانی چند کاربر با شرط =====</span>
+<span class="sql-keyword">UPDATE</span> users
+<span class="sql-keyword">SET</span> age <span class="sql-keyword">=</span> age + 1
+<span class="sql-keyword">WHERE</span> age <span class="sql-keyword">&lt;</span> 20;
+
+<span class="sql-comment">-- ⚠️ خطرناک: بدون WHERE همه رکوردها تغییر می‌کنند!</span>
+<span class="sql-keyword">UPDATE</span> users <span class="sql-keyword">SET</span> password <span class="sql-keyword">=</span> <span class="sql-string">'newpass'</span>;  <span class="sql-comment">-- همه کاربران</span></code></pre>
+
+        <h3>۵. DELETE (حذف داده):</h3>
+
+        <pre><code><span class="sql-comment">-- ===== حذف یک کاربر خاص =====</span>
+<span class="sql-keyword">DELETE FROM</span> users <span class="sql-keyword">WHERE</span> id <span class="sql-keyword">=</span> 4;
+
+<span class="sql-comment">-- ===== حذف با شرط =====</span>
+<span class="sql-keyword">DELETE FROM</span> users <span class="sql-keyword">WHERE</span> age <span class="sql-keyword">&lt;</span> 18;
+
+<span class="sql-comment">-- ===== حذف همه رکوردها (محتاط باشید!) =====</span>
+<span class="sql-keyword">DELETE FROM</span> users;  <span class="sql-comment">-- همه کاربران حذف می‌شوند</span>
+
+<span class="sql-comment">-- ===== خالی کردن جدول (بهتر از DELETE) =====</span>
+<span class="sql-keyword">TRUNCATE TABLE</span> users;  <span class="sql-comment">-- جدول را خالی می‌کند و AUTO_INCREMENT را ریست می‌کند</span></code></pre>
+
+        <div class="challenge-box">
+          <strong>⚠️ هشدار مهم:</strong>
+          <ul>
+            <li>
+              همیشه قبل از <code>UPDATE</code> و <code>DELETE</code>، از
+              <code>WHERE</code> استفاده کنید.
+            </li>
+            <li>
+              اگر <code>WHERE</code> را فراموش کنید،
+              <strong>همه</strong> رکوردها تغییر/حذف می‌شوند!
+            </li>
+            <li>
+              برای تست، اول با <code>SELECT</code> بررسی کنید که شرط درست است.
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- SECTION 5: PRACTICAL EXERCISE -->
+      <!-- ============================================================ -->
+      <div class="section-block">
+        <h2>بخش پنجم: تمرین عملی – طراحی جدول کاربران و پیام‌ها (۴۰ دقیقه)</h2>
+
+        <div class="teacher-speech">
+          <strong>🗣 مأموریت کلاسی:</strong>
+          «حالا نوبت شماست که دست به کار شوید. یک دیتابیس کامل برای پروژه
+          Guestbook طراحی کنید. مراحل: ۱. وارد phpMyAdmin شوید. ۲. یک دیتابیس
+          جدید به نام <code>guestbook_db</code> بسازید. ۳. دو جدول
+          <code>users</code> و <code>messages</code> ایجاد کنید. ۴. چند کاربر و
+          پیام نمونه درج کنید. ۵. کوئری‌های مختلف SELECT بنویسید و نتیجه را
+          ببینید.»
+        </div>
+
+        <h3>کوئری‌های کامل برای اجرا در phpMyAdmin:</h3>
+
+        <pre><code><span class="sql-comment">-- ============================================
+-- ۱. ایجاد دیتابیس
+-- ============================================</span>
+<span class="sql-keyword">CREATE DATABASE IF NOT EXISTS</span> guestbook_db
+<span class="sql-keyword">CHARACTER SET</span> utf8mb4 <span class="sql-keyword">COLLATE</span> utf8mb4_general_ci;
+
+<span class="sql-keyword">USE</span> guestbook_db;
+
+<span class="sql-comment">-- ============================================
+-- ۲. ایجاد جدول کاربران
+-- ============================================</span>
+<span class="sql-keyword">CREATE TABLE IF NOT EXISTS</span> users (
+    id <span class="sql-keyword">INT</span>(11) <span class="sql-keyword">AUTO_INCREMENT</span> <span class="sql-keyword">PRIMARY KEY</span>,
+    username <span class="sql-keyword">VARCHAR</span>(50) <span class="sql-keyword">NOT NULL</span>,
+    email <span class="sql-keyword">VARCHAR</span>(100) <span class="sql-keyword">NOT NULL</span> <span class="sql-keyword">UNIQUE</span>,
+    password <span class="sql-keyword">VARCHAR</span>(255) <span class="sql-keyword">NOT NULL</span>,
+    full_name <span class="sql-keyword">VARCHAR</span>(100) <span class="sql-keyword">DEFAULT</span> <span class="sql-keyword">NULL</span>,
+    age <span class="sql-keyword">INT</span>(3) <span class="sql-keyword">DEFAULT</span> <span class="sql-keyword">NULL</span>,
+    is_active <span class="sql-keyword">BOOLEAN</span> <span class="sql-keyword">DEFAULT</span> <span class="sql-keyword">TRUE</span>,
+    created_at <span class="sql-keyword">TIMESTAMP</span> <span class="sql-keyword">DEFAULT</span> <span class="sql-keyword">CURRENT_TIMESTAMP</span>,
+    updated_at <span class="sql-keyword">TIMESTAMP</span> <span class="sql-keyword">DEFAULT</span> <span class="sql-keyword">CURRENT_TIMESTAMP</span> <span class="sql-keyword">ON UPDATE</span> <span class="sql-keyword">CURRENT_TIMESTAMP</span>
+);
+
+<span class="sql-comment">-- ============================================
+-- ۳. ایجاد جدول پیام‌ها
+-- ============================================</span>
+<span class="sql-keyword">CREATE TABLE IF NOT EXISTS</span> messages (
+    id <span class="sql-keyword">INT</span>(11) <span class="sql-keyword">AUTO_INCREMENT</span> <span class="sql-keyword">PRIMARY KEY</span>,
+    user_id <span class="sql-keyword">INT</span>(11) <span class="sql-keyword">NOT NULL</span>,
+    title <span class="sql-keyword">VARCHAR</span>(200) <span class="sql-keyword">DEFAULT</span> <span class="sql-keyword">NULL</span>,
+    message <span class="sql-keyword">TEXT</span> <span class="sql-keyword">NOT NULL</span>,
+    is_approved <span class="sql-keyword">BOOLEAN</span> <span class="sql-keyword">DEFAULT</span> <span class="sql-keyword">FALSE</span>,
+    created_at <span class="sql-keyword">TIMESTAMP</span> <span class="sql-keyword">DEFAULT</span> <span class="sql-keyword">CURRENT_TIMESTAMP</span>,
+    <span class="sql-keyword">FOREIGN KEY</span> (user_id) <span class="sql-keyword">REFERENCES</span> users(id) <span class="sql-keyword">ON DELETE CASCADE</span>
+);
+
+<span class="sql-comment">-- ============================================
+-- ۴. درج کاربران نمونه
+-- ============================================</span>
+<span class="sql-keyword">INSERT INTO</span> users (username, email, password, full_name, age) <span class="sql-keyword">VALUES</span>
+    (<span class="sql-string">'ali_developer'</span>, <span class="sql-string">'ali@dev.com'</span>, <span class="sql-string">'pass123'</span>, <span class="sql-string">'علی رضایی'</span>, 25),
+    (<span class="sql-string">'sara_designer'</span>, <span class="sql-string">'sara@design.com'</span>, <span class="sql-string">'design456'</span>, <span class="sql-string">'سارا محمدی'</span>, 22),
+    (<span class="sql-string">'reza_manager'</span>, <span class="sql-string">'reza@manage.com'</span>, <span class="sql-string">'manage789'</span>, <span class="sql-string">'رضا کریمی'</span>, 30),
+    (<span class="sql-string">'nina_student'</span>, <span class="sql-string">'nina@learn.com'</span>, <span class="sql-string">'learn321'</span>, <span class="sql-string">'نینا احمدی'</span>, 19),
+    (<span class="sql-string">'mohsen_teacher'</span>, <span class="sql-string">'mohsen@teach.com'</span>, <span class="sql-string">'teach654'</span>, <span class="sql-string">'محسن حسینی'</span>, 45);
+
+<span class="sql-comment">-- ============================================
+-- ۵. درج پیام‌های نمونه
+-- ============================================</span>
+<span class="sql-keyword">INSERT INTO</span> messages (user_id, title, message, is_approved) <span class="sql-keyword">VALUES</span>
+    (1, <span class="sql-string">'سلام دنیا'</span>, <span class="sql-string">'این اولین پیام من در سیستم Guestbook است.'</span>, <span class="sql-keyword">TRUE</span>),
+    (1, <span class="sql-string">'دوره PHP'</span>, <span class="sql-string">'دوره آموزش PHP و MySQL واقعاً عالی است. ممنون از مدرس گرامی.'</span>, <span class="sql-keyword">TRUE</span>),
+    (2, <span class="sql-string">'طراحی وب'</span>, <span class="sql-string">'من عاشق طراحی وب هستم. این سیستم خیلی الهام‌بخش است.'</span>, <span class="sql-keyword">TRUE</span>),
+    (3, <span class="sql-string">'مدیریت پروژه'</span>, <span class="sql-string">'یک سیستم مدیریت پیام خوب می‌تواند به بهبود کارایی تیم کمک کند.'</span>, <span class="sql-keyword">FALSE</span>),
+    (4, <span class="sql-string">'یادگیری برنامه‌نویسی'</span>, <span class="sql-string">'تازه شروع به یادگیری PHP کردم و خیلی لذت‌بخش است.'</span>, <span class="sql-keyword">TRUE</span>),
+    (5, <span class="sql-string">'تجربه تدریس'</span>, <span class="sql-string">'به عنوان یک معلم، سیستم‌هایی مثل Guestbook برای ارتباط با دانشجویان خیلی مفید هستند.'</span>, <span class="sql-keyword">TRUE</span>),
+    (2, <span class="sql-string">'پیشنهاد'</span>, <span class="sql-string">'پیشنهاد می‌کنم که امکان ویرایش پیام‌ها هم اضافه شود.'</span>, <span class="sql-keyword">FALSE</span>);
+
+<span class="sql-comment">-- ============================================
+-- ۶. کوئری‌های تست
+-- ============================================</span>
+
+<span class="sql-comment">-- ۶-۱. نمایش همه کاربران</span>
+<span class="sql-keyword">SELECT</span> * <span class="sql-keyword">FROM</span> users;
+
+<span class="sql-comment">-- ۶-۲. نمایش کاربران بالای ۲۰ سال</span>
+<span class="sql-keyword">SELECT</span> id, username, full_name, age
+<span class="sql-keyword">FROM</span> users
+<span class="sql-keyword">WHERE</span> age <span class="sql-keyword">&gt;</span> 20
+<span class="sql-keyword">ORDER BY</span> age <span class="sql-keyword">DESC</span>;
+
+<span class="sql-comment">-- ۶-۳. نمایش پیام‌های تأیید شده</span>
+<span class="sql-keyword">SELECT</span> * <span class="sql-keyword">FROM</span> messages
+<span class="sql-keyword">WHERE</span> is_approved <span class="sql-keyword">=</span> <span class="sql-keyword">TRUE</span>
+<span class="sql-keyword">ORDER BY</span> created_at <span class="sql-keyword">DESC</span>;
+
+<span class="sql-comment">-- ۶-۴. نمایش پیام‌های یک کاربر خاص با JOIN</span>
+<span class="sql-keyword">SELECT</span>
+    u.username,
+    u.full_name,
+    m.title,
+    m.message,
+    m.created_at <span class="sql-keyword">AS</span> sent_at,
+    <span class="sql-keyword">CASE</span> <span class="sql-keyword">WHEN</span> m.is_approved <span class="sql-keyword">=</span> 1 <span class="sql-keyword">THEN</span> <span class="sql-string">'✅ تأیید شده'</span>
+        <span class="sql-keyword">ELSE</span> <span class="sql-string">'⏳ در انتظار تأیید'</span>
+    <span class="sql-keyword">END</span> <span class="sql-keyword">AS</span> status
+<span class="sql-keyword">FROM</span> users u
+<span class="sql-keyword">JOIN</span> messages m <span class="sql-keyword">ON</span> u.id <span class="sql-keyword">=</span> m.user_id
+<span class="sql-keyword">WHERE</span> u.username <span class="sql-keyword">=</span> <span class="sql-string">'ali_developer'</span>
+<span class="sql-keyword">ORDER BY</span> m.created_at <span class="sql-keyword">DESC</span>;
+
+<span class="sql-comment">-- ۶-۵. آمار تعداد پیام‌ها به ازای هر کاربر</span>
+<span class="sql-keyword">SELECT</span>
+    u.username,
+    <span class="sql-keyword">COUNT</span>(m.id) <span class="sql-keyword">AS</span> message_count,
+    <span class="sql-keyword">SUM</span>(<span class="sql-keyword">CASE</span> <span class="sql-keyword">WHEN</span> m.is_approved <span class="sql-keyword">=</span> 1 <span class="sql-keyword">THEN</span> 1 <span class="sql-keyword">ELSE</span> 0 <span class="sql-keyword">END</span>) <span class="sql-keyword">AS</span> approved_count
+<span class="sql-keyword">FROM</span> users u
+<span class="sql-keyword">LEFT JOIN</span> messages m <span class="sql-keyword">ON</span> u.id <span class="sql-keyword">=</span> m.user_id
+<span class="sql-keyword">GROUP BY</span> u.id
+<span class="sql-keyword">ORDER BY</span> message_count <span class="sql-keyword">DESC</span>;
+
+<span class="sql-comment">-- ۶-۶. جدیدترین ۵ پیام</span>
+<span class="sql-keyword">SELECT</span>
+    u.username,
+    m.title,
+    <span class="sql-keyword">SUBSTRING</span>(m.message, 1, 50) <span class="sql-keyword">AS</span> preview,
+    m.created_at
+<span class="sql-keyword">FROM</span> messages m
+<span class="sql-keyword">JOIN</span> users u <span class="sql-keyword">ON</span> m.user_id <span class="sql-keyword">=</span> u.id
+<span class="sql-keyword">WHERE</span> m.is_approved <span class="sql-keyword">=</span> <span class="sql-keyword">TRUE</span>
+<span class="sql-keyword">ORDER BY</span> m.created_at <span class="sql-keyword">DESC</span>
+<span class="sql-keyword">LIMIT</span> 5;</code></pre>
+
+        <h3>گام‌های اجرایی برای دانشجویان:</h3>
+
+        <ol>
+          <li>
+            phpMyAdmin را باز کنید (<code>http://localhost/phpmyadmin</code>).
+          </li>
+          <li>
+            روی «New» کلیک کنید و دیتابیس <code>guestbook_db</code> را بسازید.
+          </li>
+          <li>وارد دیتابیس شوید و روی تب «SQL» کلیک کنید.</li>
+          <li>کوئری‌های CREATE TABLE را کپی کنید و اجرا کنید.</li>
+          <li>کوئری‌های INSERT را کپی کنید و اجرا کنید.</li>
+          <li>کوئری‌های SELECT مختلف را تست کنید و نتایج را بررسی کنید.</li>
+        </ol>
+
+        <div class="challenge-box">
+          <strong>🧪 چالش‌های اضافی برای دانشجویان قوی‌تر:</strong>
+
+          <h4>چالش ۱: جدول دسته‌بندی</h4>
+          <p>
+            یک جدول <code>categories</code> با فیلدهای <code>id</code> و
+            <code>name</code> بسازید.
+          </p>
+          <p>
+            سپس یک فیلد <code>category_id</code> به جدول
+            <code>messages</code> اضافه کنید.
+          </p>
+
+          <h4>چالش ۲: کوئری با GROUP BY</h4>
+          <p>
+            تعداد پیام‌های هر کاربر را با <code>GROUP BY</code> محاسبه کنید.
+          </p>
+
+          <h4>چالش ۳: کوئری با تاریخ</h4>
+          <p>
+            پیام‌های امروز را با
+            <code>WHERE DATE(created_at) = CURDATE()</code> نمایش دهید.
+          </p>
+
+          <h4>چالش ۴: کوئری با LIKE</h4>
+          <p>
+            کاربرانی که نامشان با 'ع' شروع می‌شود را پیدا کنید:
+            <code>WHERE full_name LIKE 'ع%'</code>
+          </p>
+        </div>
+
+        <div class="info-box">
+          <strong>📌 خروجی نهایی قابل قبول:</strong>
+          <ul>
+            <li>دیتابیس <code>guestbook_db</code> در phpMyAdmin وجود دارد.</li>
+            <li>
+              دو جدول <code>users</code> و <code>messages</code> با ساختار صحیح
+              ایجاد شده‌اند.
+            </li>
+            <li>حداقل ۵ کاربر و ۷ پیام در جداول درج شده‌اند.</li>
+            <li>
+              دانشجو حداقل ۳ کوئری SELECT مختلف را اجرا کرده و نتیجه را دیده
+              است.
+            </li>
+            <li>درک درستی از مفهوم کلید اصلی و کلید خارجی دارد.</li>
+          </ul>
+        </div>
+
+        <div class="teacher-speech" style="border-right-color: #4a9eff">
+          <strong>🗣 جمع‌بندی جلسه:</strong>
+          «امروز با دنیای پایگاه داده آشنا شدیم. یاد گرفتیم که چطور جدول طراحی
+          کنیم، داده درج کنیم، و با SELECT داده‌ها را بخوانیم. این مفاهیم
+          پایه‌ای‌ترین مفاهیم هر برنامه‌ای هستند که با داده سر و کار دارد. از یک
+          وب‌سایت ساده تا سیستم‌های پیچیده بانکی، همه از همین مفاهیم استفاده
+          می‌کنند. در جلسه بعد، یاد می‌گیریم که چطور از طریق PHP و با PDO به
+          دیتابیس متصل شویم و داده‌ها را به‌صورت امن ذخیره و بازیابی کنیم.
+          تکلیف: جدول <code>categories</code> را بسازید و با کوئری JOIN، پیام‌ها
+          را با دسته‌بندی نمایش دهید.»
+        </div>
+      </div>
+    </div>
+    <!-- END container -->
+  </body>
+</html>
