@@ -6,7 +6,6 @@
     <title>جلسه ۰۸: پیاده‌سازی عملیات ایجاد و ویرایش (Create & Update)</title>
 
     <style>
-      /* ===== RESET & BASE ===== */
       * {
         box-sizing: border-box;
         margin: 0;
@@ -26,7 +25,6 @@
         margin: 0 auto;
       }
 
-      /* ===== LINKS ===== */
       .back-link {
         color: #ff3333;
         text-decoration: none;
@@ -40,7 +38,6 @@
         text-decoration: underline;
       }
 
-      /* ===== HEADINGS ===== */
       h1 {
         color: #ffffff;
         font-size: 2.2rem;
@@ -73,7 +70,6 @@
         margin-bottom: 8px;
       }
 
-      /* ===== SECTIONS ===== */
       .section-block {
         background-color: #161111;
         border: 1px solid #2a1212;
@@ -82,7 +78,6 @@
         margin-bottom: 30px;
       }
 
-      /* ===== PARAGRAPHS & LISTS ===== */
       p {
         margin-bottom: 15px;
         color: #b3b3b3;
@@ -100,7 +95,6 @@
         color: #cccccc;
       }
 
-      /* ===== CODE ===== */
       code {
         background-color: #241414;
         color: #ff5252;
@@ -133,7 +127,6 @@
         white-space: pre;
       }
 
-      /* ===== TEACHER SPEECH BOX ===== */
       .teacher-speech {
         background-color: #241414;
         border-right: 4px solid #ff3333;
@@ -150,7 +143,6 @@
         font-size: 1.05rem;
       }
 
-      /* ===== CHALLENGE BOX ===== */
       .challenge-box {
         background-color: #2a1010;
         border-right: 4px solid #ff1111;
@@ -160,7 +152,6 @@
         color: #ffcccc;
       }
 
-      /* ===== INFO BOX ===== */
       .info-box {
         background-color: #1a1a2e;
         border-right: 4px solid #4a9eff;
@@ -177,7 +168,6 @@
         font-size: 1.05rem;
       }
 
-      /* ===== SUCCESS BOX ===== */
       .success-box {
         background-color: #0d1a0d;
         border-right: 4px solid #66ff66;
@@ -194,7 +184,6 @@
         font-size: 1.05rem;
       }
 
-      /* ===== ERROR BOX ===== */
       .error-box {
         background-color: #1a0d0d;
         border-right: 4px solid #ff4444;
@@ -211,7 +200,6 @@
         font-size: 1.05rem;
       }
 
-      /* ===== CRUD FLOW ===== */
       .crud-flow {
         background-color: #0d0d0d;
         border: 1px solid #2a1212;
@@ -254,7 +242,6 @@
         display: inline-block;
       }
 
-      /* ===== FORM STYLES ===== */
       .form-card {
         background-color: #161111;
         border: 1px solid #2a1212;
@@ -287,7 +274,8 @@
       }
 
       .form-group input,
-      .form-group textarea {
+      .form-group textarea,
+      .form-group select {
         width: 100%;
         padding: 10px 12px;
         background-color: #0d0d0d;
@@ -299,7 +287,8 @@
       }
 
       .form-group input:focus,
-      .form-group textarea:focus {
+      .form-group textarea:focus,
+      .form-group select:focus {
         border-color: #ff3333;
         outline: none;
       }
@@ -367,7 +356,6 @@
         flex: 0 0 auto;
       }
 
-      /* ===== ALERT ===== */
       .alert {
         padding: 15px 20px;
         border-radius: 6px;
@@ -392,7 +380,6 @@
         color: #8888ff;
       }
 
-      /* ===== RESPONSIVE ===== */
       @media (max-width: 600px) {
         .form-card {
           padding: 20px;
@@ -413,21 +400,16 @@
   </head>
   <body>
     <div class="container">
-      <!-- ===== BACK LINK ===== -->
       <a href="../syllabus.html" class="back-link"
         >← بازگشت به جدول اصلی سرفصل‌ها</a
       >
 
-      <!-- ===== HEADER ===== -->
       <h1>جلسه ۰۸: پیاده‌سازی عملیات ایجاد و ویرایش (Create & Update)</h1>
       <p style="color: #ff3333; font-weight: bold; font-size: 1.1rem">
         مدت زمان تدریس: ۱۲۰ دقیقه | هدف: تکمیل عملیات CRUD با افزودن Create و
         Update
       </p>
 
-      <!-- ============================================================ -->
-      <!-- SECTION 1: TIMING -->
-      <!-- ============================================================ -->
       <div class="section-block">
         <h2>بخش اول: زمان‌بندی جلسه (۱۲۰ دقیقه)</h2>
         <p>
@@ -438,20 +420,20 @@
         </p>
         <ol>
           <li>
-            <strong>مرور CRUD و ایجاد (Create) (۲۰ دقیقه):</strong>
-            مرور جلسات قبل، تکمیل فرم عمومی برای افزودن پیام.
+            <strong>مرور CRUD و ایجاد (Create) (۲۰ دقیقه):</strong> مرور جلسات
+            قبل، تکمیل فرم عمومی برای افزودن پیام.
           </li>
           <li>
-            <strong>ویرایش (Update) – قسمت اول (۳۰ دقیقه):</strong>
-            خواندن داده‌های یک رکورد خاص برای فرم ویرایش.
+            <strong>ویرایش (Update) – قسمت اول (۳۰ دقیقه):</strong> خواندن
+            داده‌های یک رکورد خاص برای فرم ویرایش.
           </li>
           <li>
-            <strong>ویرایش – قسمت دوم (۳۰ دقیقه):</strong>
-            ذخیره تغییرات با UPDATE و Prepared Statement.
+            <strong>ویرایش – قسمت دوم (۳۰ دقیقه):</strong> ذخیره تغییرات با
+            UPDATE و Prepared Statement.
           </li>
           <li>
-            <strong>تمرین عملی: فرم ویرایش پیام (۴۰ دقیقه):</strong>
-            ساخت صفحه ویرایش کامل با اعتبارسنجی و به‌روزرسانی.
+            <strong>تمرین عملی: فرم ویرایش پیام (۴۰ دقیقه):</strong> ساخت صفحه
+            ویرایش کامل با اعتبارسنجی و به‌روزرسانی.
           </li>
         </ol>
 
@@ -478,9 +460,6 @@
         </div>
       </div>
 
-      <!-- ============================================================ -->
-      <!-- SECTION 2: CRUD OVERVIEW & CREATE -->
-      <!-- ============================================================ -->
       <div class="section-block">
         <h2>بخش دوم: مرور CRUD و ایجاد (Create) (۲۰ دقیقه)</h2>
 
@@ -495,7 +474,6 @@
         </div>
 
         <h3>نمودار چرخه CRUD:</h3>
-
         <div class="crud-flow">
           <span class="step create">📝 Create</span>
           <span class="arrow">→</span>
@@ -507,7 +485,6 @@
         </div>
 
         <h3>مرور Create با MySQLi:</h3>
-
         <pre><code>&lt;?php
 <span class="sql-comment">// ===== فایل: save_message.php (MySQLi) =====</span>
 require_once 'config/db.php';
@@ -516,7 +493,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = trim($_POST['username']);
     $message = trim($_POST['message']);
     
-    <span class="sql-comment">// اعتبارسنجی</span>
     $errors = [];
     if (empty($username)) $errors[] = "نام کاربری الزامی است.";
     if (empty($message)) $errors[] = "متن پیام الزامی است.";
@@ -535,9 +511,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?&gt;</code></pre>
       </div>
 
-      <!-- ============================================================ -->
-      <!-- SECTION 3: UPDATE - READING DATA FOR FORM -->
-      <!-- ============================================================ -->
       <div class="section-block">
         <h2>بخش سوم: ویرایش (Update) – خواندن داده برای فرم (۳۰ دقیقه)</h2>
 
@@ -554,12 +527,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
 
         <h3>۱. خواندن داده برای ویرایش با MySQLi:</h3>
-
         <pre><code>&lt;?php
 <span class="sql-comment">// ===== فایل: edit.php (MySQLi) =====</span>
 require_once 'config/db.php';
 
-<span class="sql-comment">// ===== دریافت شناسه از URL =====</span>
 if (!isset($_GET['id'])) {
     header('Location: admin.php?error=no_id');
     exit;
@@ -572,7 +543,6 @@ if ($id <= 0) {
     exit;
 }
 
-<span class="sql-comment">// ===== خواندن داده‌ها =====</span>
 $conn = getDBConnection();
 
 $stmt = $conn->prepare("SELECT id, username, message, is_approved, created_at FROM messages WHERE id = ?");
@@ -582,7 +552,6 @@ $result = $stmt->get_result();
 $message = $result->fetch_assoc();
 $stmt->close();
 
-<span class="sql-comment">// اگر رکورد وجود نداشت</span>
 if (!$message) {
     $conn->close();
     header('Location: admin.php?error=not_found');
@@ -593,9 +562,7 @@ $conn->close();
 ?&gt;</code></pre>
 
         <h3>۲. نمایش داده‌ها در فرم با MySQLi:</h3>
-
         <pre><code>&lt;form method="POST" action="update.php"&gt;
-    <span class="sql-comment"><!-- شناسه را به‌صورت hidden ارسال می‌کنیم --></span>
     &lt;input type="hidden" name="id" value="&lt;?php echo $message['id']; ?&gt;"&gt;
     
     &lt;div class="form-group"&gt;
@@ -638,9 +605,6 @@ $conn->close();
         </div>
       </div>
 
-      <!-- ============================================================ -->
-      <!-- SECTION 4: UPDATE - SAVING CHANGES -->
-      <!-- ============================================================ -->
       <div class="section-block">
         <h2>بخش چهارم: ویرایش – ذخیره تغییرات با UPDATE (۳۰ دقیقه)</h2>
 
@@ -655,24 +619,20 @@ $conn->close();
         </div>
 
         <h3>۱. ساختار UPDATE با MySQLi:</h3>
-
         <pre><code>&lt;?php
 <span class="sql-comment">// ===== فایل: update.php (MySQLi) =====</span>
 require_once 'config/db.php';
 
-<span class="sql-comment">// ===== بررسی روش ارسال =====</span>
 if ($_SERVER["REQUEST_METHOD"] != "POST") {
     header('Location: admin.php');
     exit;
 }
 
-<span class="sql-comment">// ===== دریافت داده‌ها =====</span>
 $id = isset($_POST['id']) ? (int)$_POST['id'] : 0;
 $username = isset($_POST['username']) ? trim($_POST['username']) : '';
 $message = isset($_POST['message']) ? trim($_POST['message']) : '';
 $is_approved = isset($_POST['is_approved']) ? (int)$_POST['is_approved'] : 0;
 
-<span class="sql-comment">// ===== اعتبارسنجی =====</span>
 $errors = [];
 
 if ($id <= 0) {
@@ -691,7 +651,6 @@ if (empty($message)) {
     $errors[] = "متن پیام باید حداقل ۵ کاراکتر باشد.";
 }
 
-<span class="sql-comment">// ===== اگر خطایی وجود داشت =====</span>
 if (!empty($errors)) {
     session_start();
     $_SESSION['update_errors'] = $errors;
@@ -705,10 +664,8 @@ if (!empty($errors)) {
     exit;
 }
 
-<span class="sql-comment">// ===== به‌روزرسانی در دیتابیس =====</span>
 $conn = getDBConnection();
 
-<span class="sql-comment">// ابتدا بررسی کنیم که رکورد وجود دارد</span>
 $check_stmt = $conn->prepare("SELECT id FROM messages WHERE id = ?");
 $check_stmt->bind_param("i", $id);
 $check_stmt->execute();
@@ -722,7 +679,6 @@ if ($check_result->num_rows == 0) {
 }
 $check_stmt->close();
 
-<span class="sql-comment">// به‌روزرسانی</span>
 $update_stmt = $conn->prepare("
     UPDATE messages 
     SET username = ?, 
@@ -745,7 +701,6 @@ exit;
 ?&gt;</code></pre>
 
         <h3>۲. UPDATE با چندین شرط:</h3>
-
         <pre><code>&lt;?php
 <span class="sql-comment">// ===== به‌روزرسانی با چند شرط =====</span>
 $stmt = $conn->prepare("
@@ -782,9 +737,6 @@ $stmt->execute();
         </div>
       </div>
 
-      <!-- ============================================================ -->
-      <!-- SECTION 5: PRACTICAL EXERCISE -->
-      <!-- ============================================================ -->
       <div class="section-block">
         <h2>بخش پنجم: تمرین عملی – فرم ویرایش پیام (۴۰ دقیقه)</h2>
 
@@ -797,7 +749,6 @@ $stmt->execute();
         </div>
 
         <h3>۱. فایل edit.php (فرم ویرایش با MySQLi):</h3>
-
         <pre><code>&lt;!DOCTYPE html&gt;
 &lt;html lang="fa" dir="rtl"&gt;
 &lt;head&gt;
@@ -932,7 +883,6 @@ $stmt->execute();
 &lt;/html&gt;</code></pre>
 
         <h3>۲. فایل update.php (پردازش ویرایش با MySQLi):</h3>
-
         <pre><code>&lt;?php
 <span class="sql-comment">// ===== فایل: update.php (MySQLi) =====</span>
 require_once 'config/db.php';
@@ -980,7 +930,6 @@ if (!empty($errors)) {
 
 $conn = getDBConnection();
 
-<span class="sql-comment">// بررسی وجود رکورد</span>
 $check_stmt = $conn->prepare("SELECT id FROM messages WHERE id = ?");
 $check_stmt->bind_param("i", $id);
 $check_stmt->execute();
@@ -994,7 +943,6 @@ if ($check_result->num_rows == 0) {
 }
 $check_stmt->close();
 
-<span class="sql-comment">// به‌روزرسانی</span>
 $update_stmt = $conn->prepare("UPDATE messages SET username = ?, message = ?, is_approved = ? WHERE id = ?");
 $update_stmt->bind_param("ssii", $username, $message, $is_approved, $id);
 
@@ -1011,16 +959,13 @@ exit;
 ?&gt;</code></pre>
 
         <h3>۳. به‌روزرسانی admin.php (اضافه کردن دکمه ویرایش):</h3>
-
         <pre><code>&lt;?php
 <span class="sql-comment">// ===== در admin.php، بخش actions را به‌روزرسانی کنید =====</span>
 ?&gt;
 
 &lt;div class="actions"&gt;
-    &lt;!-- دکمه ویرایش --&gt;
     &lt;a href="edit.php?id=&lt;?php echo $message['id']; ?&gt;" class="btn-edit"&gt;✏️ ویرایش&lt;/a&gt;
 
-    &lt;!-- فرم حذف --&gt;
     &lt;form method="POST" action="delete.php" 
             onsubmit="return confirm('آیا از حذف این پیام مطمئن هستید؟')"&gt;
         &lt;input type="hidden" name="id" value="&lt;?php echo $message['id']; ?&gt;"&gt;

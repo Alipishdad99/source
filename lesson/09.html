@@ -6,7 +6,6 @@
     <title>جلسه ۰۹: نشست‌ها (Sessions) و امنیت ورود</title>
 
     <style>
-      /* ===== RESET & BASE ===== */
       * {
         box-sizing: border-box;
         margin: 0;
@@ -26,7 +25,6 @@
         margin: 0 auto;
       }
 
-      /* ===== LINKS ===== */
       .back-link {
         color: #ff3333;
         text-decoration: none;
@@ -40,7 +38,6 @@
         text-decoration: underline;
       }
 
-      /* ===== HEADINGS ===== */
       h1 {
         color: #ffffff;
         font-size: 2.2rem;
@@ -73,7 +70,6 @@
         margin-bottom: 8px;
       }
 
-      /* ===== SECTIONS ===== */
       .section-block {
         background-color: #161111;
         border: 1px solid #2a1212;
@@ -82,7 +78,6 @@
         margin-bottom: 30px;
       }
 
-      /* ===== PARAGRAPHS & LISTS ===== */
       p {
         margin-bottom: 15px;
         color: #b3b3b3;
@@ -100,7 +95,6 @@
         color: #cccccc;
       }
 
-      /* ===== CODE ===== */
       code {
         background-color: #241414;
         color: #ff5252;
@@ -133,7 +127,6 @@
         white-space: pre;
       }
 
-      /* ===== TEACHER SPEECH BOX ===== */
       .teacher-speech {
         background-color: #241414;
         border-right: 4px solid #ff3333;
@@ -150,7 +143,6 @@
         font-size: 1.05rem;
       }
 
-      /* ===== CHALLENGE BOX ===== */
       .challenge-box {
         background-color: #2a1010;
         border-right: 4px solid #ff1111;
@@ -160,7 +152,6 @@
         color: #ffcccc;
       }
 
-      /* ===== INFO BOX ===== */
       .info-box {
         background-color: #1a1a2e;
         border-right: 4px solid #4a9eff;
@@ -177,7 +168,6 @@
         font-size: 1.05rem;
       }
 
-      /* ===== LOGIN FORM ===== */
       .login-card {
         background-color: #161111;
         border: 1px solid #2a1212;
@@ -266,7 +256,6 @@
         color: #88ff88;
       }
 
-      /* ===== PROTECTED PAGE BANNER ===== */
       .protected-banner {
         background-color: #0d1a0d;
         border: 1px solid #2a4a2a;
@@ -304,7 +293,6 @@
         background-color: #cc0000;
       }
 
-      /* ===== TABLE STYLES ===== */
       .data-table {
         width: 100%;
         border-collapse: collapse;
@@ -332,7 +320,6 @@
         background-color: #1a0d0d;
       }
 
-      /* ===== SESSION FLOW ===== */
       .session-flow {
         background-color: #0d0d0d;
         border: 1px solid #2a1212;
@@ -370,7 +357,6 @@
         display: inline-block;
       }
 
-      /* ===== RESPONSIVE ===== */
       @media (max-width: 600px) {
         .login-card {
           padding: 20px;
@@ -392,21 +378,16 @@
   </head>
   <body>
     <div class="container">
-      <!-- ===== BACK LINK ===== -->
       <a href="../syllabus.html" class="back-link"
         >← بازگشت به جدول اصلی سرفصل‌ها</a
       >
 
-      <!-- ===== HEADER ===== -->
       <h1>جلسه ۰۹: نشست‌ها (Sessions) و امنیت ورود</h1>
       <p style="color: #ff3333; font-weight: bold; font-size: 1.1rem">
         مدت زمان تدریس: ۱۲۰ دقیقه | هدف: پیاده‌سازی لاگین و خروج، محافظت از
         صفحات با Session
       </p>
 
-      <!-- ============================================================ -->
-      <!-- SECTION 1: TIMING -->
-      <!-- ============================================================ -->
       <div class="section-block">
         <h2>بخش اول: زمان‌بندی جلسه (۱۲۰ دقیقه)</h2>
         <p>
@@ -416,20 +397,20 @@
         </p>
         <ol>
           <li>
-            <strong>مفهوم Session و Cookie (۲۰ دقیقه):</strong>
-            تفاوت، کاربرد، نحوه ذخیره‌سازی و امنیت.
+            <strong>مفهوم Session و Cookie (۲۰ دقیقه):</strong> تفاوت، کاربرد،
+            نحوه ذخیره‌سازی و امنیت.
           </li>
           <li>
             <strong>شروع و مدیریت Session (۳۰ دقیقه):</strong>
             <code>session_start()</code>، ذخیره و خواندن متغیرهای جلسه.
           </li>
           <li>
-            <strong>پیاده‌سازی لاگین و خروج (۳۰ دقیقه):</strong>
-            احراز هویت با دیتابیس و مدیریت جلسه.
+            <strong>پیاده‌سازی لاگین و خروج (۳۰ دقیقه):</strong> احراز هویت با
+            دیتابیس و مدیریت جلسه.
           </li>
           <li>
-            <strong>تمرین عملی: محافظت از admin.php (۴۰ دقیقه):</strong>
-            فقط کاربران لاگین شده دسترسی داشته باشند.
+            <strong>تمرین عملی: محافظت از admin.php (۴۰ دقیقه):</strong> فقط
+            کاربران لاگین شده دسترسی داشته باشند.
           </li>
         </ol>
 
@@ -453,9 +434,6 @@
         </div>
       </div>
 
-      <!-- ============================================================ -->
-      <!-- SECTION 2: SESSION & COOKIE CONCEPTS -->
-      <!-- ============================================================ -->
       <div class="section-block">
         <h2>بخش دوم: مفهوم Session و Cookie (۲۰ دقیقه)</h2>
 
@@ -476,7 +454,6 @@
         </div>
 
         <h3>۱. مقایسه Session و Cookie:</h3>
-
         <div style="overflow-x: auto; margin: 15px 0; direction: ltr">
           <table class="data-table">
             <thead>
@@ -517,7 +494,6 @@
         </div>
 
         <h3>۲. نحوه کار Session:</h3>
-
         <div class="session-flow">
           <span class="step browser">🌐 مرورگر</span>
           <span class="arrow">→</span>
@@ -527,9 +503,6 @@
         </div>
       </div>
 
-      <!-- ============================================================ -->
-      <!-- SECTION 3: SESSION MANAGEMENT -->
-      <!-- ============================================================ -->
       <div class="section-block">
         <h2>بخش سوم: شروع و مدیریت Session (۳۰ دقیقه)</h2>
 
@@ -547,7 +520,6 @@
         </div>
 
         <h3>۱. شروع و ذخیره در Session:</h3>
-
         <pre><code>&lt;?php
 <span class="sql-comment">// ===== شروع جلسه =====</span>
 session_start();
@@ -569,7 +541,6 @@ session_destroy();
 ?&gt;</code></pre>
 
         <h3>۲. توابع مدیریت Session با MySQLi:</h3>
-
         <pre><code>&lt;?php
 <span class="sql-comment">// ===== فایل: functions/session.php (MySQLi) =====</span>
 
@@ -617,14 +588,10 @@ function protectPage() {
 ?&gt;</code></pre>
       </div>
 
-      <!-- ============================================================ -->
-      <!-- SECTION 4: LOGIN & LOGOUT WITH MYSQLI -->
-      <!-- ============================================================ -->
       <div class="section-block">
         <h2>بخش چهارم: پیاده‌سازی لاگین و خروج با MySQLi (۳۰ دقیقه)</h2>
 
         <h3>۱. فایل login.php (فرم لاگین):</h3>
-
         <pre><code>&lt;!DOCTYPE html&gt;
 &lt;html lang="fa" dir="rtl"&gt;
 &lt;head&gt;
@@ -683,7 +650,6 @@ function protectPage() {
 &lt;/html&gt;</code></pre>
 
         <h3>۲. فایل login_process.php (پردازش لاگین با MySQLi):</h3>
-
         <pre><code>&lt;?php
 <span class="sql-comment">// ===== فایل: login_process.php (MySQLi) =====</span>
 require_once 'config/db.php';
@@ -706,7 +672,6 @@ if (empty($username) || empty($password)) {
 
 $conn = getDBConnection();
 
-<span class="sql-comment">// بررسی کاربر در دیتابیس</span>
 $stmt = $conn->prepare("SELECT id, username, password, is_active FROM users WHERE username = ?");
 $stmt->bind_param("s", $username);
 $stmt->execute();
@@ -732,14 +697,12 @@ if ($user['is_active'] != 1) {
 
 $conn->close();
 
-<span class="sql-comment">// لاگین موفق</span>
 loginUser($user['id'], $user['username']);
 header('Location: admin.php');
 exit;
 ?&gt;</code></pre>
 
         <h3>۳. فایل logout.php (خروج):</h3>
-
         <pre><code>&lt;?php
 <span class="sql-comment">// ===== فایل: logout.php (MySQLi) =====</span>
 require_once 'functions/session.php';
@@ -753,7 +716,6 @@ exit;
 ?&gt;</code></pre>
 
         <h3>۴. محافظت از admin.php:</h3>
-
         <pre><code>&lt;?php
 <span class="sql-comment">// ===== در بالای فایل admin.php =====</span>
 require_once 'functions/session.php';

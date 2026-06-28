@@ -6,7 +6,6 @@
     <title>جلسه ۰۷: پیاده‌سازی عملیات خواندن و حذف (Read & Delete)</title>
 
     <style>
-      /* ===== RESET & BASE ===== */
       * {
         box-sizing: border-box;
         margin: 0;
@@ -26,7 +25,6 @@
         margin: 0 auto;
       }
 
-      /* ===== LINKS ===== */
       .back-link {
         color: #ff3333;
         text-decoration: none;
@@ -40,7 +38,6 @@
         text-decoration: underline;
       }
 
-      /* ===== HEADINGS ===== */
       h1 {
         color: #ffffff;
         font-size: 2.2rem;
@@ -73,7 +70,6 @@
         margin-bottom: 8px;
       }
 
-      /* ===== SECTIONS ===== */
       .section-block {
         background-color: #161111;
         border: 1px solid #2a1212;
@@ -82,7 +78,6 @@
         margin-bottom: 30px;
       }
 
-      /* ===== PARAGRAPHS & LISTS ===== */
       p {
         margin-bottom: 15px;
         color: #b3b3b3;
@@ -100,7 +95,6 @@
         color: #cccccc;
       }
 
-      /* ===== CODE ===== */
       code {
         background-color: #241414;
         color: #ff5252;
@@ -133,7 +127,6 @@
         white-space: pre;
       }
 
-      /* ===== TEACHER SPEECH BOX ===== */
       .teacher-speech {
         background-color: #241414;
         border-right: 4px solid #ff3333;
@@ -150,7 +143,6 @@
         font-size: 1.05rem;
       }
 
-      /* ===== CHALLENGE BOX ===== */
       .challenge-box {
         background-color: #2a1010;
         border-right: 4px solid #ff1111;
@@ -160,7 +152,6 @@
         color: #ffcccc;
       }
 
-      /* ===== INFO BOX ===== */
       .info-box {
         background-color: #1a1a2e;
         border-right: 4px solid #4a9eff;
@@ -177,7 +168,6 @@
         font-size: 1.05rem;
       }
 
-      /* ===== TABLE STYLES ===== */
       .data-table {
         width: 100%;
         border-collapse: collapse;
@@ -235,7 +225,6 @@
         color: #ffffff;
       }
 
-      /* ===== MESSAGE CARD ===== */
       .message-card {
         background-color: #0d0d0d;
         border: 1px solid #2a1212;
@@ -313,7 +302,6 @@
         border: 1px solid #4a3a2a;
       }
 
-      /* ===== EMPTY STATE ===== */
       .empty-state {
         text-align: center;
         padding: 50px 20px;
@@ -328,25 +316,79 @@
       .empty-state h3 {
         color: #666;
       }
+
+      .pagination {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        margin-top: 30px;
+        flex-wrap: wrap;
+      }
+
+      .pagination a,
+      .pagination span {
+        padding: 8px 14px;
+        border: 1px solid #2a1212;
+        border-radius: 4px;
+        text-decoration: none;
+        color: #b3b3b3;
+        transition: all 0.3s ease;
+      }
+
+      .pagination a:hover {
+        border-color: #ff3333;
+        color: #ffffff;
+      }
+
+      .pagination .active {
+        background-color: #ff3333;
+        color: #ffffff;
+        border-color: #ff3333;
+      }
+
+      .pagination .disabled {
+        opacity: 0.3;
+        cursor: not-allowed;
+      }
+
+      .alert {
+        padding: 15px 20px;
+        border-radius: 6px;
+        margin-bottom: 20px;
+      }
+
+      .alert-success {
+        background-color: #0d1a0d;
+        border: 1px solid #2a4a2a;
+        color: #88ff88;
+      }
+
+      .alert-error {
+        background-color: #1a0d0d;
+        border: 1px solid #4a2a2a;
+        color: #ff8888;
+      }
+
+      @media (max-width: 768px) {
+        .message-card .header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
     </style>
   </head>
   <body>
     <div class="container">
-      <!-- ===== BACK LINK ===== -->
       <a href="../syllabus.html" class="back-link"
         >← بازگشت به جدول اصلی سرفصل‌ها</a
       >
 
-      <!-- ===== HEADER ===== -->
       <h1>جلسه ۰۷: پیاده‌سازی عملیات خواندن و حذف (Read & Delete)</h1>
       <p style="color: #ff3333; font-weight: bold; font-size: 1.1rem">
         مدت زمان تدریس: ۱۲۰ دقیقه | هدف: نمایش داده‌ها از دیتابیس و حذف امن با
         Query String
       </p>
 
-      <!-- ============================================================ -->
-      <!-- SECTION 1: TIMING -->
-      <!-- ============================================================ -->
       <div class="section-block">
         <h2>بخش اول: زمان‌بندی جلسه (۱۲۰ دقیقه)</h2>
         <p>
@@ -356,20 +398,20 @@
         </p>
         <ol>
           <li>
-            <strong>مرور MySQLi و SELECT (۲۰ دقیقه):</strong>
-            مرور مفاهیم جلسه قبل، دریافت و نمایش داده‌ها با MySQLi.
+            <strong>مرور MySQLi و SELECT (۲۰ دقیقه):</strong> مرور مفاهیم جلسه
+            قبل، دریافت و نمایش داده‌ها با MySQLi.
           </li>
           <li>
-            <strong>Query String و پارامترهای URL (۳۰ دقیقه):</strong>
-            نحوه انتقال داده از طریق URL، دریافت با $_GET، کاربردها.
+            <strong>Query String و پارامترهای URL (۳۰ دقیقه):</strong> نحوه
+            انتقال داده از طریق URL، دریافت با $_GET، کاربردها.
           </li>
           <li>
-            <strong>پیاده‌سازی حذف با DELETE (۳۰ دقیقه):</strong>
-            نوشتن کوئری DELETE با Prepared Statement، تایید حذف.
+            <strong>پیاده‌سازی حذف با DELETE (۳۰ دقیقه):</strong> نوشتن کوئری
+            DELETE با Prepared Statement، تایید حذف.
           </li>
           <li>
-            <strong>تمرین عملی: نمایش و حذف پیام‌ها (۴۰ دقیقه):</strong>
-            ساخت صفحه مدیریت پیام‌ها با قابلیت نمایش و حذف.
+            <strong>تمرین عملی: نمایش و حذف پیام‌ها (۴۰ دقیقه):</strong> ساخت
+            صفحه مدیریت پیام‌ها با قابلیت نمایش و حذف.
           </li>
         </ol>
 
@@ -395,9 +437,6 @@
         </div>
       </div>
 
-      <!-- ============================================================ -->
-      <!-- SECTION 2: READING DATA WITH MYSQLI -->
-      <!-- ============================================================ -->
       <div class="section-block">
         <h2>بخش دوم: خواندن داده‌ها با MySQLi (۲۰ دقیقه)</h2>
 
@@ -413,7 +452,6 @@
         </div>
 
         <h3>۱. خواندن همه رکوردها:</h3>
-
         <pre><code>&lt;?php
 require_once 'config/db.php';
 $conn = getDBConnection();
@@ -436,7 +474,6 @@ $conn->close();
 ?&gt;</code></pre>
 
         <h3>۲. خواندن با شرط و Prepared Statement:</h3>
-
         <pre><code>&lt;?php
 require_once 'config/db.php';
 $conn = getDBConnection();
@@ -469,7 +506,6 @@ $conn->close();
 ?&gt;</code></pre>
 
         <h3>۳. روش‌های مختلف fetch:</h3>
-
         <div style="overflow-x: auto; margin: 15px 0; direction: ltr">
           <table class="data-table">
             <thead>
@@ -503,31 +539,8 @@ $conn->close();
             </tbody>
           </table>
         </div>
-
-        <pre><code>&lt;?php
-require_once 'config/db.php';
-$conn = getDBConnection();
-
-<span class="sql-comment">// ===== مثال fetch_object() =====</span>
-$result = $conn->query("SELECT id, username, message FROM messages LIMIT 5");
-while ($row = $result->fetch_object()) {
-    echo $row->username . ": " . $row->message . "&lt;br&gt;";
-}
-
-<span class="sql-comment">// ===== مثال fetch_all() =====</span>
-$result = $conn->query("SELECT username FROM users");
-$usernames = $result->fetch_all(MYSQLI_ASSOC);
-foreach ($usernames as $user) {
-    echo $user['username'] . "&lt;br&gt;";
-}
-
-$conn->close();
-?&gt;</code></pre>
       </div>
 
-      <!-- ============================================================ -->
-      <!-- SECTION 3: QUERY STRING -->
-      <!-- ============================================================ -->
       <div class="section-block">
         <h2>بخش سوم: Query String و پارامترهای URL (۳۰ دقیقه)</h2>
 
@@ -542,7 +555,6 @@ $conn->close();
         </div>
 
         <h3>۱. ساختار و کاربرد Query String:</h3>
-
         <pre><code>&lt;?php
 <span class="sql-comment">// ===== دریافت پارامترها از URL =====</span>
 <span class="sql-comment">// URL: http://localhost/admin.php?page=3&sort=date&filter=approved</span>
@@ -561,7 +573,6 @@ echo '&lt;a href="delete.php?id=' . $message['id'] . '" onclick="return confirm(
 ?&gt;</code></pre>
 
         <h3>۲. مثال کامل: صفحه‌بندی با Query String:</h3>
-
         <pre><code>&lt;?php
 require_once 'config/db.php';
 $conn = getDBConnection();
@@ -587,21 +598,18 @@ $total_pages = ceil($total / $per_page);
 <span class="sql-comment">// ===== نمایش لینک‌های صفحه‌بندی =====</span>
 echo '&lt;div class="pagination"&gt;';
 
-<span class="sql-comment">// لینک صفحه قبلی</span>
 if ($page > 1) {
     echo '&lt;a href="?page=' . ($page - 1) . '"&gt;قبلی&lt;/a&gt;';
 }
 
-<span class="sql-comment">// شماره صفحات</span>
 for ($i = 1; $i <= $total_pages; $i++) {
     if ($i == $page) {
-        echo '&lt;strong&gt;' . $i . '&lt;/strong&gt;';
+        echo '&lt;span class="active"&gt;' . $i . '&lt;/span&gt;';
     } else {
         echo '&lt;a href="?page=' . $i . '"&gt;' . $i . '&lt;/a&gt;';
     }
 }
 
-<span class="sql-comment">// لینک صفحه بعدی</span>
 if ($page < $total_pages) {
     echo '&lt;a href="?page=' . ($page + 1) . '"&gt;بعدی&lt;/a&gt;';
 }
@@ -612,9 +620,6 @@ $conn->close();
 ?&gt;</code></pre>
       </div>
 
-      <!-- ============================================================ -->
-      <!-- SECTION 4: DELETE OPERATION -->
-      <!-- ============================================================ -->
       <div class="section-block">
         <h2>بخش چهارم: پیاده‌سازی حذف با DELETE (۳۰ دقیقه)</h2>
 
@@ -629,7 +634,6 @@ $conn->close();
         </div>
 
         <h3>۱. ساختار پایه حذف:</h3>
-
         <pre><code>&lt;?php
 <span class="sql-comment">// ===== فایل: delete.php =====</span>
 require_once 'config/db.php';
@@ -649,7 +653,6 @@ $stmt = $conn->prepare("DELETE FROM messages WHERE id = ?");
 $stmt->bind_param("i", $id);
 
 if ($stmt->execute()) {
-    <span class="sql-comment">// بررسی اینکه آیا رکوردی حذف شده است</span>
     if ($stmt->affected_rows > 0) {
         header('Location: admin.php?success=deleted');
     } else {
@@ -665,10 +668,8 @@ exit;
 ?&gt;</code></pre>
 
         <h3>۲. حذف با تأیید جاوااسکریپت:</h3>
-
         <pre><code>&lt;?php
 <span class="sql-comment">// ===== در صفحه admin.php =====</span>
-<span class="sql-comment">// لینک حذف با تأیید</span>
 echo '&lt;a href="delete.php?id=' . $message['id'] . '" 
         onclick="return confirm(\'آیا از حذف این پیام مطمئن هستید؟\')" 
         class="delete-btn"&gt;
@@ -677,7 +678,6 @@ echo '&lt;a href="delete.php?id=' . $message['id'] . '"
 ?&gt;</code></pre>
 
         <h3>۳. حذف با متد POST (امن‌تر):</h3>
-
         <pre><code>&lt;?php
 <span class="sql-comment">// ===== فرم حذف با POST =====</span>
 <span class="sql-comment">// در admin.php</span>
@@ -724,9 +724,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
       </div>
 
-      <!-- ============================================================ -->
-      <!-- SECTION 5: PRACTICAL EXERCISE -->
-      <!-- ============================================================ -->
       <div class="section-block">
         <h2>بخش پنجم: تمرین عملی – نمایش و حذف پیام‌ها (۴۰ دقیقه)</h2>
 
@@ -740,21 +737,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
 
         <h3>فایل کامل admin.php (نسخه MySQLi):</h3>
-
         <pre><code>&lt;?php
 <span class="sql-comment">// ===== فایل: admin.php (نسخه MySQLi) =====</span>
 require_once 'config/db.php';
 
-<span class="sql-comment">// ===== دریافت پارامترهای صفحه =====</span>
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 if ($page < 1) $page = 1;
 $per_page = 5;
 $offset = ($page - 1) * $per_page;
 
-<span class="sql-comment">// ===== دریافت پیام‌ها از دیتابیس =====</span>
 $conn = getDBConnection();
 
-<span class="sql-comment">// دریافت پیام‌ها با صفحه‌بندی</span>
 $stmt = $conn->prepare("
     SELECT id, username, message, is_approved, created_at 
     FROM messages 
@@ -767,21 +760,17 @@ $result = $stmt->get_result();
 $messages = $result->fetch_all(MYSQLI_ASSOC);
 $stmt->close();
 
-<span class="sql-comment">// تعداد کل پیام‌ها</span>
 $count_result = $conn->query("SELECT COUNT(*) as total FROM messages");
 $total_messages = $count_result->fetch_assoc()['total'];
 $total_pages = ceil($total_messages / $per_page);
 
 $conn->close();
 
-<span class="sql-comment">// ===== نمایش پیام‌های موفقیت و خطا =====</span>
 $success_message = '';
 $error_message = '';
 
-if (isset($_GET['success'])) {
-    if ($_GET['success'] == 'deleted') {
-        $success_message = '✅ پیام با موفقیت حذف شد.';
-    }
+if (isset($_GET['success']) && $_GET['success'] == 'deleted') {
+    $success_message = '✅ پیام با موفقیت حذف شد.';
 }
 
 if (isset($_GET['error'])) {
@@ -938,18 +927,15 @@ if (isset($_GET['error'])) {
 &lt;/html&gt;</code></pre>
 
         <h3>فایل delete.php (پردازش حذف با MySQLi):</h3>
-
         <pre><code>&lt;?php
 <span class="sql-comment">// ===== فایل: delete.php (نسخه MySQLi) =====</span>
 require_once 'config/db.php';
 
-<span class="sql-comment">// ===== بررسی روش ارسال =====</span>
 if ($_SERVER["REQUEST_METHOD"] != "POST") {
     header('Location: admin.php?error=invalid_method');
     exit;
 }
 
-<span class="sql-comment">// ===== دریافت شناسه =====</span>
 if (!isset($_POST['id'])) {
     header('Location: admin.php?error=no_id');
     exit;
@@ -962,10 +948,8 @@ if ($id <= 0) {
     exit;
 }
 
-<span class="sql-comment">// ===== حذف از دیتابیس =====</span>
 $conn = getDBConnection();
 
-<span class="sql-comment">// ابتدا بررسی کنیم که پیام وجود دارد</span>
 $check_stmt = $conn->prepare("SELECT id FROM messages WHERE id = ?");
 $check_stmt->bind_param("i", $id);
 $check_stmt->execute();
@@ -979,7 +963,6 @@ if ($check_result->num_rows == 0) {
 }
 $check_stmt->close();
 
-<span class="sql-comment">// حذف پیام</span>
 $delete_stmt = $conn->prepare("DELETE FROM messages WHERE id = ?");
 $delete_stmt->bind_param("i", $id);
 $delete_stmt->execute();
